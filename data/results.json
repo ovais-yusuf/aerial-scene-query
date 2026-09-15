@@ -1,0 +1,1027 @@
+{
+  "video": "still.mov",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 29.97,
+  "duration_sec": 59.0,
+  "frames_processed": 589,
+  "vid_stride": 3,
+  "model": "yolov8x.pt",
+  "tracker": "bytetrack",
+  "confidence_threshold": 0.25,
+  "image_size": 1280,
+  "counts": {
+    "ALREADY PRESENT": 16,
+    "LEFT": 16,
+    "RIGHT": 10,
+    "TUNNEL": 14,
+    "TRAIN PATH": 0,
+    "OTHER": 8
+  },
+  "total_people": 64,
+  "raw_tracks": 130,
+  "ground_truth_manual": {
+    "already_present": "20-21",
+    "left": "17",
+    "right": "8",
+    "tunnel": "12-13",
+    "train_path": "1",
+    "total": "58-60"
+  },
+  "zones": {
+    "TUNNEL": [
+      900,
+      300,
+      1100,
+      420
+    ],
+    "TRAIN PATH": [
+      600,
+      250,
+      1500,
+      330
+    ],
+    "LEFT": [
+      0,
+      400,
+      200,
+      600
+    ],
+    "RIGHT": [
+      1550,
+      480,
+      1920,
+      760
+    ]
+  },
+  "known_limitations": [
+    "Counts are approximate; residual error is attributable to track fragmentation (ID switching after occlusion).",
+    "The detector identifies persons, not students specifically.",
+    "Only the 80 COCO classes are detectable; trees, benches, signage and similar objects are NOT detected.",
+    "Direction of entry is inferred from where a track first appears, not from observed movement before entry."
+  ],
+  "tracks": [
+    {
+      "track_id": 1,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 238,
+      "distance_px": 882.5,
+      "first_seen_frame": 1,
+      "first_position": [
+        213,
+        517
+      ],
+      "last_position": [
+        1038,
+        342
+      ]
+    },
+    {
+      "track_id": 2,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 189,
+      "distance_px": 453.9,
+      "first_seen_frame": 1,
+      "first_position": [
+        647,
+        434
+      ],
+      "last_position": [
+        1044,
+        354
+      ]
+    },
+    {
+      "track_id": 3,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 124,
+      "distance_px": 303.6,
+      "first_seen_frame": 1,
+      "first_position": [
+        698,
+        425
+      ],
+      "last_position": [
+        984,
+        371
+      ]
+    },
+    {
+      "track_id": 4,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 171,
+      "distance_px": 466.6,
+      "first_seen_frame": 1,
+      "first_position": [
+        597,
+        432
+      ],
+      "last_position": [
+        1020,
+        364
+      ]
+    },
+    {
+      "track_id": 5,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 189,
+      "distance_px": 842.5,
+      "first_seen_frame": 1,
+      "first_position": [
+        821,
+        385
+      ],
+      "last_position": [
+        15,
+        511
+      ]
+    },
+    {
+      "track_id": 6,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 175,
+      "distance_px": 558.1,
+      "first_seen_frame": 1,
+      "first_position": [
+        495,
+        464
+      ],
+      "last_position": [
+        1017,
+        366
+      ]
+    },
+    {
+      "track_id": 7,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 42,
+      "distance_px": 84.1,
+      "first_seen_frame": 1,
+      "first_position": [
+        928,
+        390
+      ],
+      "last_position": [
+        1001,
+        377
+      ]
+    },
+    {
+      "track_id": 9,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 59,
+      "distance_px": 89.3,
+      "first_seen_frame": 1,
+      "first_position": [
+        954,
+        376
+      ],
+      "last_position": [
+        1027,
+        362
+      ]
+    },
+    {
+      "track_id": 10,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 589,
+      "distance_px": 144.9,
+      "first_seen_frame": 1,
+      "first_position": [
+        1042,
+        403
+      ],
+      "last_position": [
+        1036,
+        402
+      ]
+    },
+    {
+      "track_id": 11,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 161,
+      "distance_px": 345.1,
+      "first_seen_frame": 1,
+      "first_position": [
+        779,
+        406
+      ],
+      "last_position": [
+        1091,
+        356
+      ]
+    },
+    {
+      "track_id": 12,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 233,
+      "distance_px": 433.1,
+      "first_seen_frame": 1,
+      "first_position": [
+        718,
+        424
+      ],
+      "last_position": [
+        1060,
+        340
+      ]
+    },
+    {
+      "track_id": 13,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 248,
+      "distance_px": 891.7,
+      "first_seen_frame": 1,
+      "first_position": [
+        1111,
+        379
+      ],
+      "last_position": [
+        1901,
+        658
+      ]
+    },
+    {
+      "track_id": 17,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 117,
+      "distance_px": 200.4,
+      "first_seen_frame": 1,
+      "first_position": [
+        914,
+        386
+      ],
+      "last_position": [
+        1059,
+        340
+      ]
+    },
+    {
+      "track_id": 20,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 33,
+      "distance_px": 82.9,
+      "first_seen_frame": 4,
+      "first_position": [
+        908,
+        374
+      ],
+      "last_position": [
+        829,
+        389
+      ]
+    },
+    {
+      "track_id": 21,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 251,
+      "distance_px": 881.0,
+      "first_seen_frame": 4,
+      "first_position": [
+        1136,
+        380
+      ],
+      "last_position": [
+        1907,
+        651
+      ]
+    },
+    {
+      "track_id": 36,
+      "origin": "ALREADY PRESENT",
+      "frames_seen": 217,
+      "distance_px": 981.3,
+      "first_seen_frame": 18,
+      "first_position": [
+        931,
+        362
+      ],
+      "last_position": [
+        11,
+        516
+      ]
+    },
+    {
+      "track_id": 39,
+      "origin": "OTHER",
+      "frames_seen": 143,
+      "distance_px": 674.4,
+      "first_seen_frame": 23,
+      "first_position": [
+        665,
+        410
+      ],
+      "last_position": [
+        12,
+        517
+      ]
+    },
+    {
+      "track_id": 43,
+      "origin": "TUNNEL",
+      "frames_seen": 225,
+      "distance_px": 1000.6,
+      "first_seen_frame": 26,
+      "first_position": [
+        949,
+        358
+      ],
+      "last_position": [
+        23,
+        544
+      ]
+    },
+    {
+      "track_id": 71,
+      "origin": "OTHER",
+      "frames_seen": 153,
+      "distance_px": 799.4,
+      "first_seen_frame": 56,
+      "first_position": [
+        767,
+        401
+      ],
+      "last_position": [
+        17,
+        547
+      ]
+    },
+    {
+      "track_id": 75,
+      "origin": "OTHER",
+      "frames_seen": 191,
+      "distance_px": 746.0,
+      "first_seen_frame": 64,
+      "first_position": [
+        148,
+        362
+      ],
+      "last_position": [
+        882,
+        330
+      ]
+    },
+    {
+      "track_id": 92,
+      "origin": "LEFT",
+      "frames_seen": 317,
+      "distance_px": 1122.1,
+      "first_seen_frame": 91,
+      "first_position": [
+        15,
+        571
+      ],
+      "last_position": [
+        1050,
+        333
+      ]
+    },
+    {
+      "track_id": 104,
+      "origin": "LEFT",
+      "frames_seen": 299,
+      "distance_px": 1081.1,
+      "first_seen_frame": 112,
+      "first_position": [
+        14,
+        550
+      ],
+      "last_position": [
+        1039,
+        348
+      ]
+    },
+    {
+      "track_id": 113,
+      "origin": "TUNNEL",
+      "frames_seen": 381,
+      "distance_px": 1016.9,
+      "first_seen_frame": 122,
+      "first_position": [
+        1032,
+        346
+      ],
+      "last_position": [
+        1908,
+        676
+      ]
+    },
+    {
+      "track_id": 115,
+      "origin": "LEFT",
+      "frames_seen": 298,
+      "distance_px": 1107.0,
+      "first_seen_frame": 126,
+      "first_position": [
+        13,
+        535
+      ],
+      "last_position": [
+        1040,
+        346
+      ]
+    },
+    {
+      "track_id": 183,
+      "origin": "LEFT",
+      "frames_seen": 285,
+      "distance_px": 1112.5,
+      "first_seen_frame": 174,
+      "first_position": [
+        19,
+        551
+      ],
+      "last_position": [
+        1055,
+        342
+      ]
+    },
+    {
+      "track_id": 212,
+      "origin": "RIGHT",
+      "frames_seen": 326,
+      "distance_px": 983.0,
+      "first_seen_frame": 193,
+      "first_position": [
+        1909,
+        624
+      ],
+      "last_position": [
+        1034,
+        323
+      ]
+    },
+    {
+      "track_id": 248,
+      "origin": "TUNNEL",
+      "frames_seen": 299,
+      "distance_px": 1011.4,
+      "first_seen_frame": 209,
+      "first_position": [
+        964,
+        350
+      ],
+      "last_position": [
+        24,
+        518
+      ]
+    },
+    {
+      "track_id": 272,
+      "origin": "RIGHT",
+      "frames_seen": 278,
+      "distance_px": 944.9,
+      "first_seen_frame": 230,
+      "first_position": [
+        1911,
+        627
+      ],
+      "last_position": [
+        1058,
+        336
+      ]
+    },
+    {
+      "track_id": 288,
+      "origin": "OTHER",
+      "frames_seen": 274,
+      "distance_px": 884.8,
+      "first_seen_frame": 238,
+      "first_position": [
+        1105,
+        364
+      ],
+      "last_position": [
+        1890,
+        648
+      ]
+    },
+    {
+      "track_id": 306,
+      "origin": "TUNNEL",
+      "frames_seen": 296,
+      "distance_px": 1043.6,
+      "first_seen_frame": 248,
+      "first_position": [
+        991,
+        340
+      ],
+      "last_position": [
+        19,
+        514
+      ]
+    },
+    {
+      "track_id": 317,
+      "origin": "TUNNEL",
+      "frames_seen": 231,
+      "distance_px": 1018.7,
+      "first_seen_frame": 251,
+      "first_position": [
+        1011,
+        335
+      ],
+      "last_position": [
+        41,
+        500
+      ]
+    },
+    {
+      "track_id": 331,
+      "origin": "TUNNEL",
+      "frames_seen": 216,
+      "distance_px": 1002.5,
+      "first_seen_frame": 262,
+      "first_position": [
+        965,
+        354
+      ],
+      "last_position": [
+        16,
+        517
+      ]
+    },
+    {
+      "track_id": 345,
+      "origin": "LEFT",
+      "frames_seen": 228,
+      "distance_px": 1003.9,
+      "first_seen_frame": 273,
+      "first_position": [
+        17,
+        569
+      ],
+      "last_position": [
+        951,
+        371
+      ]
+    },
+    {
+      "track_id": 347,
+      "origin": "LEFT",
+      "frames_seen": 291,
+      "distance_px": 1014.4,
+      "first_seen_frame": 283,
+      "first_position": [
+        11,
+        541
+      ],
+      "last_position": [
+        962,
+        369
+      ]
+    },
+    {
+      "track_id": 351,
+      "origin": "LEFT",
+      "frames_seen": 58,
+      "distance_px": 373.0,
+      "first_seen_frame": 286,
+      "first_position": [
+        7,
+        572
+      ],
+      "last_position": [
+        342,
+        491
+      ]
+    },
+    {
+      "track_id": 355,
+      "origin": "TUNNEL",
+      "frames_seen": 287,
+      "distance_px": 809.8,
+      "first_seen_frame": 290,
+      "first_position": [
+        995,
+        331
+      ],
+      "last_position": [
+        1698,
+        585
+      ]
+    },
+    {
+      "track_id": 365,
+      "origin": "LEFT",
+      "frames_seen": 281,
+      "distance_px": 1111.1,
+      "first_seen_frame": 302,
+      "first_position": [
+        8,
+        554
+      ],
+      "last_position": [
+        1046,
+        351
+      ]
+    },
+    {
+      "track_id": 366,
+      "origin": "TUNNEL",
+      "frames_seen": 126,
+      "distance_px": 391.4,
+      "first_seen_frame": 303,
+      "first_position": [
+        956,
+        358
+      ],
+      "last_position": [
+        588,
+        427
+      ]
+    },
+    {
+      "track_id": 379,
+      "origin": "LEFT",
+      "frames_seen": 243,
+      "distance_px": 1045.7,
+      "first_seen_frame": 323,
+      "first_position": [
+        13,
+        521
+      ],
+      "last_position": [
+        1006,
+        347
+      ]
+    },
+    {
+      "track_id": 403,
+      "origin": "OTHER",
+      "frames_seen": 226,
+      "distance_px": 661.3,
+      "first_seen_frame": 356,
+      "first_position": [
+        351,
+        475
+      ],
+      "last_position": [
+        944,
+        369
+      ]
+    },
+    {
+      "track_id": 406,
+      "origin": "RIGHT",
+      "frames_seen": 229,
+      "distance_px": 769.6,
+      "first_seen_frame": 359,
+      "first_position": [
+        1904,
+        636
+      ],
+      "last_position": [
+        1221,
+        401
+      ]
+    },
+    {
+      "track_id": 419,
+      "origin": "RIGHT",
+      "frames_seen": 30,
+      "distance_px": 223.5,
+      "first_seen_frame": 372,
+      "first_position": [
+        1880,
+        634
+      ],
+      "last_position": [
+        1704,
+        574
+      ]
+    },
+    {
+      "track_id": 420,
+      "origin": "RIGHT",
+      "frames_seen": 41,
+      "distance_px": 320.1,
+      "first_seen_frame": 372,
+      "first_position": [
+        1905,
+        627
+      ],
+      "last_position": [
+        1653,
+        526
+      ]
+    },
+    {
+      "track_id": 434,
+      "origin": "RIGHT",
+      "frames_seen": 211,
+      "distance_px": 729.5,
+      "first_seen_frame": 379,
+      "first_position": [
+        1901,
+        617
+      ],
+      "last_position": [
+        1265,
+        403
+      ]
+    },
+    {
+      "track_id": 500,
+      "origin": "RIGHT",
+      "frames_seen": 180,
+      "distance_px": 662.2,
+      "first_seen_frame": 405,
+      "first_position": [
+        1896,
+        626
+      ],
+      "last_position": [
+        1307,
+        417
+      ]
+    },
+    {
+      "track_id": 506,
+      "origin": "RIGHT",
+      "frames_seen": 142,
+      "distance_px": 585.9,
+      "first_seen_frame": 408,
+      "first_position": [
+        1736,
+        537
+      ],
+      "last_position": [
+        1249,
+        405
+      ]
+    },
+    {
+      "track_id": 516,
+      "origin": "TUNNEL",
+      "frames_seen": 164,
+      "distance_px": 554.3,
+      "first_seen_frame": 411,
+      "first_position": [
+        962,
+        349
+      ],
+      "last_position": [
+        457,
+        436
+      ]
+    },
+    {
+      "track_id": 517,
+      "origin": "TUNNEL",
+      "frames_seen": 171,
+      "distance_px": 544.9,
+      "first_seen_frame": 412,
+      "first_position": [
+        977,
+        353
+      ],
+      "last_position": [
+        472,
+        441
+      ]
+    },
+    {
+      "track_id": 540,
+      "origin": "TUNNEL",
+      "frames_seen": 67,
+      "distance_px": 77.2,
+      "first_seen_frame": 420,
+      "first_position": [
+        1002,
+        328
+      ],
+      "last_position": [
+        953,
+        364
+      ]
+    },
+    {
+      "track_id": 553,
+      "origin": "RIGHT",
+      "frames_seen": 71,
+      "distance_px": 326.7,
+      "first_seen_frame": 424,
+      "first_position": [
+        1686,
+        559
+      ],
+      "last_position": [
+        1419,
+        431
+      ]
+    },
+    {
+      "track_id": 568,
+      "origin": "LEFT",
+      "frames_seen": 162,
+      "distance_px": 810.5,
+      "first_seen_frame": 428,
+      "first_position": [
+        20,
+        564
+      ],
+      "last_position": [
+        805,
+        425
+      ]
+    },
+    {
+      "track_id": 571,
+      "origin": "LEFT",
+      "frames_seen": 143,
+      "distance_px": 750.7,
+      "first_seen_frame": 429,
+      "first_position": [
+        10,
+        572
+      ],
+      "last_position": [
+        703,
+        428
+      ]
+    },
+    {
+      "track_id": 579,
+      "origin": "RIGHT",
+      "frames_seen": 20,
+      "distance_px": 65.7,
+      "first_seen_frame": 433,
+      "first_position": [
+        1655,
+        545
+      ],
+      "last_position": [
+        1607,
+        536
+      ]
+    },
+    {
+      "track_id": 598,
+      "origin": "OTHER",
+      "frames_seen": 122,
+      "distance_px": 639.2,
+      "first_seen_frame": 439,
+      "first_position": [
+        633,
+        422
+      ],
+      "last_position": [
+        13,
+        519
+      ]
+    },
+    {
+      "track_id": 613,
+      "origin": "TUNNEL",
+      "frames_seen": 53,
+      "distance_px": 135.4,
+      "first_seen_frame": 450,
+      "first_position": [
+        949,
+        358
+      ],
+      "last_position": [
+        832,
+        376
+      ]
+    },
+    {
+      "track_id": 619,
+      "origin": "LEFT",
+      "frames_seen": 137,
+      "distance_px": 694.3,
+      "first_seen_frame": 453,
+      "first_position": [
+        19,
+        537
+      ],
+      "last_position": [
+        692,
+        425
+      ]
+    },
+    {
+      "track_id": 627,
+      "origin": "OTHER",
+      "frames_seen": 108,
+      "distance_px": 411.9,
+      "first_seen_frame": 458,
+      "first_position": [
+        1592,
+        479
+      ],
+      "last_position": [
+        1235,
+        406
+      ]
+    },
+    {
+      "track_id": 742,
+      "origin": "TUNNEL",
+      "frames_seen": 75,
+      "distance_px": 209.5,
+      "first_seen_frame": 510,
+      "first_position": [
+        939,
+        364
+      ],
+      "last_position": [
+        748,
+        395
+      ]
+    },
+    {
+      "track_id": 749,
+      "origin": "OTHER",
+      "frames_seen": 74,
+      "distance_px": 283.7,
+      "first_seen_frame": 512,
+      "first_position": [
+        818,
+        387
+      ],
+      "last_position": [
+        549,
+        425
+      ]
+    },
+    {
+      "track_id": 753,
+      "origin": "LEFT",
+      "frames_seen": 77,
+      "distance_px": 454.4,
+      "first_seen_frame": 513,
+      "first_position": [
+        12,
+        568
+      ],
+      "last_position": [
+        434,
+        475
+      ]
+    },
+    {
+      "track_id": 785,
+      "origin": "LEFT",
+      "frames_seen": 65,
+      "distance_px": 379.4,
+      "first_seen_frame": 525,
+      "first_position": [
+        16,
+        567
+      ],
+      "last_position": [
+        366,
+        479
+      ]
+    },
+    {
+      "track_id": 792,
+      "origin": "TUNNEL",
+      "frames_seen": 52,
+      "distance_px": 66.1,
+      "first_seen_frame": 527,
+      "first_position": [
+        976,
+        362
+      ],
+      "last_position": [
+        1029,
+        340
+      ]
+    },
+    {
+      "track_id": 802,
+      "origin": "LEFT",
+      "frames_seen": 56,
+      "distance_px": 354.5,
+      "first_seen_frame": 533,
+      "first_position": [
+        8,
+        571
+      ],
+      "last_position": [
+        328,
+        482
+      ]
+    },
+    {
+      "track_id": 814,
+      "origin": "LEFT",
+      "frames_seen": 40,
+      "distance_px": 278.2,
+      "first_seen_frame": 540,
+      "first_position": [
+        11,
+        507
+      ],
+      "last_position": [
+        230,
+        514
+      ]
+    }
+  ]
+}
