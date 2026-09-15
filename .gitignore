@@ -7,4 +7,4 @@ out/
 .DS_Store
 coverage/
 *.tsbuildinfo
-*.mp4
+/annotated.mp4
