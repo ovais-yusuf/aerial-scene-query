@@ -2,7 +2,6 @@
 
 import { FormEvent, useMemo, useRef, useState } from "react";
 
-import { TelemetryPanel } from "@/components/telemetry-panel";
 import type { AnalysisResults, ZoneName } from "@/lib/results";
 
 interface DashboardProps {
@@ -155,7 +154,7 @@ export function Dashboard({ results, videoUrl }: DashboardProps) {
                 </span>
               </p>
               <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-muted">
-                UAV pedestrian analysis
+                Pedestrian & Vehicle Analysis
               </p>
             </div>
           </div>
@@ -167,41 +166,38 @@ export function Dashboard({ results, videoUrl }: DashboardProps) {
         </header>
 
         {activeView === "landing" ? (
-          <section className="view-enter grid items-center gap-10 border-x border-b border-line bg-paper px-5 py-12 sm:px-8 lg:grid-cols-[1.12fr_.88fr] lg:px-14 lg:py-16">
-            <div>
-              <p className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-muted before:h-2 before:w-8 before:bg-crimson before:content-['']">
-                Aerial intelligence / natural-language access
-              </p>
-              <h1 className="max-w-4xl text-[clamp(2.8rem,5.2vw,5.7rem)] font-black leading-[0.98] tracking-[-0.065em]">
-                Language-Queryable Aerial Scene Understanding for UAV Traffic
-                Analysis
-              </h1>
-              <p className="mt-7 max-w-2xl text-base leading-7 text-muted">
-                Computer vision, multi-object tracking, and language models
-                combined to analyze movement and query aerial traffic scenes in
-                plain language.
-              </p>
-              <button
-                type="button"
-                onClick={openSceneWorkspace}
-                className="mt-8 inline-flex items-center gap-3 bg-crimson px-5 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.13em] text-white transition hover:bg-ink"
-              >
-                LET&apos;S GO <span aria-hidden="true">→</span>
-              </button>
-              <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
-                {[
-                  ["01", "Detect"],
-                  ["02", "Track"],
-                  ["03", "Understand"],
-                  ["04", "Query"],
-                ].map(([index, label]) => (
-                  <span key={index} className="flex items-center gap-2">
-                    <b className="text-crimson">{index}</b> {label}
-                  </span>
-                ))}
-              </div>
+          <section className="view-enter border-x border-b border-line bg-paper px-5 py-12 sm:px-8 lg:px-14 lg:py-16">
+            <p className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-muted before:h-2 before:w-8 before:bg-crimson before:content-['']">
+              Aerial intelligence / natural-language access
+            </p>
+            <h1 className="text-[clamp(2.8rem,5.2vw,5.7rem)] font-black leading-[0.98] tracking-[-0.065em]">
+              Language-Queryable Aerial Scene Understanding for UAV Traffic
+              Analysis
+            </h1>
+            <p className="mt-7 text-base leading-7 text-muted">
+              Computer vision, multi-object tracking, and language models
+              combined to analyze movement and query aerial traffic scenes in
+              plain language.
+            </p>
+            <button
+              type="button"
+              onClick={openSceneWorkspace}
+              className="mt-8 inline-flex items-center gap-3 bg-crimson px-5 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.13em] text-white transition hover:bg-ink"
+            >
+              LET&apos;S GO <span aria-hidden="true">→</span>
+            </button>
+            <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[10px] uppercase tracking-[0.12em] text-muted sm:grid-cols-4">
+              {[
+                ["01", "Detect"],
+                ["02", "Track"],
+                ["03", "Understand"],
+                ["04", "Query"],
+              ].map(([index, label]) => (
+                <span key={index} className="flex items-center gap-2">
+                  <b className="text-crimson">{index}</b> {label}
+                </span>
+              ))}
             </div>
-            <TelemetryPanel videoUrl={videoUrl} />
           </section>
         ) : (
           <div className="view-enter">
