@@ -2,11 +2,15 @@
 
 import { FormEvent, useMemo, useRef, useState } from "react";
 
+import { CrowdDensitySection } from "@/components/crowd-density";
+import type { GridSummary } from "@/lib/grid";
 import type { AnalysisResults, ZoneName } from "@/lib/results";
 
 interface DashboardProps {
   results: AnalysisResults;
   videoUrl: string;
+  grid: GridSummary;
+  gridVideoUrl: string;
 }
 
 type Message = { role: "user" | "assistant"; content: string };
@@ -52,8 +56,16 @@ function limitationList(value: unknown): string[] {
     : [];
 }
 
-export function Dashboard({ results, videoUrl }: DashboardProps) {
+export function Dashboard({
+  results,
+  videoUrl,
+  grid,
+  gridVideoUrl,
+}: DashboardProps) {
   const [activeView, setActiveView] = useState<"landing" | "scene">("landing");
+  const [workspaceTab, setWorkspaceTab] = useState<"scene" | "density">(
+    "scene",
+  );
   const [messages, setMessages] = useState<Message[]>([]);
   const [question, setQuestion] = useState("");
   const [isAsking, setIsAsking] = useState(false);
@@ -132,6 +144,7 @@ export function Dashboard({ results, videoUrl }: DashboardProps) {
   }
 
   function openSceneWorkspace() {
+    setWorkspaceTab("scene");
     setActiveView("scene");
     window.requestAnimationFrame(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -202,20 +215,56 @@ export function Dashboard({ results, videoUrl }: DashboardProps) {
         ) : (
           <div className="view-enter">
             <section className="mt-8">
-              <div className="mb-4 flex items-end justify-between gap-4">
+              <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-crimson">
-                    Scene 01
+                    {workspaceTab === "scene" ? "Scene 01" : "Scene 01 · Grid"}
                   </p>
                   <h2 className="mt-1 text-3xl font-black tracking-[-0.045em]">
-                    Pedestrian-flow workspace
+                    {workspaceTab === "scene"
+                      ? "Pedestrian-flow workspace"
+                      : "Crowd Density"}
                   </h2>
                 </div>
                 <p className="hidden font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:block">
-                  {results.video ?? "Annotated scene"} · {resolution}
+                  {workspaceTab === "scene"
+                    ? `${results.video ?? "Annotated scene"} · ${resolution}`
+                    : `${grid.gridSize} · threshold ${grid.threshold}`}
                 </p>
               </div>
 
+              <nav
+                className="mb-5 flex border border-line bg-paper"
+                aria-label="Workspace sections"
+              >
+                {(
+                  [
+                    ["scene", "Pedestrian flow"],
+                    ["density", "Crowd Density"],
+                  ] as const
+                ).map(([id, label]) => {
+                  const active = workspaceTab === id;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setWorkspaceTab(id)}
+                      className={`flex-1 px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.13em] transition ${
+                        active
+                          ? "bg-crimson text-white"
+                          : "bg-paper text-muted hover:text-ink"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </nav>
+
+              {workspaceTab === "density" ? (
+                <CrowdDensitySection grid={grid} videoUrl={gridVideoUrl} />
+              ) : (
+                <>
               <div className="grid items-stretch gap-5 lg:grid-cols-[1.65fr_.85fr]">
                 <section
                   className="instrument-border bg-paper p-4"
@@ -365,7 +414,6 @@ export function Dashboard({ results, videoUrl }: DashboardProps) {
                   </form>
                 </section>
               </div>
-            </section>
 
             <section
               className="mt-5 grid grid-cols-2 border border-line bg-paper lg:grid-cols-4"
@@ -509,6 +557,9 @@ export function Dashboard({ results, videoUrl }: DashboardProps) {
                 )}
               </div>
             </details>
+                </>
+              )}
+            </section>
 
             <footer className="flex flex-wrap justify-between gap-2 py-6 font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
               <span>Aerial Scene Query</span>
