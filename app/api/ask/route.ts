@@ -1,13 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
+import { compactGridResults } from "@/lib/grid";
+import { loadHowItWorks } from "@/lib/how-it-works";
 import { compactResults, loadResults } from "@/lib/results";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SYSTEM_PROMPT =
-  "You answer questions about pedestrian analysis of a fixed-camera aerial video, using only the provided JSON. Rules: answer only from the data; if it's not there, say so. The system detects PERSONS not students — give person counts but never claim to identify students. Only the 80 COCO classes are detectable (no trees, benches, signage). The counts object gives unique people whose ENTRY ORIGIN was each zone; ALREADY PRESENT means visible at video start so origin unobserved. Counts are approximate — mention the manual ground-truth range when relevant. Be concise and factual.";
+const SYSTEM_PROMPT = `You are the single Scene Copilot for this aerial-scene research app. Answer using only the three evidence sources in the user message: (1) pedestrian flow detection/tracking JSON (results.json), (2) crowd density and proximity JSON (grid.json, compact summary without the full frame log), (3) HOW_IT_WORKS.md.
+
+General rules:
+- Use whichever source(s) apply; do not invent numbers, methods, classes, or capabilities.
+- If evidence is missing, say so plainly. You cannot inspect video directly.
+- The detector finds PERSONS (COCO), not students. Never claim to identify students.
+- Only the 80 COCO classes are detectable (no trees, benches, signage).
+
+Pedestrian flow pipeline (source 1):
+- ByteTrack tracking, unique track IDs, zone entry origins.
+- counts = unique people credited to each ENTRY ORIGIN zone; ALREADY PRESENT = visible at start (origin unobserved).
+- Counts are approximate. Mention manual ground truth range when relevant.
+- Do not sum per frame detections into unique person totals.
+
+Crowd density and proximity pipeline (source 2):
+- Detection only (tracking_enabled false): no ByteTrack, persistent IDs, motion prediction, or temporal confirmation.
+- Grid = occupancy visualization (detections per cell via estimated foot points at box bottom center).
+- Proximity alerts = pairwise Euclidean distance between foot points in original video pixels (see proximity_threshold_px, distance_coordinate_space). A pair alerts when distance ≤ threshold, regardless of grid cells. Grid resolution does not change the alert rule.
+- close_pairs = flagged pairs in a frame; people_in_alert = detections involved in at least one flagged pair. That is not the same as close_pairs count.
+- frames_with_proximity_alert = processed frames with at least one alert; not distinct emergency events.
+- Do not claim proximity alerts prove emergencies or validated safe standoff distance (threshold_validated is false if present).
+- Walking parallel does not exempt pairs; collision prediction is not implemented.
+
+Keep the two pipelines separate. Be concise and factual. Do not use em dashes, en dashes, or hyphenated asides in your answers; use short sentences instead.`;
 
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 8;
@@ -80,25 +104,42 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!process.env.OPENAI_API_KEY?.trim()) {
     return NextResponse.json(
       { error: "The Scene Copilot is not configured yet." },
       { status: 503 },
     );
   }
 
+  const apiKey = process.env.OPENAI_API_KEY.trim();
+
   try {
-    const results = compactResults(await loadResults());
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const [results, grid, methodology] = await Promise.all([
+      loadResults().then(compactResults),
+      compactGridResults(),
+      loadHowItWorks(),
+    ]);
+    const openai = new OpenAI({ apiKey });
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: 0.2,
-      max_tokens: 240,
+      max_tokens: 450,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         {
           role: "user",
-          content: `Analysis results:\n${JSON.stringify(results)}\n\nQuestion: ${cleanedQuestion}`,
+          content: [
+            "Evidence source 1, detection/tracking results JSON:",
+            JSON.stringify(results),
+            "",
+            "Evidence source 2, crowd density and proximity JSON:",
+            JSON.stringify(grid),
+            "",
+            "Evidence source 3, HOW_IT_WORKS.md:",
+            methodology,
+            "",
+            `Question: ${cleanedQuestion}`,
+          ].join("\n"),
         },
       ],
     });

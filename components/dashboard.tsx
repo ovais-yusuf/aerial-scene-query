@@ -1,8 +1,12 @@
 "use client";
 
-import { FormEvent, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
-import { CrowdDensitySection } from "@/components/crowd-density";
+import {
+  CrowdDensityMedia,
+  CrowdDensityStats,
+} from "@/components/crowd-density";
+import { SceneCopilot } from "@/components/scene-copilot";
 import type { GridSummary } from "@/lib/grid";
 import type { AnalysisResults, ZoneName } from "@/lib/results";
 
@@ -13,8 +17,6 @@ interface DashboardProps {
   gridVideoUrl: string;
 }
 
-type Message = { role: "user" | "assistant"; content: string };
-
 const ZONE_ORDER: ZoneName[] = [
   "ALREADY PRESENT",
   "LEFT",
@@ -24,28 +26,25 @@ const ZONE_ORDER: ZoneName[] = [
   "OTHER",
 ];
 
-const EXAMPLE_QUESTIONS = [
-  "Which entrance was busiest?",
-  "Count tunnel entries",
-  "Compare with manual count",
-  "Were vehicles detected?",
-];
-
 function countFor(results: AnalysisResults, zone: ZoneName): number {
   const value = Number(results.counts?.[zone] ?? 0);
   return Number.isFinite(value) ? value : 0;
 }
 
+function formatManualValue(value: string | number): string {
+  return String(value).replace(/-/g, " to ");
+}
+
 function manualTotal(value: unknown): string {
-  if (Array.isArray(value)) return value.join("–");
+  if (Array.isArray(value)) return value.map(formatManualValue).join(" to ");
   if (typeof value === "string" || typeof value === "number")
-    return String(value);
+    return formatManualValue(value);
   if (value && typeof value === "object") {
     const record = value as Record<string, unknown>;
     const total = record.total;
-    if (Array.isArray(total)) return total.join("–");
+    if (Array.isArray(total)) return total.map(formatManualValue).join(" to ");
     if (typeof total === "string" || typeof total === "number")
-      return String(total);
+      return formatManualValue(total);
   }
   return "not supplied";
 }
@@ -66,10 +65,6 @@ export function Dashboard({
   const [workspaceTab, setWorkspaceTab] = useState<"scene" | "density">(
     "scene",
   );
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [question, setQuestion] = useState("");
-  const [isAsking, setIsAsking] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const analytics = useMemo(() => {
     const rows = ZONE_ORDER.map((zone) => ({
@@ -96,53 +91,6 @@ export function Dashboard({
     ? `${Number(results.duration_sec).toFixed(1)} sec`
     : "Not available";
 
-  async function ask(rawQuestion: string) {
-    const cleaned = rawQuestion.trim();
-    if (!cleaned || isAsking) return;
-
-    setMessages((current) => [...current, { role: "user", content: cleaned }]);
-    setQuestion("");
-    setIsAsking(true);
-
-    try {
-      const response = await fetch("/api/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: cleaned }),
-      });
-      const payload = (await response.json()) as {
-        answer?: string;
-        error?: string;
-      };
-      setMessages((current) => [
-        ...current,
-        {
-          role: "assistant",
-          content:
-            payload.answer ??
-            payload.error ??
-            "The Scene Copilot could not respond.",
-        },
-      ]);
-    } catch {
-      setMessages((current) => [
-        ...current,
-        {
-          role: "assistant",
-          content: "The Scene Copilot could not connect. Please try again.",
-        },
-      ]);
-    } finally {
-      setIsAsking(false);
-      inputRef.current?.focus();
-    }
-  }
-
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    void ask(question);
-  }
-
   function openSceneWorkspace() {
     setWorkspaceTab("scene");
     setActiveView("scene");
@@ -163,7 +111,7 @@ export function Dashboard({
               <p className="text-sm font-extrabold tracking-[-0.025em]">
                 Aerial Scene Query{" "}
                 <span className="font-medium text-muted">
-                  — Vision-Language Research Instrument
+                  Vision language research instrument
                 </span>
               </p>
               <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-muted">
@@ -181,14 +129,14 @@ export function Dashboard({
         {activeView === "landing" ? (
           <section className="view-enter border-x border-b border-line bg-paper px-5 py-12 sm:px-8 lg:px-14 lg:py-16">
             <p className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-muted before:h-2 before:w-8 before:bg-crimson before:content-['']">
-              Aerial intelligence / natural-language access
+              Aerial intelligence / natural language access
             </p>
             <h1 className="text-[clamp(2.8rem,5.2vw,5.7rem)] font-black leading-[0.98] tracking-[-0.065em]">
-              Language-Queryable Aerial Scene Understanding for UAV Traffic
-              Analysis
+              Language queryable aerial scene understanding for UAV traffic
+              analysis
             </h1>
             <p className="mt-7 text-base leading-7 text-muted">
-              Computer vision, multi-object tracking, and language models
+              Computer vision, multi object tracking, and language models
               combined to analyze movement and query aerial traffic scenes in
               plain language.
             </p>
@@ -218,18 +166,20 @@ export function Dashboard({
               <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-crimson">
-                    {workspaceTab === "scene" ? "Scene 01" : "Scene 01 · Grid"}
+                    {workspaceTab === "scene" ? "Scene 01" : "Scene 01, grid"}
                   </p>
                   <h2 className="mt-1 text-3xl font-black tracking-[-0.045em]">
                     {workspaceTab === "scene"
-                      ? "Pedestrian-flow workspace"
-                      : "Crowd Density"}
+                      ? "Pedestrian flow workspace"
+                      : "Crowd density and proximity"}
                   </h2>
                 </div>
                 <p className="hidden font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:block">
                   {workspaceTab === "scene"
-                    ? `${results.video ?? "Annotated scene"} · ${resolution}`
-                    : `${grid.gridSize} · threshold ${grid.threshold}`}
+                    ? `${results.video ?? "Annotated scene"}, ${resolution}`
+                    : grid.proximityThresholdPx !== undefined
+                      ? `${grid.gridSize}, ${grid.proximityThresholdPx} px proximity`
+                      : grid.gridSize}
                 </p>
               </div>
 
@@ -240,7 +190,7 @@ export function Dashboard({
                 {(
                   [
                     ["scene", "Pedestrian flow"],
-                    ["density", "Crowd Density"],
+                    ["density", "Crowd density and proximity"],
                   ] as const
                 ).map(([id, label]) => {
                   const active = workspaceTab === id;
@@ -261,11 +211,10 @@ export function Dashboard({
                 })}
               </nav>
 
-              {workspaceTab === "density" ? (
-                <CrowdDensitySection grid={grid} videoUrl={gridVideoUrl} />
-              ) : (
-                <>
               <div className="grid items-stretch gap-5 lg:grid-cols-[1.65fr_.85fr]">
+                {workspaceTab === "density" ? (
+                  <CrowdDensityMedia grid={grid} videoUrl={gridVideoUrl} />
+                ) : (
                 <section
                   className="instrument-border bg-paper p-4"
                   aria-labelledby="video-heading"
@@ -276,7 +225,7 @@ export function Dashboard({
                         Annotated footage
                       </h3>
                       <p className="font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
-                        {duration} · {resolution}
+                        {duration}, {resolution}
                       </p>
                     </div>
                     <p className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted">
@@ -312,109 +261,15 @@ export function Dashboard({
                     )}
                   </div>
                 </section>
+                )}
 
-                <section
-                  className="instrument-border flex min-h-[460px] flex-col bg-paper"
-                  aria-labelledby="copilot-heading"
-                >
-                  <div className="bg-ink p-5 text-white">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <span className="grid h-8 w-8 place-items-center bg-crimson text-sm">
-                          ✦
-                        </span>
-                        <h3 id="copilot-heading" className="font-extrabold">
-                          Scene Copilot
-                        </h3>
-                      </div>
-                      <span className="border border-white/20 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-white/70">
-                        Evidence only
-                      </span>
-                    </div>
-                    <p className="mt-3 text-xs leading-5 text-white/60">
-                      Ask the language model about this scene. Responses are
-                      grounded in results.json.
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-1.5 font-mono text-[8px] uppercase tracking-[0.08em] text-white/60">
-                      <span className="bg-white/10 px-2 py-1">
-                        LLM · GPT-4o-mini
-                      </span>
-                      <span className="bg-white/10 px-2 py-1">
-                        Source · results.json
-                      </span>
-                    </div>
-                  </div>
-
-                  <div
-                    className="flex max-h-64 flex-1 flex-col gap-2 overflow-y-auto p-4"
-                    aria-live="polite"
-                  >
-                    {messages.length === 0 ? (
-                      <p className="border-l-2 border-crimson bg-[#F2F0EB] p-3 text-xs leading-5 text-muted">
-                        I can compare entrances, explain counts, report detected
-                        classes, and distinguish model output from manual ground
-                        truth.
-                      </p>
-                    ) : (
-                      messages.map((message, index) => (
-                        <div
-                          key={`${message.role}-${index}`}
-                          className={`max-w-[92%] border px-3 py-2 text-xs leading-5 ${
-                            message.role === "user"
-                              ? "ml-auto border-ink bg-ink text-white"
-                              : "border-line bg-white text-ink"
-                          }`}
-                        >
-                          {message.content}
-                        </div>
-                      ))
-                    )}
-                    {isAsking && (
-                      <p className="font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
-                        Reading scene evidence…
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 border-t border-line p-4">
-                    {EXAMPLE_QUESTIONS.map((example) => (
-                      <button
-                        key={example}
-                        type="button"
-                        onClick={() => void ask(example)}
-                        disabled={isAsking}
-                        className="min-h-10 border border-line bg-white px-2 py-2 text-left text-[11px] font-semibold leading-4 transition hover:border-crimson hover:text-crimson disabled:opacity-50"
-                      >
-                        {example}
-                      </button>
-                    ))}
-                  </div>
-
-                  <form
-                    onSubmit={submit}
-                    className="flex border-t border-line bg-white p-3"
-                  >
-                    <input
-                      ref={inputRef}
-                      value={question}
-                      onChange={(event) => setQuestion(event.target.value)}
-                      maxLength={500}
-                      placeholder="Question this scene…"
-                      aria-label="Question for Scene Copilot"
-                      className="min-w-0 flex-1 bg-transparent px-2 text-sm outline-none placeholder:text-muted/60"
-                    />
-                    <button
-                      type="submit"
-                      disabled={!question.trim() || isAsking}
-                      aria-label="Send question"
-                      className="grid h-10 w-10 place-items-center bg-crimson text-white transition hover:bg-[#A70D26] disabled:bg-line disabled:text-muted"
-                    >
-                      →
-                    </button>
-                  </form>
-                </section>
+                <SceneCopilot />
               </div>
 
+              {workspaceTab === "density" ? (
+                <CrowdDensityStats grid={grid} />
+              ) : (
+                <>
             <section
               className="mt-5 grid grid-cols-2 border border-line bg-paper lg:grid-cols-4"
               aria-label="Scene statistics"
@@ -462,7 +317,7 @@ export function Dashboard({
                     id="distribution-heading"
                     className="text-sm font-extrabold"
                   >
-                    Entry-origin distribution
+                    Entry origin distribution
                   </h3>
                   <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
                     Unique tracked persons / zone
@@ -519,7 +374,7 @@ export function Dashboard({
                   {[
                     ["01 / DETECTION", results.model ?? "yolov8x"],
                     ["02 / TRACKING", results.tracker ?? "bytetrack"],
-                    ["03 / LANGUAGE", "gpt-4o-mini"],
+                    ["03 / LANGUAGE", "GPT 4o mini"],
                   ].map(([label, value], index) => (
                     <div key={label} className="contents">
                       <div className="border border-line bg-white p-4">
@@ -549,7 +404,7 @@ export function Dashboard({
                           key={item}
                           className="border-l-2 border-crimson pl-3"
                         >
-                          {item}
+                          {item.replace(/-/g, " ")}
                         </li>
                       ))}
                     </ul>
@@ -563,7 +418,7 @@ export function Dashboard({
 
             <footer className="flex flex-wrap justify-between gap-2 py-6 font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
               <span>Aerial Scene Query</span>
-              <span>Research prototype · Counts are approximate</span>
+              <span>Research prototype. Counts are approximate.</span>
             </footer>
           </div>
         )}

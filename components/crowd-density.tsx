@@ -1,37 +1,94 @@
 import type { GridSummary } from "@/lib/grid";
+import { formatPxDistance } from "@/lib/format-px";
 
-interface CrowdDensitySectionProps {
+function readableCopy(text: string): string {
+  return text.replace(/-/g, " ");
+}
+
+interface CrowdDensityMediaProps {
   grid: GridSummary;
   videoUrl: string;
 }
 
-export function CrowdDensitySection({
+interface CrowdDensityStatsProps {
+  grid: GridSummary;
+}
+
+function statCards(grid: GridSummary): { label: string; value: string; note: string }[] {
+  const cards: { label: string; value: string; note: string }[] = [
+    {
+      label: "Grid dimensions",
+      value: grid.gridSize,
+      note: "Occupancy visualization cells across the scene",
+    },
+  ];
+
+  if (grid.proximityThresholdPx !== undefined) {
+    cards.push({
+      label: "Proximity threshold",
+      value: `${grid.proximityThresholdPx} px`,
+      note: grid.distanceCoordinateSpace
+        ? `Pairwise foot distance in ${grid.distanceCoordinateSpace}`
+        : "Pairwise foot distance threshold for alerts",
+    });
+  }
+
+  if (grid.framesProcessed !== undefined) {
+    cards.push({
+      label: "Frames processed",
+      value: String(grid.framesProcessed),
+      note: grid.video ? `Source, ${grid.video}` : "Processed frames in grid.json",
+    });
+  }
+
+  if (grid.framesWithProximityAlert !== undefined) {
+    const pct =
+      grid.pctFramesWithAlert !== undefined
+        ? `${grid.pctFramesWithAlert}% of processed frames`
+        : "Processed frames with ≥1 proximity alert";
+    cards.push({
+      label: "Frames with proximity alerts",
+      value: String(grid.framesWithProximityAlert),
+      note: pct,
+    });
+  }
+
+  if (grid.maxClosePairsInOneFrame !== undefined) {
+    cards.push({
+      label: "Max close pairs (one frame)",
+      value: String(grid.maxClosePairsInOneFrame),
+      note: "Close pairs are not the same as people involved; one person can appear in multiple pairs",
+    });
+  }
+
+  if (grid.peakCellCountOverRun !== undefined) {
+    cards.push({
+      label: "Peak cell occupancy",
+      value: String(grid.peakCellCountOverRun),
+      note: "Highest detections in one cell across the run (summary cards are not synced to playback)",
+    });
+  }
+
+  const closest = formatPxDistance(grid.closestDistanceSeenPx);
+  if (closest) {
+    cards.push({
+      label: "Closest pair distance",
+      value: closest,
+      note: "Minimum pairwise foot distance observed in processed frames",
+    });
+  }
+
+  return cards;
+}
+
+export function CrowdDensityMedia({
   grid,
   videoUrl,
-}: CrowdDensitySectionProps) {
-  const stats: [string, string, string][] = [
-    ["Grid size", grid.gridSize, "Cells spanning the aerial scene"],
-    [
-      "Safety threshold",
-      String(grid.threshold),
-      "People per cell before an emergency flag",
-    ],
-    [
-      "Frames processed",
-      String(grid.framesProcessed),
-      grid.video ? `Source · ${grid.video}` : "Density grid pass",
-    ],
-    [
-      "Max people in any cell",
-      String(grid.maxPeopleInAnyCell),
-      "Peak occupancy observed in one cell",
-    ],
-    [
-      "Emergency frames",
-      String(grid.emergencyFrames),
-      "Frames with at least one cell above threshold",
-    ],
-  ];
+}: CrowdDensityMediaProps) {
+  const thresholdLabel =
+    grid.proximityThresholdPx !== undefined
+      ? `${grid.proximityThresholdPx} px proximity`
+      : "Proximity threshold unavailable";
 
   return (
     <div>
@@ -40,19 +97,23 @@ export function CrowdDensitySection({
         aria-labelledby="density-intro-heading"
       >
         <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-crimson">
-          Grid analysis
+          Grid and pairwise proximity
         </p>
         <h3
           id="density-intro-heading"
           className="mt-1 text-sm font-extrabold"
         >
-          Crowd density & emergency detection
+          Crowd density and proximity
         </h3>
-        <p className="mt-3 max-w-4xl text-sm leading-6 text-muted">
-          A grid-based crowd-density analysis that divides the aerial scene into
-          cells, assigns each person to a cell by their feet position, counts
-          people per cell over time, and flags cells that exceed a safety
-          threshold as possible crowding emergencies.
+        <p className="mt-3 text-sm leading-6 text-muted">
+          The grid shows occupancy: how many detections fall in each cell per
+          frame using estimated foot positions at the bottom center of each box.{" "}
+          <strong className="font-semibold text-ink">Proximity alerts</strong>{" "}
+          are separate. Every pair of foot points is measured in original video
+          pixel space. If Euclidean distance is at or below the configured
+          threshold, the pair is flagged, even across grid boundaries. Grid
+          resolution changes the occupancy view, not the alert rule. Alerts do
+          not establish an emergency or a validated safe distance.
         </p>
       </section>
 
@@ -63,14 +124,14 @@ export function CrowdDensitySection({
         <div className="mb-3 flex items-center justify-between gap-3 border-b border-line pb-3">
           <div>
             <h3 id="density-video-heading" className="text-sm font-extrabold">
-              Density-annotated footage
+              Proximity annotated footage
             </h3>
             <p className="font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
-              {grid.gridSize} grid · threshold {grid.threshold}
+              {grid.gridSize} grid, {thresholdLabel}
             </p>
           </div>
           <p className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted">
-            Feet assignment / cell occupancy
+            Detection only, no tracking IDs
           </p>
         </div>
         <div className="relative aspect-video overflow-hidden bg-[#111416]">
@@ -101,22 +162,21 @@ export function CrowdDensitySection({
           )}
         </div>
       </section>
+    </div>
+  );
+}
 
+export function CrowdDensityStats({ grid }: CrowdDensityStatsProps) {
+  const stats = statCards(grid);
+
+  return (
+    <div>
       <section
-        className="mt-5 grid grid-cols-2 border border-line bg-paper lg:grid-cols-5"
-        aria-label="Crowd density statistics"
+        className="mt-5 grid grid-cols-2 divide-x divide-y divide-line border border-line bg-paper lg:grid-cols-4"
+        aria-label="Crowd density and proximity statistics"
       >
-        {stats.map(([label, value, note], index) => (
-          <div
-            key={label}
-            className={`min-h-28 p-4 border-line ${
-              index < 4 ? "lg:border-r" : ""
-            } ${index % 2 === 0 ? "border-r" : ""} ${
-              index < 2 ? "border-b lg:border-b-0" : ""
-            } ${index === 4 ? "col-span-2 border-t lg:col-span-1 lg:border-t-0" : ""} ${
-              index >= 2 && index < 4 ? "border-b lg:border-b-0" : ""
-            }`}
-          >
+        {stats.map(({ label, value, note }) => (
+          <div key={label} className="min-h-28 p-4">
             <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-muted">
               {label}
             </p>
@@ -131,11 +191,16 @@ export function CrowdDensitySection({
       {grid.note ? (
         <section className="instrument-border mt-5 bg-paper p-5">
           <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
-            Known limitation
+            Notes from grid.json
           </p>
           <p className="mt-2 border-l-2 border-crimson pl-3 text-xs leading-5 text-muted">
-            {grid.note}
+            {readableCopy(grid.note)}
           </p>
+          {grid.logSampling ? (
+            <p className="mt-3 border-l-2 border-line pl-3 text-[11px] leading-5 text-muted">
+              {readableCopy(grid.logSampling)}
+            </p>
+          ) : null}
         </section>
       ) : null}
     </div>
