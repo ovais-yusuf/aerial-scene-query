@@ -2,6 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/ask": ["./data/**/*"],
+    },
+  },
   async headers() {
     return [
       {
