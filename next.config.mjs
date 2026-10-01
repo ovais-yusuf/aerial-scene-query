@@ -5,6 +5,7 @@ const nextConfig = {
   experimental: {
     outputFileTracingIncludes: {
       "/api/ask": ["./data/**/*"],
+      "/api/cell-matrices": ["./data/**/*"],
     },
   },
   async headers() {

@@ -1,0 +1,1375 @@
+{
+  "conventions": {
+    "grid_shape": [
+      10,
+      10
+    ],
+    "cell_index_base": 0,
+    "detection_index_base": 0,
+    "processed_frame_index_base": 1,
+    "matrix_axis_order": "labels and detection_indices in each cell; original per-frame detection order",
+    "coordinates": "x rightward, y downward from top-left; original video pixels",
+    "cell_assignment": "floor coordinate scaled by grid dimension, clamped to valid grid index",
+    "distance": "Euclidean distance between estimated box-bottom-center points; original video pixels",
+    "alert_rule": "distance <= proximity_threshold_px, distinct detections only",
+    "threshold_px": 60.0,
+    "threshold_interpretation": "Working assumption for proximity. Handwritten note appears to use >=; not confirmed with professor. Full distances permit either comparison later.",
+    "identity": "Frame-local detection labels only; not persistent track IDs or verified distinct people",
+    "empty_cell": "count=0; labels, coordinates, and both matrices are []",
+    "singleton_cell": "count=1; distance_matrix_px=[[0.0]]; proximity_matrix=[[0]]",
+    "symmetry": "Both matrices symmetric; diagonal zero; count pairs using upper triangle only",
+    "time": "nominal_output_time_sec is (processed_frame-1)/output_fps, not a measured original-video timestamp. Source frame numbers and timestamps were not logged.",
+    "cross_cell_extension": "cross_cell_close_pairs lists each cross-cell flagged pair once; supplemental to the professor per-cell structure"
+  },
+  "frame": {
+    "processed_frame": 1,
+    "nominal_output_time_sec": 0.0,
+    "detection_count": 18,
+    "occupancy_matrix": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        6,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "C": [
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 1,
+          "detection_indices": [
+            7
+          ],
+          "labels": [
+            "f0001_d007"
+          ],
+          "feet_xy_px": [
+            [
+              743.9007568359375,
+              420.2300720214844
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "count": 6,
+          "detection_indices": [
+            4,
+            6,
+            8,
+            10,
+            16,
+            17
+          ],
+          "labels": [
+            "f0001_d004",
+            "f0001_d006",
+            "f0001_d008",
+            "f0001_d010",
+            "f0001_d016",
+            "f0001_d017"
+          ],
+          "feet_xy_px": [
+            [
+              821.2327270507812,
+              404.8468322753906
+            ],
+            [
+              928.7107543945312,
+              410.39239501953125
+            ],
+            [
+              954.146728515625,
+              396.2416076660156
+            ],
+            [
+              780.0450439453125,
+              429.9004211425781
+            ],
+            [
+              914.4283447265625,
+              403.88665771484375
+            ],
+            [
+              914.0595703125,
+              403.925537109375
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0,
+              107.62099993892025,
+              133.1922733343578,
+              48.20899869031276,
+              93.20056378132652,
+              92.83141502055554
+            ],
+            [
+              107.62099993892025,
+              0.0,
+              29.107276791437716,
+              149.94017655914783,
+              15.694325210128971,
+              16.014913244714013
+            ],
+            [
+              133.1922733343578,
+              29.107276791437716,
+              0.0,
+              177.3254417585661,
+              40.447457287997096,
+              40.81694531065372
+            ],
+            [
+              48.20899869031276,
+              149.94017655914783,
+              177.3254417585661,
+              0.0,
+              136.87800194530178,
+              136.50856338691702
+            ],
+            [
+              93.20056378132652,
+              15.694325210128971,
+              40.447457287997096,
+              136.87800194530178,
+              0.0,
+              0.3708182516897689
+            ],
+            [
+              92.83141502055554,
+              16.014913244714013,
+              40.81694531065372,
+              136.50856338691702,
+              0.3708182516897689,
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+              1,
+              0
+            ]
+          ]
+        },
+        {
+          "count": 3,
+          "detection_indices": [
+            9,
+            12,
+            13
+          ],
+          "labels": [
+            "f0001_d009",
+            "f0001_d012",
+            "f0001_d013"
+          ],
+          "feet_xy_px": [
+            [
+              1042.3388671875,
+              421.2345886230469
+            ],
+            [
+              1111.3731689453125,
+              398.818603515625
+            ],
+            [
+              1036.918212890625,
+              366.30615234375
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0,
+              72.58244421018676,
+              55.195258900516144
+            ],
+            [
+              72.58244421018676,
+              0.0,
+              81.24407647520528
+            ],
+            [
+              55.195258900516144,
+              81.24407647520528,
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 1,
+          "detection_indices": [
+            15
+          ],
+          "labels": [
+            "f0001_d015"
+          ],
+          "feet_xy_px": [
+            [
+              11.682396411895752,
+              531.0880737304688
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 1,
+          "detection_indices": [
+            5
+          ],
+          "labels": [
+            "f0001_d005"
+          ],
+          "feet_xy_px": [
+            [
+              495.8815612792969,
+              491.6982421875
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "count": 4,
+          "detection_indices": [
+            1,
+            2,
+            3,
+            11
+          ],
+          "labels": [
+            "f0001_d001",
+            "f0001_d002",
+            "f0001_d003",
+            "f0001_d011"
+          ],
+          "feet_xy_px": [
+            [
+              647.7163696289062,
+              457.82318115234375
+            ],
+            [
+              699.3689575195312,
+              449.8697204589844
+            ],
+            [
+              597.9186401367188,
+              457.23883056640625
+            ],
+            [
+              718.3532104492188,
+              447.7410888671875
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0,
+              52.26133726570296,
+              49.801157900036486,
+              71.35272851069239
+            ],
+            [
+              52.26133726570296,
+              0.0,
+              101.71760261060372,
+              19.103217837629977
+            ],
+            [
+              49.801157900036486,
+              101.71760261060372,
+              0.0,
+              120.80849648820892
+            ],
+            [
+              71.35272851069239,
+              19.103217837629977,
+              120.80849648820892,
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 1,
+          "detection_indices": [
+            14
+          ],
+          "labels": [
+            "f0001_d014"
+          ],
+          "feet_xy_px": [
+            [
+              11.864503860473633,
+              610.343505859375
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "count": 1,
+          "detection_indices": [
+            0
+          ],
+          "labels": [
+            "f0001_d000"
+          ],
+          "feet_xy_px": [
+            [
+              213.8371124267578,
+              551.9093017578125
+            ]
+          ],
+          "distance_matrix_px": [
+            [
+              0.0
+            ]
+          ],
+          "proximity_matrix": [
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        },
+        {
+          "count": 0,
+          "detection_indices": [],
+          "labels": [],
+          "feet_xy_px": [],
+          "distance_matrix_px": [],
+          "proximity_matrix": []
+        }
+      ]
+    ],
+    "within_cell_close_pairs": 11,
+    "cross_cell_close_pairs": [
+      {
+        "a": 2,
+        "b": 7,
+        "label_a": "f0001_d002",
+        "label_b": "f0001_d007",
+        "cell_a": [
+          4,
+          3
+        ],
+        "cell_b": [
+          3,
+          3
+        ],
+        "distance_px": 53.49383057750937
+      },
+      {
+        "a": 7,
+        "b": 10,
+        "label_a": "f0001_d007",
+        "label_b": "f0001_d010",
+        "cell_a": [
+          3,
+          3
+        ],
+        "cell_b": [
+          3,
+          4
+        ],
+        "distance_px": 37.41557353253817
+      },
+      {
+        "a": 7,
+        "b": 11,
+        "label_a": "f0001_d007",
+        "label_b": "f0001_d011",
+        "cell_a": [
+          3,
+          3
+        ],
+        "cell_b": [
+          4,
+          3
+        ],
+        "distance_px": 37.54375013588956
+      }
+    ],
+    "total_close_pairs": 14,
+    "people_in_alert": 13
+  }
+}
