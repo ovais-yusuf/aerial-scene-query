@@ -1,0 +1,101 @@
+FIRST PROCESSED FRAME: A HUMAN-READABLE EXAMPLE
+
+All values come from grid.json. Rows/columns start at 0. Distances are pixels.
+Labels are local to this frame; detection indices are NOT tracking IDs.
+Printed distances are rounded to 2 decimals. Full data retains floating-point precision.
+
+OCCUPANCY MATRIX (row by row)
+  0   0   0   0   0   0   0   0   0   0
+  0   0   0   0   0   0   0   0   0   0
+  0   0   0   0   0   0   0   0   0   0
+  0   0   0   1   6   3   0   0   0   0
+  1   0   1   4   0   0   0   0   0   0
+  1   1   0   0   0   0   0   0   0   0
+  0   0   0   0   0   0   0   0   0   0
+  0   0   0   0   0   0   0   0   0   0
+  0   0   0   0   0   0   0   0   0   0
+  0   0   0   0   0   0   0   0   0   0
+
+CELL row=3, col=3: N=1
+Matrix row/column order: f0001_d007
+Distance matrix D (pixels):
+    0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0
+
+CELL row=3, col=4: N=6
+Matrix row/column order: f0001_d004, f0001_d006, f0001_d008, f0001_d010, f0001_d016, f0001_d017
+Distance matrix D (pixels):
+    0.00   107.62   133.19    48.21    93.20    92.83
+  107.62     0.00    29.11   149.94    15.69    16.01
+  133.19    29.11     0.00   177.33    40.45    40.82
+   48.21   149.94   177.33     0.00   136.88   136.51
+   93.20    15.69    40.45   136.88     0.00     0.37
+   92.83    16.01    40.82   136.51     0.37     0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0 0 0 1 0 0
+0 0 1 0 1 1
+0 1 0 0 1 1
+1 0 0 0 0 0
+0 1 1 0 0 1
+0 1 1 0 1 0
+
+CELL row=3, col=5: N=3
+Matrix row/column order: f0001_d009, f0001_d012, f0001_d013
+Distance matrix D (pixels):
+    0.00    72.58    55.20
+   72.58     0.00    81.24
+   55.20    81.24     0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0 0 1
+0 0 0
+1 0 0
+
+CELL row=4, col=0: N=1
+Matrix row/column order: f0001_d015
+Distance matrix D (pixels):
+    0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0
+
+CELL row=4, col=2: N=1
+Matrix row/column order: f0001_d005
+Distance matrix D (pixels):
+    0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0
+
+CELL row=4, col=3: N=4
+Matrix row/column order: f0001_d001, f0001_d002, f0001_d003, f0001_d011
+Distance matrix D (pixels):
+    0.00    52.26    49.80    71.35
+   52.26     0.00   101.72    19.10
+   49.80   101.72     0.00   120.81
+   71.35    19.10   120.81     0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0 1 1 0
+1 0 0 1
+1 0 0 0
+0 1 0 0
+
+CELL row=5, col=0: N=1
+Matrix row/column order: f0001_d014
+Distance matrix D (pixels):
+    0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0
+
+CELL row=5, col=1: N=1
+Matrix row/column order: f0001_d000
+Distance matrix D (pixels):
+    0.00
+Alert matrix A (1 if distinct pair distance <=60 px):
+0
+
+Within-cell close pairs: 11
+Cross-cell close pairs: 3
+Total close pairs: 14
+Cross-cell pairs (each listed once):
+f0001_d002 cell [4, 3] <-> f0001_d007 cell [3, 3]: 53.49 px
+f0001_d007 cell [3, 3] <-> f0001_d010 cell [3, 4]: 37.42 px
+f0001_d007 cell [3, 3] <-> f0001_d011 cell [4, 3]: 37.54 px

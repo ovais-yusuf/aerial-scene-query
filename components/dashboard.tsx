@@ -2,19 +2,24 @@
 
 import { useMemo, useState } from "react";
 
+import { CellMatricesExplorer } from "@/components/cell-matrices";
 import {
   CrowdDensityMedia,
   CrowdDensityStats,
 } from "@/components/crowd-density";
 import { SceneCopilot } from "@/components/scene-copilot";
+import type { CellMatrixIndex } from "@/lib/cell-matrices-types";
 import type { GridSummary } from "@/lib/grid";
 import type { AnalysisResults, ZoneName } from "@/lib/results";
+
+type WorkspaceTab = "scene" | "density" | "matrices";
 
 interface DashboardProps {
   results: AnalysisResults;
   videoUrl: string;
   grid: GridSummary;
   gridVideoUrl: string;
+  cellMatrices: CellMatrixIndex;
 }
 
 const ZONE_ORDER: ZoneName[] = [
@@ -60,11 +65,10 @@ export function Dashboard({
   videoUrl,
   grid,
   gridVideoUrl,
+  cellMatrices,
 }: DashboardProps) {
   const [activeView, setActiveView] = useState<"landing" | "scene">("landing");
-  const [workspaceTab, setWorkspaceTab] = useState<"scene" | "density">(
-    "scene",
-  );
+  const [workspaceTab, setWorkspaceTab] = useState<WorkspaceTab>("scene");
 
   const analytics = useMemo(() => {
     const rows = ZONE_ORDER.map((zone) => ({
@@ -166,20 +170,30 @@ export function Dashboard({
               <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-crimson">
-                    {workspaceTab === "scene" ? "Scene 01" : "Scene 01, grid"}
+                    {workspaceTab === "scene"
+                      ? "Scene 01"
+                      : workspaceTab === "density"
+                        ? "Scene 01, grid"
+                        : "Scene 01, matrices"}
                   </p>
                   <h2 className="mt-1 text-3xl font-black tracking-[-0.045em]">
                     {workspaceTab === "scene"
                       ? "Pedestrian flow workspace"
-                      : "Crowd density and proximity"}
+                      : workspaceTab === "density"
+                        ? "Crowd density and proximity"
+                        : "Cell matrices"}
                   </h2>
                 </div>
                 <p className="hidden font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:block">
                   {workspaceTab === "scene"
                     ? `${results.video ?? "Annotated scene"}, ${resolution}`
-                    : grid.proximityThresholdPx !== undefined
-                      ? `${grid.gridSize}, ${grid.proximityThresholdPx} px proximity`
-                      : grid.gridSize}
+                    : workspaceTab === "density"
+                      ? grid.proximityThresholdPx !== undefined
+                        ? `${grid.gridSize}, ${grid.proximityThresholdPx} px proximity`
+                        : grid.gridSize
+                      : cellMatrices.proximity_threshold_px !== undefined
+                        ? `${cellMatrices.grid[0]} × ${cellMatrices.grid[1]}, ${cellMatrices.proximity_threshold_px} px`
+                        : `${cellMatrices.grid[0]} × ${cellMatrices.grid[1]}`}
                 </p>
               </div>
 
@@ -191,6 +205,7 @@ export function Dashboard({
                   [
                     ["scene", "Pedestrian flow"],
                     ["density", "Crowd density and proximity"],
+                    ["matrices", "Cell matrices"],
                   ] as const
                 ).map(([id, label]) => {
                   const active = workspaceTab === id;
@@ -211,6 +226,9 @@ export function Dashboard({
                 })}
               </nav>
 
+              {workspaceTab === "matrices" ? (
+                <CellMatricesExplorer index={cellMatrices} />
+              ) : (
               <div className="grid items-stretch gap-5 lg:grid-cols-[1.65fr_.85fr]">
                 {workspaceTab === "density" ? (
                   <CrowdDensityMedia grid={grid} videoUrl={gridVideoUrl} />
@@ -265,10 +283,11 @@ export function Dashboard({
 
                 <SceneCopilot />
               </div>
+              )}
 
               {workspaceTab === "density" ? (
                 <CrowdDensityStats grid={grid} />
-              ) : (
+              ) : workspaceTab === "matrices" ? null : (
                 <>
             <section
               className="mt-5 grid grid-cols-2 border border-line bg-paper lg:grid-cols-4"

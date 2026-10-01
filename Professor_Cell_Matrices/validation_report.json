@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "frames_checked": 589,
+  "cells_checked": 58900,
+  "distance_matrix_entries_checked": 51552,
+  "within_cell_flagged_pair_observations": 10757,
+  "cross_cell_flagged_pair_observations": 2601,
+  "frames_with_cross_cell_alerts": 556,
+  "checks": [
+    "Matrix shapes, axis labels and source coordinates",
+    "Every detection assigned once per frame",
+    "Occupancy matches source",
+    "Symmetry and zero diagonal",
+    "Distances independently recomputed with hypot",
+    "Alert matrices use <=60 and exclude self-pairs",
+    "Within-cell plus cross-cell alerts match source pair counts"
+  ],
+  "meaning": "Structural and numerical consistency only; no detection-accuracy validation. Pair observations repeat across frames and are not unique people or distinct events."
+}
