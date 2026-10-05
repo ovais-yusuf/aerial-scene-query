@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "export_frames_checked": 589,
+  "synthetic_cases": 12,
+  "checks": [
+    "Independent distance recomputation",
+    "Strict threshold incl equality fixture",
+    "Exact localized vs all-pairs edge sets during generation",
+    "Grid boundary and rectangular geometry cases",
+    "Matrix symmetry, diagonal, and dimensions",
+    "Cell partition conservation",
+    "Degrees and Laplacian",
+    "Independent connected components via union-find",
+    "Cross-cell preservation",
+    "Empty, singleton, duplicate-position, and non-clique chain behavior"
+  ],
+  "scope": "Numerical/structural validation only. Does not establish detection accuracy or physical safety."
+}

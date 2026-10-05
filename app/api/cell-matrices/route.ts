@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   const frame = await loadCellMatrixFrame(processedFrame);
   if (!frame) {
     return NextResponse.json(
-      { error: "That processed frame is not in the cell matrix dataset." },
+      { error: "That processed frame is not in the metric graph dataset." },
       { status: 404 },
     );
   }

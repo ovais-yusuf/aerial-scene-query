@@ -8,7 +8,7 @@ import {
   CrowdDensityStats,
 } from "@/components/crowd-density";
 import { SceneCopilot } from "@/components/scene-copilot";
-import type { CellMatrixIndex } from "@/lib/cell-matrices-types";
+import type { MetricGraphIndex } from "@/lib/cell-matrices-types";
 import type { GridSummary } from "@/lib/grid";
 import type { AnalysisResults, ZoneName } from "@/lib/results";
 
@@ -19,7 +19,7 @@ interface DashboardProps {
   videoUrl: string;
   grid: GridSummary;
   gridVideoUrl: string;
-  cellMatrices: CellMatrixIndex;
+  cellMatrices: MetricGraphIndex;
 }
 
 const ZONE_ORDER: ZoneName[] = [
@@ -195,7 +195,7 @@ export function Dashboard({
                         ? `${grid.gridSize}, ${grid.proximityThresholdPx} px proximity`
                         : grid.gridSize
                       : cellMatrices.proximity_threshold_px !== undefined
-                        ? `${cellMatrices.grid[0]} × ${cellMatrices.grid[1]}, ${cellMatrices.proximity_threshold_px} px`
+                        ? `${cellMatrices.grid[0]} × ${cellMatrices.grid[1]}, distance ${cellMatrices.threshold_operator ?? "<"} ${cellMatrices.proximity_threshold_px} px`
                         : `${cellMatrices.grid[0]} × ${cellMatrices.grid[1]}`}
                 </p>
               </div>
