@@ -111,9 +111,13 @@ export function CrowdDensityMedia({
           <strong className="font-semibold text-ink">Proximity alerts</strong>{" "}
           are separate. Every pair of foot points is measured in original video
           pixel space. If Euclidean distance is at or below the configured
-          threshold, the pair is flagged, even across grid boundaries. Grid
-          resolution changes the occupancy view, not the alert rule. Alerts do
-          not establish an emergency or a validated safe distance.
+          threshold, the pair is flagged, even across grid boundaries. That
+          inclusive rule is what this video and grid.json still use. The Cell
+          matrices tab uses a later export with the paper rule (distance
+          strictly less than 60 px). No pair sat exactly at 60 px, so observed
+          alert counts match. Grid resolution changes the occupancy view, not
+          the alert rule. Alerts do not establish an emergency or a validated
+          safe distance.
         </p>
       </section>
 

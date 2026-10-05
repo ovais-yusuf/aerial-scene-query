@@ -1,85 +1,123 @@
-export interface CellAlertHint {
-  row: number;
-  col: number;
-  pairs: number;
-}
-
-export interface CellMatrixIndexFrame {
+export interface MetricGraphIndexFrame {
   processed_frame: number;
-  nominal_output_time_sec?: number;
-  detection_count?: number;
-  occupancy_matrix: number[][];
+  path: string;
+  nominal_output_time_sec?: number | null;
+  detections?: number;
+  frame_alarm?: boolean;
+  close_pairs?: number;
   within_cell_close_pairs?: number;
-  cross_cell_close_pair_count?: number;
-  total_close_pairs?: number;
+  cross_cell_close_pairs?: number;
   people_in_alert?: number;
-  within_alert_cells?: CellAlertHint[];
+  component_count_including_isolates?: number;
+  nontrivial_component_count?: number;
+  largest_component_size?: number;
+  nearest_pair_distance_px?: number | null;
+  threshold_margin_px?: number | null;
+  max_threshold_depth_px?: number | null;
 }
 
-export interface CellMatrixIndex {
+export interface MetricGraphIndex {
   schema_version?: string;
-  description?: string;
-  source_file?: string;
+  paper?: string;
+  scope?: string;
   grid: [number, number];
   proximity_threshold_px?: number;
+  threshold_operator?: string;
   distance_coordinate_space?: string;
+  resolution?: [number, number];
   model?: string;
   tracking_enabled?: boolean;
   frames_processed?: number;
   peak_cell_count_over_run?: number;
-  conventions: {
-    alert_rule?: string;
-    identity?: string;
-    distance?: string;
-    threshold_interpretation?: string;
-    symmetry?: string;
-    time?: string;
-    cross_cell_extension?: string;
+  conventions: Record<string, string>;
+  unavailable_reasons: Record<string, string>;
+  dataset: {
+    frames?: number;
+    cell_records?: number;
+    alert_frames?: number;
+    within_cell_pair_observations?: number;
+    cross_cell_pair_observations?: number;
+    pairs_exactly_at_threshold?: number;
+    all_pairs_comparisons?: number;
+    localized_comparisons?: number;
+    comparison_reduction_pct?: number;
+    search_scope?: string;
   };
-  limitations: string[];
   validation?: {
     status?: string;
-    frames_checked?: number;
-    cells_checked?: number;
-    distance_matrix_entries_checked?: number;
-    within_cell_flagged_pair_observations?: number;
-    cross_cell_flagged_pair_observations?: number;
-    frames_with_cross_cell_alerts?: number;
-    meaning?: string;
+    export_frames_checked?: number;
+    synthetic_cases?: number;
+    checks?: string[];
+    scope?: string;
   };
-  frames: CellMatrixIndexFrame[];
+  limitations: string[];
+  frames: MetricGraphIndexFrame[];
 }
 
-export interface OccupiedCell {
-  row: number;
-  col: number;
+export interface MetricGraphNode {
+  index: number;
+  label: string;
+  foot_xy_px: number[];
+  cell: number[];
+  degree: number;
+  in_alert?: boolean;
+  component_id: number;
+}
+
+export interface MetricGraphEdge {
+  a: number;
+  b: number;
+  distance_px: number;
+  threshold_depth_px?: number;
+  cross_cell?: boolean;
+}
+
+export interface MetricGraphCell {
   count: number;
-  labels: string[];
   detection_indices: number[];
-  feet_xy_px: number[][];
+  labels: string[];
   distance_matrix_px: number[][];
   proximity_matrix: number[][];
-  within_cell_close_pairs: number;
 }
 
-export interface CrossCellPair {
-  a?: number;
-  b?: number;
-  label_a?: string;
-  label_b?: string;
-  cell_a?: number[];
-  cell_b?: number[];
-  distance_px?: number;
+export interface MetricGraphComponent {
+  component_id: number;
+  detection_indices: number[];
+  size: number;
+  edge_count?: number;
+  is_clique?: boolean;
 }
 
-export interface CellMatrixFrameDetail {
+export interface MetricGraphFrame {
   processed_frame: number;
-  nominal_output_time_sec?: number;
-  detection_count?: number;
+  nominal_output_time_sec?: number | null;
+  nodes: MetricGraphNode[];
+  matrix_axis_labels: string[];
+  distance_matrix_px: number[][];
+  adjacency_matrix: number[][];
+  laplacian_matrix: number[][];
+  C: MetricGraphCell[][];
   occupancy_matrix: number[][];
-  within_cell_close_pairs?: number;
-  cross_cell_close_pairs: CrossCellPair[];
-  total_close_pairs?: number;
-  people_in_alert?: number;
-  occupied_cells: OccupiedCell[];
+  edges: MetricGraphEdge[];
+  cross_cell_edges: MetricGraphEdge[];
+  components: MetricGraphComponent[];
+  summary: {
+    detections?: number;
+    frame_alarm?: boolean;
+    close_pairs?: number;
+    within_cell_close_pairs?: number;
+    cross_cell_close_pairs?: number;
+    people_in_alert?: number;
+    component_count_including_isolates?: number;
+    nontrivial_component_count?: number;
+    largest_component_size?: number;
+    nearest_pair_distance_px?: number | null;
+    threshold_margin_px?: number | null;
+    max_threshold_depth_px?: number | null;
+  };
+  search_validation?: {
+    all_pairs_comparisons?: number;
+    localized_comparisons?: number;
+    same_edge_set?: boolean;
+  };
 }

@@ -1,0 +1,84 @@
+FIRST FRAME: REAL DATA, PAPER-ALIGNED PIXEL GRAPH
+
+{
+  "detections": 18,
+  "frame_alarm": true,
+  "close_pairs": 14,
+  "within_cell_close_pairs": 11,
+  "cross_cell_close_pairs": 3,
+  "people_in_alert": 13,
+  "component_count_including_isolates": 8,
+  "nontrivial_component_count": 3,
+  "largest_component_size": 7,
+  "nearest_pair_distance_px": 0.3708182516897689,
+  "threshold_margin_px": 59.62918174831023,
+  "max_threshold_depth_px": 59.62918174831023
+}
+
+Each node is a detection in this frame. Labels do not persist over time.
+NODE INDEX | LABEL | CELL | DEGREE | COMPONENT
+ 0 | f0001_d000 | [5, 1] | 0 | 0
+ 1 | f0001_d001 | [4, 3] | 2 | 1
+ 2 | f0001_d002 | [4, 3] | 3 | 1
+ 3 | f0001_d003 | [4, 3] | 1 | 1
+ 4 | f0001_d004 | [3, 4] | 1 | 1
+ 5 | f0001_d005 | [4, 2] | 0 | 2
+ 6 | f0001_d006 | [3, 4] | 3 | 3
+ 7 | f0001_d007 | [3, 3] | 3 | 1
+ 8 | f0001_d008 | [3, 4] | 3 | 3
+ 9 | f0001_d009 | [3, 5] | 1 | 4
+10 | f0001_d010 | [3, 4] | 2 | 1
+11 | f0001_d011 | [4, 3] | 2 | 1
+12 | f0001_d012 | [3, 5] | 0 | 5
+13 | f0001_d013 | [3, 5] | 1 | 4
+14 | f0001_d014 | [5, 0] | 0 | 6
+15 | f0001_d015 | [4, 0] | 0 | 7
+16 | f0001_d016 | [3, 4] | 3 | 3
+17 | f0001_d017 | [3, 4] | 3 | 3
+
+COMPONENTS (chain-connected groups; singleton components are isolates)
+{'component_id': 0, 'detection_indices': [0], 'size': 1, 'edge_count': 0, 'is_clique': True}
+{'component_id': 1, 'detection_indices': [1, 2, 3, 4, 7, 10, 11], 'size': 7, 'edge_count': 7, 'is_clique': False}
+{'component_id': 2, 'detection_indices': [5], 'size': 1, 'edge_count': 0, 'is_clique': True}
+{'component_id': 3, 'detection_indices': [6, 8, 16, 17], 'size': 4, 'edge_count': 6, 'is_clique': True}
+{'component_id': 4, 'detection_indices': [9, 13], 'size': 2, 'edge_count': 1, 'is_clique': True}
+{'component_id': 5, 'detection_indices': [12], 'size': 1, 'edge_count': 0, 'is_clique': True}
+{'component_id': 6, 'detection_indices': [14], 'size': 1, 'edge_count': 0, 'is_clique': True}
+{'component_id': 7, 'detection_indices': [15], 'size': 1, 'edge_count': 0, 'is_clique': True}
+
+EDGES (each unordered pair once; distance rounded only for this display)
+ 1 --  2: 52.261 px; depth 7.739 px; cross-cell=False
+ 1 --  3: 49.801 px; depth 10.199 px; cross-cell=False
+ 2 --  7: 53.494 px; depth 6.506 px; cross-cell=True
+ 2 -- 11: 19.103 px; depth 40.897 px; cross-cell=False
+ 4 -- 10: 48.209 px; depth 11.791 px; cross-cell=False
+ 6 --  8: 29.107 px; depth 30.893 px; cross-cell=False
+ 6 -- 16: 15.694 px; depth 44.306 px; cross-cell=False
+ 6 -- 17: 16.015 px; depth 43.985 px; cross-cell=False
+ 7 -- 10: 37.416 px; depth 22.584 px; cross-cell=True
+ 7 -- 11: 37.544 px; depth 22.456 px; cross-cell=True
+ 8 -- 16: 40.447 px; depth 19.553 px; cross-cell=False
+ 8 -- 17: 40.817 px; depth 19.183 px; cross-cell=False
+ 9 -- 13: 55.195 px; depth 4.805 px; cross-cell=False
+16 -- 17: 0.371 px; depth 59.629 px; cross-cell=False
+
+CELL [3,4] COUNT AND FULL DISTANCE MATRIX:
+N=6
+Axis labels: f0001_d004, f0001_d006, f0001_d008, f0001_d010, f0001_d016, f0001_d017
+    0.00   107.62   133.19    48.21    93.20    92.83
+  107.62     0.00    29.11   149.94    15.69    16.01
+  133.19    29.11     0.00   177.33    40.45    40.82
+   48.21   149.94   177.33     0.00   136.88   136.51
+   93.20    15.69    40.45   136.88     0.00     0.37
+   92.83    16.01    40.82   136.51     0.37     0.00
+
+Cell adjacency matrix (strict distance <60):
+0 0 0 1 0 0
+0 0 1 0 1 1
+0 1 0 0 1 1
+1 0 0 0 0 0
+0 1 1 0 0 1
+0 1 1 0 1 0
+
+Full-frame D, A, and Laplacian are in data/frames/frame_0001.json.
+No physical-distance calibration, persistent identity, or uncertainty certification.

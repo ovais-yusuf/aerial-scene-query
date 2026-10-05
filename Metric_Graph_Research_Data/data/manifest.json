@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "paper": "A Metric-Graph Framework for Exact and Robust Threshold Proximity Detection in Discrete-Time Video Observations",
+  "scope": "Framewise pixel-space implementation; not physical or uncertainty-certified detection",
+  "source_sha256": "96583d9c46b9f98ef591021598d8e336e23393f2df436c086f1fe13e95843d1d",
+  "source_metadata": {
+    "video": "still.mov",
+    "method": "image-space pairwise proximity alerts + grid occupancy heatmap",
+    "model": "yolov8x.pt",
+    "confidence_threshold": 0.25,
+    "inference_imgsz": 1280,
+    "tracking_enabled": false,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "source_fps": 29.966120835686052,
+    "video_stride": 3,
+    "output_fps": 9.988706945228683,
+    "grid": [
+      10,
+      10
+    ],
+    "grid_index_base": 0,
+    "proximity_threshold_px": 60.0,
+    "distance_coordinate_space": "original video pixels",
+    "threshold_validated": false,
+    "frames_processed": 589,
+    "frames_with_proximity_alert": 589,
+    "pct_frames_with_alert": 100.0,
+    "max_close_pairs_in_one_frame": 51,
+    "peak_cell_count_over_run": 11,
+    "closest_distance_seen_px": 0.0570932260582179,
+    "log_sampling": "every processed frame; indices a/b are not persistent track IDs",
+    "note": "Alerts mean estimated box-bottom-center distance <= threshold, regardless of grid. Counts are detections per processed frame, not unique visitors. Feet are estimates. No calibration, motion analysis, or temporal confirmation. Proximity does not establish an emergency. Occupancy color saturates at 5 and never triggers an alert. Frame percentages refer only to processed frames."
+  },
+  "threshold_px": 60.0,
+  "threshold_operator": "<",
+  "grid_shape": [
+    10,
+    10
+  ],
+  "conventions": {
+    "cell_and_detection_index_base": 0,
+    "processed_frame_index_base": 1,
+    "identities": "Frame-local detections only; component IDs also frame-local",
+    "matrix_order": "matrix_axis_labels for global matrices; cell labels for within-cell matrices",
+    "empty_singleton": "Empty matrix []; singleton distance [[0.0]], adjacency [[0]]",
+    "no_pair": "nearest_pair_distance_px and threshold_margin_px are null when fewer than 2 detections; paper uses +infinity for nearest distance. Alarm false; max depth 0 by convention.",
+    "cells": "Rectangles width=W/cols, height=H/rows; floor assignment; final boundary assigned to final cell. Out-of-frame points rejected.",
+    "search": "Exact rectangle set-distance = hypot(max(0,abs(delta_col)-1)*cell_width, max(0,abs(delta_row)-1)*cell_height); retain if <rho",
+    "time": "Nominal output playback time only; actual original frame indices/timestamps unavailable",
+    "components": "Connected components include isolates; nontrivial components have >=2 nodes. Connected does not imply all pairs are close.",
+    "severity": "max(0,rho-nearest_distance) in pixels, threshold depth only, not validated danger",
+    "counts": "Summed edges across frames are repeated pair observations, not distinct events"
+  },
+  "unavailable_reasons": {
+    "physical_calibration": "No ground reference correspondences or calibration map",
+    "uncertainty_certification": "No justified deterministic localization-error bounds; confidence is not an error bound",
+    "temporal_exposure": "No persistent identities or source timestamps",
+    "sampling_guarantee": "No defensible pairwise motion bounds or measured sampling gaps"
+  },
+  "source_unchanged": true,
+  "detections_corrected": false,
+  "paper_mapping": {
+    "2.2": "distance_matrix_px",
+    "2.7": "C[row][col].count and distance_matrix_px",
+    "3.3": "adjacency_matrix",
+    "3.4": "summary.frame_alarm",
+    "3.6": "summary.close_pairs",
+    "3.7": "nodes[].degree",
+    "3.8": "edges[].threshold_depth_px",
+    "3.9": "summary.max_threshold_depth_px",
+    "4.2": "search_validation",
+    "10.4": "components and laplacian_matrix"
+  },
+  "summary": {
+    "frames": 589,
+    "cell_records": 58900,
+    "alert_frames": 589,
+    "within_cell_pair_observations": 10757,
+    "cross_cell_pair_observations": 2601,
+    "pairs_exactly_at_threshold": 0,
+    "all_pairs_comparisons": 142196,
+    "localized_comparisons": 51310,
+    "comparison_reduction_pct": 63.91600326310163,
+    "search_scope": "Comparison counts for standalone localized detection vs all-pairs. Export computes both for validation and full matrices; no runtime speedup claimed."
+  }
+}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
+import { compactMetricGraphEvidence } from "@/lib/cell-matrices";
 import { compactGridResults } from "@/lib/grid";
 import { loadHowItWorks } from "@/lib/how-it-works";
 import { compactResults, loadResults } from "@/lib/results";
@@ -8,11 +9,11 @@ import { compactResults, loadResults } from "@/lib/results";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SYSTEM_PROMPT = `You are the single Scene Copilot for this aerial-scene research app. Answer using only the three evidence sources in the user message: (1) pedestrian flow detection/tracking JSON (results.json), (2) crowd density and proximity JSON (grid.json, compact summary without the full frame log), (3) HOW_IT_WORKS.md.
+const SYSTEM_PROMPT = `You are the single Scene Copilot for this aerial-scene research app. Answer using only the evidence sources in the user message: (1) pedestrian flow detection/tracking JSON (results.json), (2) crowd density and proximity JSON (grid.json, compact summary without the full frame log), (3) compact metric-graph dataset summary, (4) HOW_IT_WORKS.md.
 
 General rules:
 - Use whichever source(s) apply; do not invent numbers, methods, classes, or capabilities.
-- If evidence is missing, say so plainly. You cannot inspect video directly.
+- If evidence is missing, say so plainly. You cannot inspect video directly. You do not receive full per-frame D, A, Laplacian, node, or edge matrices unless they appear in the compact summary.
 - The detector finds PERSONS (COCO), not students. Never claim to identify students.
 - Only the 80 COCO classes are detectable (no trees, benches, signage).
 
@@ -22,16 +23,21 @@ Pedestrian flow pipeline (source 1):
 - Counts are approximate. Mention manual ground truth range when relevant.
 - Do not sum per frame detections into unique person totals.
 
-Crowd density and proximity pipeline (source 2):
+Crowd density video/JSON (source 2):
 - Detection only (tracking_enabled false): no ByteTrack, persistent IDs, motion prediction, or temporal confirmation.
 - Grid = occupancy visualization (detections per cell via estimated foot points at box bottom center).
-- Proximity alerts = pairwise Euclidean distance between foot points in original video pixels (see proximity_threshold_px, distance_coordinate_space). A pair alerts when distance ≤ threshold, regardless of grid cells. Grid resolution does not change the alert rule.
+- That export's note uses the earlier inclusive rule: a pair alerts when distance is at or below the pixel threshold. Detection was not rerun for later exports.
 - close_pairs = flagged pairs in a frame; people_in_alert = detections involved in at least one flagged pair. That is not the same as close_pairs count.
 - frames_with_proximity_alert = processed frames with at least one alert; not distinct emergency events.
-- Do not claim proximity alerts prove emergencies or validated safe standoff distance (threshold_validated is false if present).
-- Walking parallel does not exempt pairs; collision prediction is not implemented.
 
-Keep the two pipelines separate. Be concise and factual. Do not use em dashes, en dashes, or hyphenated asides in your answers; use short sentences instead.`;
+Metric graph export (source 3), Cell matrices tab:
+- Same detection log, no rerun. Paper rule: adjacency if distance is strictly less than 60 px. No pair is exactly 60 px, so observed counts match the inclusive export.
+- Occupancy is detections per cell. Adjacency marks which distinct pairs meet the threshold. Degree is close neighbor count. Threshold depth is 60 minus distance for a flagged pair. Max threshold depth is geometric, not a validated danger score.
+- A connected component may be a chain of close pairs; it does not mean every pair in that group is close. Component IDs and labels are frame local, not track IDs.
+- Localized vs all-pairs comparison counts are not a measured runtime speedup.
+- Validation is numerical consistency with supplied coordinates, not detection accuracy or physical safety.
+
+Do not claim proximity alerts prove emergencies or a validated safe standoff distance. Walking parallel does not exempt pairs; collision prediction is not implemented. Keep pipelines separate. Be concise and factual. Do not use em dashes, en dashes, or hyphenated asides in your answers; use short sentences instead.`;
 
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 8;
@@ -114,9 +120,10 @@ export async function POST(request: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY.trim();
 
   try {
-    const [results, grid, methodology] = await Promise.all([
+    const [results, grid, metricGraph, methodology] = await Promise.all([
       loadResults().then(compactResults),
       compactGridResults(),
+      compactMetricGraphEvidence(),
       loadHowItWorks(),
     ]);
     const openai = new OpenAI({ apiKey });
@@ -135,7 +142,10 @@ export async function POST(request: NextRequest) {
             "Evidence source 2, crowd density and proximity JSON:",
             JSON.stringify(grid),
             "",
-            "Evidence source 3, HOW_IT_WORKS.md:",
+            "Evidence source 3, compact metric graph summary:",
+            JSON.stringify(metricGraph),
+            "",
+            "Evidence source 4, HOW_IT_WORKS.md:",
             methodology,
             "",
             `Question: ${cleanedQuestion}`,

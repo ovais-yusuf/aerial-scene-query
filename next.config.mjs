@@ -4,8 +4,22 @@ const nextConfig = {
   poweredByHeader: false,
   experimental: {
     outputFileTracingIncludes: {
-      "/api/ask": ["./data/**/*"],
-      "/api/cell-matrices": ["./data/**/*"],
+      "/": [
+        "./data/**/*",
+        "./Metric_Graph_Research_Data/data/manifest.json",
+        "./Metric_Graph_Research_Data/data/validation_report.json",
+        "./Metric_Graph_Research_Data/data/frame_index.json",
+      ],
+      "/api/ask": [
+        "./data/**/*",
+        "./Metric_Graph_Research_Data/data/manifest.json",
+        "./Metric_Graph_Research_Data/data/validation_report.json",
+        "./Metric_Graph_Research_Data/data/frame_index.json",
+      ],
+      "/api/cell-matrices": [
+        "./data/**/*",
+        "./Metric_Graph_Research_Data/data/**/*",
+      ],
     },
   },
   async headers() {
