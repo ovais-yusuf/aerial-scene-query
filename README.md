@@ -108,3 +108,70 @@ npm run typecheck
 npm run build
 npm start
 ```
+
+## Python analysis and research exports
+
+The website includes Pedestrian Flow, Crowd Density and Proximity, and Cell
+Matrices views. The Cell Matrices workspace also exposes frame-level proximity
+graphs. These are processed observations, not a live video feed.
+
+- `pipeline/density_grid.py`: YOLOv8 person detection, grid occupancy, pixel-space
+  proximity analysis, annotated video, and per-frame JSON. Distance-number labels
+  are removed from the video; grid counts, proximity lines, foot dots, and the
+  status banner remain. The legacy `--hide-distances` flag is accepted for
+  compatibility, but labels are always hidden.
+- `Professor_Cell_Matrices/`: original per-cell export and converter.
+- `Metric_Graph_Research_Data/`: paper-aligned graph export, source observations,
+  reproducible scripts, frame data, and validation results. Start with its
+  `README.txt` and `FIRST_FRAME_EXAMPLE.txt`.
+
+### Generate a new annotated video
+
+Use a Python environment with `ultralytics` and `opencv-python` and an appropriate
+PyTorch installation for the selected GPU. On the configured BU SCC environment:
+
+```bash
+module load miniconda
+module load academic-ml/fall-2026
+conda activate fall-2026-pyt
+python pipeline/density_grid.py \
+  --video /projectnb/ct-vehicle-bws/data/new.MP4 \
+  --out-dir /projectnb/ct-vehicle-bws/runs/density_no_distance_labels
+```
+
+Run in an allocated compatible GPU session (the project uses `-l gpu_c=7.5`
+when requesting a GPU). Override `--video` and `--out-dir` for another machine.
+Use a new output directory for each run; existing outputs are not overwritten.
+The script writes `annotated_proximity_new.mp4` and `density_results_new.json`.
+Use `python pipeline/density_grid.py --help` for all options.
+
+Defaults: YOLOv8x, confidence 0.25, inference size 1280, stride 3, a 10 x 10
+occupancy grid, and a 60-pixel proximity threshold. This script uses detection
+only, with no ByteTrack identities. It retains the original inclusive `<=`
+threshold; the graph exporter below follows the paper's strict `<` rule.
+
+### Reproduce the paper-aligned graph export
+
+Python 3.9+ and the standard library are sufficient for the graph scripts:
+
+```bash
+cd Metric_Graph_Research_Data
+python build_metric_graphs.py grid_source.json regenerated_data
+python validate_export.py regenerated_data
+```
+
+For a new clip, pass its generated JSON as the first argument instead. A new
+analysis run does not automatically replace the web application's datasets or
+hosted video. Integrate and verify them explicitly before publishing new results.
+
+The committed 589-frame dataset contains 58,900 cell records. Neighboring-cell
+search matched all-pairs results using 51,310 versus 142,196 pair-distance
+comparisons (63.9% fewer). This is a comparison-count result for this dataset,
+not a measured runtime speedup or detection-accuracy score. No pair was exactly
+60 pixels apart, so `<60` and `<=60` produced the same flags in that export.
+
+Distances use estimated box-bottom-center points in original image pixels.
+Detection labels and component IDs in the density/graph data are frame-local.
+Physical calibration, uncertainty-certified labels, persistent-pair exposure,
+and collision prediction are not implemented by these exports. Close pairs
+are geometric flags, not confirmed emergencies.

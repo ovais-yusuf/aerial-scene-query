@@ -9,3 +9,7 @@ coverage/
 *.tsbuildinfo
 /annotated.mp4
 Grid Outputs/
+
+# Python analysis caches
+__pycache__/
+*.py[cod]
