@@ -123,10 +123,8 @@ export function Dashboard({
               </p>
             </div>
           </div>
-          <div className="hidden items-center gap-3 font-mono text-[9px] uppercase tracking-[0.13em] text-muted md:flex">
-            <span>Built by Ovais Yusuf</span>
-            <span className="h-px w-8 bg-line" />
-            <span>MSc Capstone / Research Prototype</span>
+          <div className="hidden font-mono text-[9px] uppercase tracking-[0.13em] text-muted md:block">
+            MSc Capstone / Research Prototype
           </div>
         </header>
 
@@ -143,9 +141,6 @@ export function Dashboard({
               Computer vision, multi object tracking, and language models
               combined to analyze movement and query aerial traffic scenes in
               plain language.
-            </p>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.13em] text-muted">
-              Built by Ovais Yusuf
             </p>
             <button
               type="button"

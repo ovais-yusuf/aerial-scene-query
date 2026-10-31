@@ -1,6 +1,14 @@
 "use client";
 
-import { FormEvent, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
+
+import { AnswerText } from "@/components/answer-text";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -8,180 +16,349 @@ const EXAMPLE_QUESTIONS = [
   "Which entrance was busiest?",
   "How many frames had proximity alerts?",
   "What triggers a proximity alert?",
-  "Why use feet positions?",
-  "Does the grid size affect alerts?",
   "What are the current limitations?",
 ];
+
+const SOURCES = ["results.json", "grid.json", "cell matrices", "HOW_IT_WORKS.md"];
 
 export function SceneCopilot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [question, setQuestion] = useState("");
   const [isAsking, setIsAsking] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [showSources, setShowSources] = useState(false);
 
-  async function ask(rawQuestion: string) {
-    const cleaned = rawQuestion.trim();
-    if (!cleaned || isAsking) return;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-    setMessages((current) => [...current, { role: "user", content: cleaned }]);
-    setQuestion("");
-    setIsAsking(true);
+  const hasConversation = messages.length > 0;
 
-    try {
-      const response = await fetch("/api/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: cleaned }),
-      });
-      let payload: { answer?: string; error?: string } = {};
+  const updateLastAssistant = useCallback((content: string) => {
+    setMessages((current) => {
+      if (current.length === 0) return current;
+      const next = current.slice();
+      next[next.length - 1] = { role: "assistant", content };
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    const node = scrollRef.current;
+    if (!node) return;
+    node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
+  }, [messages, isAsking]);
+
+  const ask = useCallback(
+    async (rawQuestion: string) => {
+      const cleaned = rawQuestion.trim();
+      if (!cleaned || isAsking) return;
+
+      setMessages((current) => [
+        ...current,
+        { role: "user", content: cleaned },
+        { role: "assistant", content: "" },
+      ]);
+      setQuestion("");
+      setIsAsking(true);
+
+      const controller = new AbortController();
+      abortRef.current = controller;
+      let streamed = "";
+
       try {
-        payload = (await response.json()) as { answer?: string; error?: string };
-      } catch {
-        payload = {};
-      }
-      if (!response.ok) {
-        setMessages((current) => [
-          ...current,
-          {
-            role: "assistant",
-            content:
-              payload.error ??
+        const response = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: cleaned }),
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          let payload: { error?: string } = {};
+          try {
+            payload = (await response.json()) as { error?: string };
+          } catch {
+            payload = {};
+          }
+          updateLastAssistant(
+            payload.error ??
               (response.status === 404
                 ? "Scene Copilot API was not found. Restart the dev server (npm run dev) and try again."
                 : "The Scene Copilot could not answer right now. Please try again."),
-          },
-        ]);
-        return;
+          );
+          return;
+        }
+
+        if (!response.body) {
+          updateLastAssistant("The Scene Copilot could not respond.");
+          return;
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          streamed += decoder.decode(value, { stream: true });
+          updateLastAssistant(streamed);
+        }
+        streamed += decoder.decode();
+
+        if (!streamed.trim()) {
+          updateLastAssistant(
+            "The analysis did not produce an answer for that question.",
+          );
+        } else {
+          updateLastAssistant(streamed);
+        }
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          if (!streamed.trim()) updateLastAssistant("Stopped.");
+        } else {
+          updateLastAssistant(
+            "The Scene Copilot could not connect. Please try again.",
+          );
+        }
+      } finally {
+        setIsAsking(false);
+        abortRef.current = null;
+        textareaRef.current?.focus();
       }
-      setMessages((current) => [
-        ...current,
-        {
-          role: "assistant",
-          content:
-            payload.answer ??
-            payload.error ??
-            "The Scene Copilot could not respond.",
-        },
-      ]);
-    } catch {
-      setMessages((current) => [
-        ...current,
-        {
-          role: "assistant",
-          content: "The Scene Copilot could not connect. Please try again.",
-        },
-      ]);
-    } finally {
-      setIsAsking(false);
-      inputRef.current?.focus();
+    },
+    [isAsking, updateLastAssistant],
+  );
+
+  function stop() {
+    abortRef.current?.abort();
+  }
+
+  function reset() {
+    if (isAsking) return;
+    setMessages([]);
+    setQuestion("");
+    textareaRef.current?.focus();
+  }
+
+  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      void ask(question);
     }
   }
 
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    void ask(question);
+  function autoGrow(element: HTMLTextAreaElement) {
+    element.style.height = "auto";
+    element.style.height = `${Math.min(element.scrollHeight, 120)}px`;
   }
 
   return (
     <section
-      className="instrument-border flex min-h-[460px] flex-col bg-paper"
+      className="instrument-border flex min-h-[520px] flex-col bg-paper"
       aria-labelledby="copilot-heading"
     >
-      <div className="bg-ink p-5 text-white">
+      <header className="bg-ink px-5 py-4 text-white">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="grid h-8 w-8 place-items-center bg-crimson text-sm">
-              ✦
+            <span className="grid h-7 w-7 place-items-center bg-crimson text-[11px] font-bold">
+              SC
             </span>
-            <h3 id="copilot-heading" className="font-extrabold">
-              Scene Copilot
-            </h3>
+            <div>
+              <h3 id="copilot-heading" className="text-sm font-bold leading-tight">
+                Scene Copilot
+              </h3>
+              <p className="text-[11px] leading-tight text-white/55">
+                Grounded in this scene&apos;s results, not the raw video
+              </p>
+            </div>
           </div>
-          <span className="border border-white/20 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-white/70">
-            Evidence only
+          {hasConversation && (
+            <button
+              type="button"
+              onClick={reset}
+              disabled={isAsking}
+              className="shrink-0 rounded-sm border border-white/20 px-2.5 py-1 text-[11px] text-white/70 transition hover:border-white/40 hover:text-white disabled:opacity-40"
+            >
+              New chat
+            </button>
+          )}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setShowSources((value) => !value)}
+          aria-expanded={showSources}
+          className="mt-3 flex items-center gap-1.5 text-[11px] text-white/45 transition hover:text-white/70"
+        >
+          <span>Data sources</span>
+          <span
+            className={`transition-transform ${showSources ? "rotate-90" : ""}`}
+            aria-hidden="true"
+          >
+            ›
           </span>
-        </div>
-        <p className="mt-3 text-xs leading-5 text-white/60">
-          One assistant for both tabs. Answers use pedestrian flow results,
-          crowd density and proximity metrics, and methodology notes. The
-          copilot does not inspect video directly.
-        </p>
-        <div className="mt-3 flex flex-wrap gap-1.5 font-mono text-[8px] uppercase tracking-[0.08em] text-white/60">
-          <span className="bg-white/10 px-2 py-1">LLM, GPT 4o mini</span>
-          <span className="bg-white/10 px-2 py-1">results.json</span>
-          <span className="bg-white/10 px-2 py-1">grid.json</span>
-          <span className="bg-white/10 px-2 py-1">HOW_IT_WORKS.md</span>
-        </div>
-      </div>
+        </button>
+        {showSources && (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {SOURCES.map((source) => (
+              <span
+                key={source}
+                className="bg-white/10 px-2 py-0.5 font-mono text-[10px] text-white/60"
+              >
+                {source}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
 
       <div
-        className="flex max-h-64 flex-1 flex-col gap-2 overflow-y-auto p-4"
+        ref={scrollRef}
+        className="flex flex-1 flex-col gap-3 overflow-y-auto p-4"
         aria-live="polite"
       >
-        {messages.length === 0 ? (
-          <p className="border-l-2 border-crimson bg-[#F2F0EB] p-3 text-xs leading-5 text-muted">
-            Ask about entry counts, proximity alerts, grid occupancy, or how
-            detection, tracking, and the pairwise proximity method work. Proximity
-            alerts are not proof of an emergency. If it is not in the evidence,
-            I will say so.
-          </p>
-        ) : (
-          messages.map((message, index) => (
-            <div
-              key={`${message.role}-${index}`}
-              className={`max-w-[92%] border px-3 py-2 text-xs leading-5 ${
-                message.role === "user"
-                  ? "ml-auto border-ink bg-ink text-white"
-                  : "border-line bg-white text-ink"
-              }`}
-            >
-              {message.content}
+        {!hasConversation ? (
+          <div className="flex flex-1 flex-col">
+            <p className="text-[13px] leading-6 text-muted">
+              Ask about entry counts, proximity alerts, grid occupancy, or how
+              detection, tracking, and the pairwise proximity method work. If an
+              answer is not in the evidence, the copilot will say so. Proximity
+              alerts are not proof of an emergency.
+            </p>
+            <div className="mt-auto pt-6">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted/70">
+                Try asking
+              </p>
+              <div className="flex flex-col gap-1.5">
+                {EXAMPLE_QUESTIONS.map((example) => (
+                  <button
+                    key={example}
+                    type="button"
+                    onClick={() => void ask(example)}
+                    className="group flex items-center justify-between gap-2 border border-line bg-white px-3 py-2.5 text-left text-[13px] font-medium text-ink transition hover:border-crimson"
+                  >
+                    <span>{example}</span>
+                    <span
+                      className="text-muted transition group-hover:translate-x-0.5 group-hover:text-crimson"
+                      aria-hidden="true"
+                    >
+                      ›
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-          ))
-        )}
-        {isAsking && (
-          <p className="font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
-            Reading scene evidence…
-          </p>
+          </div>
+        ) : (
+          messages.map((message, index) => {
+            const isLast = index === messages.length - 1;
+            const streaming =
+              isLast && isAsking && message.role === "assistant";
+
+            if (message.role === "user") {
+              return (
+                <div key={`user-${index}`} className="flex justify-end">
+                  <div className="max-w-[88%] bg-ink px-3 py-2 text-[13px] leading-6 text-white">
+                    {message.content}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div key={`assistant-${index}`} className="flex flex-col gap-1">
+                <div className="max-w-[94%] border border-line bg-white px-3.5 py-3">
+                  {message.content ? (
+                    <AnswerText text={message.content} />
+                  ) : streaming ? (
+                    <TypingDots />
+                  ) : null}
+                </div>
+                {message.content && !streaming && (
+                  <CopyButton text={message.content} />
+                )}
+              </div>
+            );
+          })
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-2 border-t border-line p-4">
-        {EXAMPLE_QUESTIONS.map((example) => (
-          <button
-            key={example}
-            type="button"
-            onClick={() => void ask(example)}
-            disabled={isAsking}
-            className="min-h-10 border border-line bg-white px-2 py-2 text-left text-[11px] font-semibold leading-4 transition hover:border-crimson hover:text-crimson disabled:opacity-50"
-          >
-            {example}
-          </button>
-        ))}
+      <div className="border-t border-line bg-white p-3">
+        <div className="flex items-end gap-2">
+          <textarea
+            ref={textareaRef}
+            value={question}
+            onChange={(event) => {
+              setQuestion(event.target.value);
+              autoGrow(event.target);
+            }}
+            onKeyDown={onKeyDown}
+            rows={1}
+            maxLength={500}
+            placeholder="Ask about this scene"
+            aria-label="Question for Scene Copilot"
+            className="max-h-[120px] min-h-[40px] min-w-0 flex-1 resize-none bg-transparent px-1 py-2 text-sm leading-6 outline-none placeholder:text-muted/60"
+          />
+          {isAsking ? (
+            <button
+              type="button"
+              onClick={stop}
+              aria-label="Stop generating"
+              className="grid h-10 w-10 shrink-0 place-items-center bg-ink text-white transition hover:bg-black"
+            >
+              <span className="h-3 w-3 bg-white" aria-hidden="true" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => void ask(question)}
+              disabled={!question.trim()}
+              aria-label="Send question"
+              className="grid h-10 w-10 shrink-0 place-items-center bg-crimson text-base text-white transition hover:bg-[#A70D26] disabled:bg-line disabled:text-muted"
+            >
+              <span aria-hidden="true">↑</span>
+            </button>
+          )}
+        </div>
       </div>
-
-      <form
-        onSubmit={submit}
-        className="flex border-t border-line bg-white p-3"
-      >
-        <input
-          ref={inputRef}
-          value={question}
-          onChange={(event) => setQuestion(event.target.value)}
-          maxLength={500}
-          placeholder="Question this scene…"
-          aria-label="Question for Scene Copilot"
-          className="min-w-0 flex-1 bg-transparent px-2 text-sm outline-none placeholder:text-muted/60"
-        />
-        <button
-          type="submit"
-          disabled={!question.trim() || isAsking}
-          aria-label="Send question"
-          className="grid h-10 w-10 place-items-center bg-crimson text-white transition hover:bg-[#A70D26] disabled:bg-line disabled:text-muted"
-        >
-          →
-        </button>
-      </form>
     </section>
+  );
+}
+
+function TypingDots() {
+  return (
+    <span className="flex items-center gap-1 py-1" aria-label="Reading scene evidence">
+      {[0, 1, 2].map((dot) => (
+        <span
+          key={dot}
+          className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted"
+          style={{ animationDelay: `${dot * 160}ms` }}
+        />
+      ))}
+    </span>
+  );
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      className="self-start text-[11px] text-muted/70 transition hover:text-crimson"
+    >
+      {copied ? "Copied" : "Copy"}
+    </button>
   );
 }

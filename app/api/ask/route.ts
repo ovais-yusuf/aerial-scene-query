@@ -37,7 +37,9 @@ Metric graph export (source 3), Cell matrices tab:
 - Localized vs all-pairs comparison counts are not a measured runtime speedup.
 - Validation is numerical consistency with supplied coordinates, not detection accuracy or physical safety.
 
-Do not claim proximity alerts prove emergencies or a validated safe standoff distance. Walking parallel does not exempt pairs; collision prediction is not implemented. Keep pipelines separate. Be concise and factual. Do not use em dashes, en dashes, or hyphenated asides in your answers; use short sentences instead.`;
+Do not claim proximity alerts prove emergencies or a validated safe standoff distance. Walking parallel does not exempt pairs; collision prediction is not implemented. Keep pipelines separate. Be concise and factual.
+
+Formatting: write in plain sentences. You may use short bullet points with a leading "- " when listing several items, and **bold** for a key term, but keep it light. Never use em dashes, en dashes, or hyphenated asides. Use separate short sentences instead.`;
 
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 8;
@@ -85,7 +87,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "You’ve reached the question limit for this minute. Please wait briefly and try again.",
+          "You have reached the question limit for this minute. Please wait briefly and try again.",
       },
       { status: 429 },
     );
@@ -119,6 +121,10 @@ export async function POST(request: NextRequest) {
 
   const apiKey = process.env.OPENAI_API_KEY.trim();
 
+  let openaiStream: AsyncIterable<{
+    choices: { delta?: { content?: string | null } }[];
+  }>;
+
   try {
     const [results, grid, metricGraph, methodology] = await Promise.all([
       loadResults().then(compactResults),
@@ -127,10 +133,11 @@ export async function POST(request: NextRequest) {
       loadHowItWorks(),
     ]);
     const openai = new OpenAI({ apiKey });
-    const completion = await openai.chat.completions.create({
+    openaiStream = (await openai.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: 0.2,
       max_tokens: 450,
+      stream: true,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         {
@@ -152,12 +159,9 @@ export async function POST(request: NextRequest) {
           ].join("\n"),
         },
       ],
-    });
-
-    const answer = completion.choices[0]?.message.content?.trim();
-    return NextResponse.json({
-      answer: answer || "The analysis did not produce an answer for that question.",
-    });
+    })) as unknown as AsyncIterable<{
+      choices: { delta?: { content?: string | null } }[];
+    }>;
   } catch (error) {
     console.error("Scene Copilot request failed", error);
     return NextResponse.json(
@@ -165,4 +169,28 @@ export async function POST(request: NextRequest) {
       { status: 500 },
     );
   }
+
+  const encoder = new TextEncoder();
+  const readable = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        for await (const chunk of openaiStream) {
+          const delta = chunk.choices[0]?.delta?.content;
+          if (delta) controller.enqueue(encoder.encode(delta));
+        }
+      } catch (error) {
+        console.error("Scene Copilot stream interrupted", error);
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(readable, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      "X-Accel-Buffering": "no",
+    },
+  });
 }
