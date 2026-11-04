@@ -162,3 +162,25 @@ test('exact conversation from a text-only browser session restores and revalidat
  assert.ok(context.resolveQueryFollowup(request.question,context.restorePreviousQuery({content:'Proximity alerts use pixel distances.'},key,d),zones).answer);
  assert.ok(context.resolveQueryFollowup(request.question,context.restorePreviousQuery(undefined,key,d),zones).answer);
 });
+
+test('pending text-only clarification accepts total then sequence and preserves validated parameters',async()=>{
+ const d=await engine.readDataset(),zones=Object.keys(d.metadata.zones);
+ const question='How many people stayed in the tunnel for more than five seconds?';
+ const history=flow.validateConversation([{role:'user',content:question},{role:'assistant',content:'Do you mean total observed time in the zone, or one observed sequence?'}]);
+ const pending=context.restorePendingDuration(history,zones);
+ assert.deepEqual(pending,{operation:'zone_occupancy_duration',zone:'TUNNEL',threshold_seconds:5,comparison:'gt'});
+ for(const reply of ['total','in total','total observed time']) {
+  const resolved=context.resolveQueryFollowup(reply,pending,zones);
+  const result=engine.executeQuery(d,resolved.query);assert.equal(result.count,25);
+  const completed=context.restorePreviousQuery({content:flow.explainEvidence(result)},'test-key',d);
+  const next=context.resolveQueryFollowup('What about one observed sequence?',completed,zones);
+  assert.deepEqual(next.query,{...pending,mode:'longest_observed_sequence'});
+  assert.equal(engine.executeQuery(d,next.query).count,17);
+ }
+ for(const reply of ['sequence','observed sequence','one sequence','one observed sequence','longest observed sequence'])assert.equal(engine.executeQuery(d,context.resolveQueryFollowup(reply,pending,zones).query).count,17);
+ assert.deepEqual(context.resolveQueryFollowup('total for at least eight seconds in LEFT',pending,zones).query,{...pending,zone:'LEFT',threshold_seconds:8,comparison:'gte',mode:'total_observed'});
+ assert.equal(context.restorePendingDuration([...history,{role:'user',content:'What triggers alerts?'},{role:'assistant',content:'Pixel proximity.'}],zones),undefined);
+ assert.equal(context.restorePendingDuration([],zones),undefined);
+ for(const text of ['How many people stayed in the hallway for more than five seconds?','How many people stayed in the tunnel for more than -5 seconds?','How many people stayed in the tunnel for five seconds?'])assert.equal(context.parsePendingDuration(text,zones),undefined);
+ assert.ok(context.resolveQueryFollowup('total',undefined,zones).answer);
+});

@@ -9,7 +9,7 @@ import { compactResults, loadResults } from "@/lib/results";
 import { DataError, QueryError, executeQuery, loadTrajectoryDataset } from "@/lib/trajectory-engine";
 import { DURATION_CLARIFICATION, explainEvidence, unsupportedBeforeInterpretation, clarificationBeforeInterpretation, interpretationTool, interpretToolCall, TRAJECTORY_INSTRUCTIONS, validateConversation, type ConversationMessage } from "@/lib/trajectory-copilot";
 
-import { mayHavePreviousQuery, resolveQueryFollowup, restorePreviousQuery, signQueryContext } from "@/lib/query-context";
+import { parsePendingDuration, restorePendingDuration, mayHavePreviousQuery, resolveQueryFollowup, restorePreviousQuery, signQueryContext } from "@/lib/query-context";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
   if (unsupported) return NextResponse.json({answer:unsupported});
 
   const clarification = clarificationBeforeInterpretation(cleanedQuestion, history!);
-  if (clarification) return NextResponse.json({answer:clarification});
+
 
   if (!process.env.OPENAI_API_KEY?.trim()) {
     return NextResponse.json(
@@ -136,14 +136,17 @@ export async function POST(request: NextRequest) {
 
   try {
     const last = history![history!.length - 1];
-    const needsDataset = mayHavePreviousQuery(last) || resolveQueryFollowup(cleanedQuestion, undefined, []) !== undefined;
+    const needsDataset = Boolean(clarification) || last?.content.startsWith("Do you mean total observed time in the zone, or one observed sequence?") || mayHavePreviousQuery(last) || resolveQueryFollowup(cleanedQuestion, undefined, []) !== undefined;
     const dataset = needsDataset ? await loadTrajectoryDataset() : undefined;
     const zones = dataset ? Object.keys(dataset.metadata.zones) : [];
-    const previous = dataset ? restorePreviousQuery(last, apiKey, dataset) : undefined;
+    if (clarification) {
+      const pendingQuery = parsePendingDuration(cleanedQuestion, zones);
+      return NextResponse.json({answer:clarification, ...(pendingQuery ? {pendingQuery} : {})});
+    }
+    const previous = (dataset ? restorePreviousQuery(last, apiKey, dataset) : undefined) ?? restorePendingDuration(history!, zones);
     const followup = resolveQueryFollowup(cleanedQuestion, previous, zones);
     // The initial clarification still uses the existing user-question/tool path.
-    const pendingClarification = last?.content === DURATION_CLARIFICATION;
-    if (followup && !pendingClarification) {
+    if (followup) {
       if (!followup.query) return NextResponse.json({answer:followup.answer});
       const evidence = executeQuery(dataset ?? await loadTrajectoryDataset(), followup.query);
       const answer = explainEvidence(evidence);

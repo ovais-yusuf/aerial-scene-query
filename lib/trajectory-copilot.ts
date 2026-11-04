@@ -55,8 +55,8 @@ export function explainEvidence(e: Evidence): string {
 
 export const DURATION_CLARIFICATION = "Do you mean total observed time in the zone, or one observed sequence? Missing or outside observations break a sequence.";
 export function explicitDurationMode(text: string): "total_observed" | "longest_observed_sequence" | undefined {
-  if (/\b(in total|total observed|total time|total duration|cumulative|altogether)\b/i.test(text)) return "total_observed";
-  if (/\b(one (observed )?sequence|longest (observed )?sequence|single (observed )?sequence|uninterrupted|continuously|consecutive)\b/i.test(text)) return "longest_observed_sequence";
+  if (/\b(total|in total|total observed|total time|total duration|cumulative|altogether)\b/i.test(text)) return "total_observed";
+  if (/\b(sequence|observed sequence|one (observed )?sequence|longest (observed )?sequence|single (observed )?sequence|uninterrupted|continuously|consecutive)\b/i.test(text)) return "longest_observed_sequence";
 }
 export function durationContext(question: string, history: ConversationMessage[]): {text:string;mode:ReturnType<typeof explicitDurationMode>} {
   // Resolve only short, explicit follow-ups to the immediately preceding clarification.
