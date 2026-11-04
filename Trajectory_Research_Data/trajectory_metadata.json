@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "video": "/projectnb/ct-vehicle-bws/data/still.mov",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "source_fps": 29.966120835686052,
+  "video_stride": 3,
+  "source_index_base": 0,
+  "timestamp_method": "source_frame_index / source_fps, nominal playback time; not camera timestamps",
+  "sampling": "source indices stride-1, 2*stride-1, ...",
+  "zones": {
+    "TUNNEL": [
+      900,
+      300,
+      1100,
+      420
+    ],
+    "TRAIN PATH": [
+      600,
+      250,
+      1500,
+      330
+    ],
+    "LEFT": [
+      0,
+      400,
+      200,
+      600
+    ],
+    "RIGHT": [
+      1550,
+      480,
+      1920,
+      760
+    ]
+  },
+  "zone_boundary_rule": "inclusive; memberships can overlap",
+  "entry_origin_position": "integer box center; first 20 processed frames count as ALREADY PRESENT",
+  "dwell_position": "float box bottom center; manually inspect whether legacy zones fit these foot points",
+  "count_filter": {
+    "minimum_observations": 15,
+    "minimum_center_path_px": 60
+  },
+  "model": "yolov8x.pt",
+  "confidence_threshold": 0.25,
+  "image_size": 1280,
+  "tracker": "bytetrack",
+  "frames_processed": 589,
+  "raw_track_count": 130,
+  "completed": true,
+  "limitations": [
+    "No camera-motion compensation or physical calibration",
+    "No interpolation across unobserved samples",
+    "All trajectories retained even if excluded by counting filter",
+    "Detector confidence is not confidence in identity or query answer"
+  ]
+}

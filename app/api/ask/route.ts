@@ -6,6 +6,11 @@ import { compactGridResults } from "@/lib/grid";
 import { loadHowItWorks } from "@/lib/how-it-works";
 import { compactResults, loadResults } from "@/lib/results";
 
+import { DataError, QueryError, executeQuery, loadTrajectoryDataset } from "@/lib/trajectory-engine";
+import { DURATION_CLARIFICATION, explainEvidence, unsupportedBeforeInterpretation, clarificationBeforeInterpretation, interpretationTool, interpretToolCall, TRAJECTORY_INSTRUCTIONS, validateConversation, type ConversationMessage } from "@/lib/trajectory-copilot";
+
+import { mayHavePreviousQuery, resolveQueryFollowup, restorePreviousQuery, signQueryContext } from "@/lib/query-context";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -19,7 +24,7 @@ General rules:
 
 Pedestrian flow pipeline (source 1):
 - ByteTrack tracking, unique track IDs, zone entry origins.
-- counts = unique people credited to each ENTRY ORIGIN zone; ALREADY PRESENT = visible at start (origin unobserved).
+- counts = filtered track IDs assigned by first appearance to each ENTRY ORIGIN zone; ALREADY PRESENT = first sightings in the first 20 processed frames (origin unobserved).
 - Counts are approximate. Mention manual ground truth range when relevant.
 - Do not sum per frame detections into unique person totals.
 
@@ -92,8 +97,12 @@ export async function POST(request: NextRequest) {
   }
 
   let question: unknown;
+  let history: ConversationMessage[];
   try {
-    ({ question } = (await request.json()) as { question?: unknown });
+    const body = await request.json();
+    question = body.question;
+    history = validateConversation(body.messages ?? []);
+    if (history.length && history[history.length-1].role !== "assistant") throw new QueryError("History must end with an assistant reply.");
   } catch {
     return NextResponse.json({ error: "Please send a valid question." }, { status: 400 });
   }
@@ -110,6 +119,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const unsupported = unsupportedBeforeInterpretation(cleanedQuestion, history!);
+  if (unsupported) return NextResponse.json({answer:unsupported});
+
+  const clarification = clarificationBeforeInterpretation(cleanedQuestion, history!);
+  if (clarification) return NextResponse.json({answer:clarification});
+
   if (!process.env.OPENAI_API_KEY?.trim()) {
     return NextResponse.json(
       { error: "The Scene Copilot is not configured yet." },
@@ -120,19 +135,47 @@ export async function POST(request: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY.trim();
 
   try {
+    const last = history![history!.length - 1];
+    const needsDataset = mayHavePreviousQuery(last) || resolveQueryFollowup(cleanedQuestion, undefined, []) !== undefined;
+    const dataset = needsDataset ? await loadTrajectoryDataset() : undefined;
+    const zones = dataset ? Object.keys(dataset.metadata.zones) : [];
+    const previous = dataset ? restorePreviousQuery(last, apiKey, dataset) : undefined;
+    const followup = resolveQueryFollowup(cleanedQuestion, previous, zones);
+    // The initial clarification still uses the existing user-question/tool path.
+    const pendingClarification = last?.content === DURATION_CLARIFICATION;
+    if (followup && !pendingClarification) {
+      if (!followup.query) return NextResponse.json({answer:followup.answer});
+      const evidence = executeQuery(dataset ?? await loadTrajectoryDataset(), followup.query);
+      const answer = explainEvidence(evidence);
+      return NextResponse.json({answer, evidence, queryContext:signQueryContext(evidence.query, answer, apiKey)});
+    }
+    const openai = new OpenAI({ apiKey, timeout: 30_000, maxRetries: 1 });
+    const interpretation = await openai.chat.completions.create({
+      model: "gpt-4o-mini", temperature: 0, max_tokens: 650,
+      tools: [interpretationTool], tool_choice: "required", parallel_tool_calls: false,
+      messages: [{role:"system",content:TRAJECTORY_INSTRUCTIONS}, ...history!.map(({role,content})=>({role,content})), {role:"user",content:cleanedQuestion}],
+    });
+    const calls = interpretation.choices[0]?.message.tool_calls;
+    if (!calls || calls.length !== 1) throw new QueryError("The interpreter did not return one supported action. Please rephrase.");
+    let action: unknown;
+    try { action = JSON.parse(calls[0].function.arguments)?.action; } catch { throw new QueryError("Malformed tool arguments."); }
+    const outcome = interpretToolCall(calls[0], action === "query" ? await loadTrajectoryDataset() : undefined, {question:cleanedQuestion,history:history!});
+    if (!outcome.methodology) return NextResponse.json({ ...outcome,
+      ...(outcome.evidence && outcome.answer ? {queryContext:signQueryContext(outcome.evidence.query, outcome.answer, apiKey)} : {}),
+    });
     const [results, grid, metricGraph, methodology] = await Promise.all([
       loadResults().then(compactResults),
       compactGridResults(),
       compactMetricGraphEvidence(),
       loadHowItWorks(),
     ]);
-    const openai = new OpenAI({ apiKey });
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: 0.2,
       max_tokens: 450,
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: "system", content: SYSTEM_PROMPT + "\nThis request is methodology or another workspace. Do not calculate trajectory query answers without executing a validated tool. Legacy ALREADY PRESENT covers first sightings in the first 20 processed frames. This run is person only. Track IDs are not guaranteed unique people." },
+        ...history!.map(({role,content})=>({role,content})),
         {
           role: "user",
           content: [
@@ -159,7 +202,9 @@ export async function POST(request: NextRequest) {
       answer: answer || "The analysis did not produce an answer for that question.",
     });
   } catch (error) {
-    console.error("Scene Copilot request failed", error);
+    if (error instanceof QueryError) return NextResponse.json({error:error.message}, {status:400});
+    if (error instanceof DataError) return NextResponse.json({error:"Trajectory evidence is unavailable or failed validation. No query result was calculated."}, {status:503});
+    console.error("Scene Copilot request failed", {type: error instanceof Error ? error.name : "UnknownError"});
     return NextResponse.json(
       { error: "The Scene Copilot could not answer right now. Please try again." },
       { status: 500 },

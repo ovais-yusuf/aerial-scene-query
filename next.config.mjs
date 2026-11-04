@@ -11,6 +11,9 @@ const nextConfig = {
         "./Metric_Graph_Research_Data/data/frame_index.json",
       ],
       "/api/ask": [
+        "./Trajectory_Research_Data/trajectories.jsonl",
+        "./Trajectory_Research_Data/trajectory_metadata.json",
+        "./Trajectory_Research_Data/results-2.json",
         "./data/**/*",
         "./Metric_Graph_Research_Data/data/manifest.json",
         "./Metric_Graph_Research_Data/data/validation_report.json",

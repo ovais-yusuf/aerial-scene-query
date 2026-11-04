@@ -2,7 +2,9 @@
 
 import { FormEvent, useRef, useState } from "react";
 
-type Message = { role: "user" | "assistant"; content: string };
+import type { Evidence } from "@/lib/trajectory-engine";
+
+type Message = { role: "user" | "assistant"; content: string; evidence?: Evidence; queryContext?: string };
 
 const EXAMPLE_QUESTIONS = [
   "Which entrance was busiest?",
@@ -31,11 +33,11 @@ export function SceneCopilot() {
       const response = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: cleaned }),
+        body: JSON.stringify({ question: cleaned, messages: messages.slice(-8).map(({role,content,queryContext})=>({role,content:content.slice(0, role === "user" ? 500 : 4000), ...(queryContext ? {queryContext} : {})})) }),
       });
-      let payload: { answer?: string; error?: string } = {};
+      let payload: { answer?: string; error?: string; evidence?: Evidence; queryContext?: string } = {};
       try {
-        payload = (await response.json()) as { answer?: string; error?: string };
+        payload = (await response.json()) as { answer?: string; error?: string; evidence?: Evidence; queryContext?: string };
       } catch {
         payload = {};
       }
@@ -61,6 +63,8 @@ export function SceneCopilot() {
             payload.answer ??
             payload.error ??
             "The Scene Copilot could not respond.",
+          evidence: payload.evidence,
+          queryContext: payload.queryContext,
         },
       ]);
     } catch {
@@ -102,8 +106,8 @@ export function SceneCopilot() {
           </span>
         </div>
         <p className="mt-3 text-xs leading-5 text-white/60">
-          One assistant for both tabs. Answers use pedestrian flow results,
-          crowd density and proximity metrics, and methodology notes. The
+          One shared assistant. Answers use pedestrian flow results,
+          crowd density and proximity metrics, exported trajectories, and methodology notes. The
           copilot does not inspect video directly.
         </p>
         <div className="mt-3 flex flex-wrap gap-1.5 font-mono text-[8px] uppercase tracking-[0.08em] text-white/60">
@@ -136,6 +140,18 @@ export function SceneCopilot() {
               }`}
             >
               {message.content}
+              {message.evidence && <details className="mt-2 border-t border-line pt-2">
+                <summary className="cursor-pointer font-semibold">Query evidence: {message.evidence.query.operation} · {message.evidence.count}</summary>
+                <p>{message.evidence.label}</p>
+                {message.evidence.query.operation === "zone_occupancy_duration" && <p>{message.evidence.query.zone} · {message.evidence.query.mode} · {message.evidence.query.comparison} {message.evidence.query.threshold_seconds} s</p>}
+                <div className="max-h-48 overflow-auto">
+                  {message.evidence.tracks?.map(t=><details key={t.track_id}><summary>Track {t.track_id}: {t.duration_seconds.toFixed(6)} s</summary>{t.intervals.map((v,i)=><p key={i}>Frames {v.start.source_frame_index}–{v.end.source_frame_index}, {v.start.timestamp_sec.toFixed(6)}–{v.end.timestamp_sec.toFixed(6)} s; {v.duration_seconds.toFixed(6)} s</p>)}</details>)}
+                  {message.evidence.frames?.map(f=><p key={f.source_frame_index}>Frame {f.source_frame_index}: {f.timestamp_sec.toFixed(6)} s</p>)}
+                  {message.evidence.origins?.map(o=><details key={o.zone}><summary>{o.zone}: {o.count}</summary>{o.tracks.map(t=><p key={t.track_id}>Track {t.track_id}: frame {t.first_observation.source_frame_index}, {t.first_observation.timestamp_sec.toFixed(6)} s</p>)}</details>)}
+                </div>
+                <p className="mt-2">{message.evidence.provenance.files.join(", ")}</p>
+                {message.evidence.limitations.map(l=><p key={l}>{l}</p>)}
+              </details>}
             </div>
           ))
         )}

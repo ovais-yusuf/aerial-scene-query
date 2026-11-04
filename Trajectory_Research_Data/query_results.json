@@ -1,0 +1,2248 @@
+{
+  "tunnel_dwell": {
+    "operation": "zone_dwell",
+    "zone": "TUNNEL",
+    "point": "foot",
+    "minimum_seconds_exclusive": 5.0,
+    "duration_definition": "Sum of intervals between consecutive sampled observations inside the zone. Missing or outside observations break intervals. No extra time for singleton observations.",
+    "caveat": "Sample-supported estimate, not proof of uninterrupted occupancy between samples.",
+    "tracks": [
+      {
+        "track_id": 1,
+        "supported_duration_sec": 8.209270774448841,
+        "intervals": [
+          {
+            "start_sec": 15.584266063689467,
+            "end_sec": 23.593310721688336,
+            "duration_sec": 8.009044657998869,
+            "first_source_frame_index": 467,
+            "last_source_frame_index": 707
+          },
+          {
+            "start_sec": 24.294102129263237,
+            "end_sec": 24.49432824571321,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 728,
+            "last_source_frame_index": 734
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 2,
+        "supported_duration_sec": 9.811079706048615,
+        "intervals": [
+          {
+            "start_sec": 8.876691162615414,
+            "end_sec": 15.98471829658941,
+            "duration_sec": 7.108027133973996,
+            "first_source_frame_index": 266,
+            "last_source_frame_index": 479
+          },
+          {
+            "start_sec": 16.98584887883927,
+            "end_sec": 16.98584887883927,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 509,
+            "last_source_frame_index": 509
+          },
+          {
+            "start_sec": 17.886866402864143,
+            "end_sec": 18.487544752214056,
+            "duration_sec": 0.6006783493499128,
+            "first_source_frame_index": 536,
+            "last_source_frame_index": 554
+          },
+          {
+            "start_sec": 18.68777086866403,
+            "end_sec": 20.790145091388734,
+            "duration_sec": 2.1023742227247055,
+            "first_source_frame_index": 560,
+            "last_source_frame_index": 623
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 3,
+        "supported_duration_sec": 4.705313736574335,
+        "intervals": [
+          {
+            "start_sec": 7.77544752214057,
+            "end_sec": 12.480761258714905,
+            "duration_sec": 4.705313736574335,
+            "first_source_frame_index": 233,
+            "last_source_frame_index": 374
+          },
+          {
+            "start_sec": 12.781100433389863,
+            "end_sec": 12.781100433389863,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 383,
+            "last_source_frame_index": 383
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 4,
+        "supported_duration_sec": 6.207009609949125,
+        "intervals": [
+          {
+            "start_sec": 10.578613152440173,
+            "end_sec": 15.083700772564537,
+            "duration_sec": 4.505087620124364,
+            "first_source_frame_index": 317,
+            "last_source_frame_index": 452
+          },
+          {
+            "start_sec": 15.484153005464481,
+            "end_sec": 16.385170529489354,
+            "duration_sec": 0.9010175240248728,
+            "first_source_frame_index": 464,
+            "last_source_frame_index": 491
+          },
+          {
+            "start_sec": 16.68550970416431,
+            "end_sec": 17.286188053514227,
+            "duration_sec": 0.6006783493499164,
+            "first_source_frame_index": 500,
+            "last_source_frame_index": 518
+          },
+          {
+            "start_sec": 17.586527228189183,
+            "end_sec": 17.786753344639155,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 527,
+            "last_source_frame_index": 533
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 5,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 6,
+        "supported_duration_sec": 5.205879027699265,
+        "intervals": [
+          {
+            "start_sec": 11.88008290936499,
+            "end_sec": 14.78336159788958,
+            "duration_sec": 2.9032786885245905,
+            "first_source_frame_index": 356,
+            "last_source_frame_index": 443
+          },
+          {
+            "start_sec": 14.983587714339553,
+            "end_sec": 15.584266063689467,
+            "duration_sec": 0.6006783493499146,
+            "first_source_frame_index": 449,
+            "last_source_frame_index": 467
+          },
+          {
+            "start_sec": 15.78449218013944,
+            "end_sec": 16.385170529489354,
+            "duration_sec": 0.6006783493499146,
+            "first_source_frame_index": 473,
+            "last_source_frame_index": 491
+          },
+          {
+            "start_sec": 16.7856227623893,
+            "end_sec": 17.4864141699642,
+            "duration_sec": 0.7007914075749007,
+            "first_source_frame_index": 503,
+            "last_source_frame_index": 524
+          },
+          {
+            "start_sec": 17.68664028641417,
+            "end_sec": 18.087092519314115,
+            "duration_sec": 0.40045223289994425,
+            "first_source_frame_index": 530,
+            "last_source_frame_index": 542
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 7,
+        "supported_duration_sec": 4.104635387224421,
+        "intervals": [
+          {
+            "start_sec": 0.06674203881665725,
+            "end_sec": 4.171377426041078,
+            "duration_sec": 4.104635387224421,
+            "first_source_frame_index": 2,
+            "last_source_frame_index": 125
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 8,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 9,
+        "supported_duration_sec": 5.606331260599209,
+        "intervals": [
+          {
+            "start_sec": 0.06674203881665725,
+            "end_sec": 5.07239495006595,
+            "duration_sec": 5.005652911249293,
+            "first_source_frame_index": 2,
+            "last_source_frame_index": 152
+          },
+          {
+            "start_sec": 5.2726210665159225,
+            "end_sec": 5.773186357640852,
+            "duration_sec": 0.5005652911249294,
+            "first_source_frame_index": 158,
+            "last_source_frame_index": 173
+          },
+          {
+            "start_sec": 6.073525532315809,
+            "end_sec": 6.173638590540795,
+            "duration_sec": 0.10011305822498606,
+            "first_source_frame_index": 182,
+            "last_source_frame_index": 185
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 10,
+        "supported_duration_sec": 3.8042962125494704,
+        "intervals": [
+          {
+            "start_sec": 31.70246843791219,
+            "end_sec": 31.80258149613718,
+            "duration_sec": 0.10011305822498784,
+            "first_source_frame_index": 950,
+            "last_source_frame_index": 953
+          },
+          {
+            "start_sec": 32.90382513661202,
+            "end_sec": 33.904955718861885,
+            "duration_sec": 1.0011305822498642,
+            "first_source_frame_index": 986,
+            "last_source_frame_index": 1016
+          },
+          {
+            "start_sec": 34.60574712643678,
+            "end_sec": 37.10857358206143,
+            "duration_sec": 2.50282645562465,
+            "first_source_frame_index": 1037,
+            "last_source_frame_index": 1112
+          },
+          {
+            "start_sec": 37.509025814961376,
+            "end_sec": 37.709251931411345,
+            "duration_sec": 0.20022611644996857,
+            "first_source_frame_index": 1124,
+            "last_source_frame_index": 1130
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 11,
+        "supported_duration_sec": 11.913453928773318,
+        "intervals": [
+          {
+            "start_sec": 3.8710382513661203,
+            "end_sec": 11.980195967589976,
+            "duration_sec": 8.109157716223855,
+            "first_source_frame_index": 116,
+            "last_source_frame_index": 359
+          },
+          {
+            "start_sec": 12.280535142264933,
+            "end_sec": 13.782231015639722,
+            "duration_sec": 1.5016958733747892,
+            "first_source_frame_index": 368,
+            "last_source_frame_index": 413
+          },
+          {
+            "start_sec": 14.382909364989636,
+            "end_sec": 15.98471829658941,
+            "duration_sec": 1.6018089315997734,
+            "first_source_frame_index": 431,
+            "last_source_frame_index": 479
+          },
+          {
+            "start_sec": 16.184944413039382,
+            "end_sec": 16.885735820614283,
+            "duration_sec": 0.7007914075749007,
+            "first_source_frame_index": 485,
+            "last_source_frame_index": 506
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 12,
+        "supported_duration_sec": 15.617637083097792,
+        "intervals": [
+          {
+            "start_sec": 7.074656114565668,
+            "end_sec": 15.98471829658941,
+            "duration_sec": 8.910062182023742,
+            "first_source_frame_index": 212,
+            "last_source_frame_index": 479
+          },
+          {
+            "start_sec": 16.7856227623893,
+            "end_sec": 21.09048426606369,
+            "duration_sec": 4.304861503674392,
+            "first_source_frame_index": 503,
+            "last_source_frame_index": 632
+          },
+          {
+            "start_sec": 21.290710382513662,
+            "end_sec": 21.290710382513662,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 638,
+            "last_source_frame_index": 638
+          },
+          {
+            "start_sec": 21.490936498963634,
+            "end_sec": 22.49206708121349,
+            "duration_sec": 1.001130582249857,
+            "first_source_frame_index": 644,
+            "last_source_frame_index": 674
+          },
+          {
+            "start_sec": 22.79240625588845,
+            "end_sec": 23.192858488788392,
+            "duration_sec": 0.4004522328999407,
+            "first_source_frame_index": 683,
+            "last_source_frame_index": 695
+          },
+          {
+            "start_sec": 23.393084605238364,
+            "end_sec": 24.193989071038253,
+            "duration_sec": 0.8009044657998885,
+            "first_source_frame_index": 701,
+            "last_source_frame_index": 725
+          },
+          {
+            "start_sec": 24.49432824571321,
+            "end_sec": 24.69455436216318,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 734,
+            "last_source_frame_index": 740
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 13,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 14,
+        "supported_duration_sec": 4.404974561899378,
+        "intervals": [
+          {
+            "start_sec": 0.06674203881665725,
+            "end_sec": 2.8699076691162615,
+            "duration_sec": 2.8031656302996044,
+            "first_source_frame_index": 2,
+            "last_source_frame_index": 86
+          },
+          {
+            "start_sec": 3.070133785566233,
+            "end_sec": 3.8710382513661203,
+            "duration_sec": 0.8009044657998872,
+            "first_source_frame_index": 92,
+            "last_source_frame_index": 116
+          },
+          {
+            "start_sec": 4.0712643678160925,
+            "end_sec": 4.772055775390993,
+            "duration_sec": 0.7007914075749007,
+            "first_source_frame_index": 122,
+            "last_source_frame_index": 143
+          },
+          {
+            "start_sec": 5.07239495006595,
+            "end_sec": 5.07239495006595,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 152,
+            "last_source_frame_index": 152
+          },
+          {
+            "start_sec": 5.57296024119088,
+            "end_sec": 5.673073299415866,
+            "duration_sec": 0.10011305822498606,
+            "first_source_frame_index": 167,
+            "last_source_frame_index": 170
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 15,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 16,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 17,
+        "supported_duration_sec": 10.611984171848503,
+        "intervals": [
+          {
+            "start_sec": 0.06674203881665725,
+            "end_sec": 1.1679856792915018,
+            "duration_sec": 1.1012436404748445,
+            "first_source_frame_index": 2,
+            "last_source_frame_index": 35
+          },
+          {
+            "start_sec": 1.4683248539664595,
+            "end_sec": 1.4683248539664595,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 44,
+            "last_source_frame_index": 44
+          },
+          {
+            "start_sec": 1.768664028641417,
+            "end_sec": 2.0690032033163748,
+            "duration_sec": 0.30033917467495774,
+            "first_source_frame_index": 53,
+            "last_source_frame_index": 62
+          },
+          {
+            "start_sec": 2.369342377991332,
+            "end_sec": 2.469455436216318,
+            "duration_sec": 0.10011305822498606,
+            "first_source_frame_index": 71,
+            "last_source_frame_index": 74
+          },
+          {
+            "start_sec": 2.8699076691162615,
+            "end_sec": 2.8699076691162615,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 86,
+            "last_source_frame_index": 86
+          },
+          {
+            "start_sec": 4.271490484266064,
+            "end_sec": 5.372734124740909,
+            "duration_sec": 1.101243640474845,
+            "first_source_frame_index": 128,
+            "last_source_frame_index": 161
+          },
+          {
+            "start_sec": 5.57296024119088,
+            "end_sec": 10.778839268890145,
+            "duration_sec": 5.2058790276992655,
+            "first_source_frame_index": 167,
+            "last_source_frame_index": 323
+          },
+          {
+            "start_sec": 10.979065385340117,
+            "end_sec": 11.079178443565104,
+            "duration_sec": 0.10011305822498606,
+            "first_source_frame_index": 329,
+            "last_source_frame_index": 332
+          },
+          {
+            "start_sec": 11.37951761824006,
+            "end_sec": 11.579743734690032,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 341,
+            "last_source_frame_index": 347
+          },
+          {
+            "start_sec": 11.88008290936499,
+            "end_sec": 12.680987375164877,
+            "duration_sec": 0.8009044657998867,
+            "first_source_frame_index": 356,
+            "last_source_frame_index": 380
+          },
+          {
+            "start_sec": 13.081439608064821,
+            "end_sec": 14.78336159788958,
+            "duration_sec": 1.7019219898247595,
+            "first_source_frame_index": 392,
+            "last_source_frame_index": 443
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 18,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 0.06674203881665725,
+            "end_sec": 0.06674203881665725,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 2,
+            "last_source_frame_index": 2
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 20,
+        "supported_duration_sec": 0.4004522328999434,
+        "intervals": [
+          {
+            "start_sec": 0.3670812134916149,
+            "end_sec": 0.7675334463915583,
+            "duration_sec": 0.4004522328999434,
+            "first_source_frame_index": 11,
+            "last_source_frame_index": 23
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 21,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 35,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 36,
+        "supported_duration_sec": 1.8020350480497456,
+        "intervals": [
+          {
+            "start_sec": 1.768664028641417,
+            "end_sec": 3.5706990766911626,
+            "duration_sec": 1.8020350480497456,
+            "first_source_frame_index": 53,
+            "last_source_frame_index": 107
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 39,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 43,
+        "supported_duration_sec": 2.8031656302996044,
+        "intervals": [
+          {
+            "start_sec": 2.569568494441304,
+            "end_sec": 5.372734124740909,
+            "duration_sec": 2.8031656302996044,
+            "first_source_frame_index": 77,
+            "last_source_frame_index": 161
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 44,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 52,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 3.470586018466177,
+            "end_sec": 3.470586018466177,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 104,
+            "last_source_frame_index": 104
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 53,
+        "supported_duration_sec": 2.7030525720746192,
+        "intervals": [
+          {
+            "start_sec": 3.8710382513661203,
+            "end_sec": 4.271490484266064,
+            "duration_sec": 0.40045223289994336,
+            "first_source_frame_index": 116,
+            "last_source_frame_index": 128
+          },
+          {
+            "start_sec": 4.471716600716036,
+            "end_sec": 4.571829658941022,
+            "duration_sec": 0.10011305822498606,
+            "first_source_frame_index": 134,
+            "last_source_frame_index": 137
+          },
+          {
+            "start_sec": 5.57296024119088,
+            "end_sec": 7.27488223101564,
+            "duration_sec": 1.7019219898247604,
+            "first_source_frame_index": 167,
+            "last_source_frame_index": 218
+          },
+          {
+            "start_sec": 7.4751083474656115,
+            "end_sec": 7.975673638590541,
+            "duration_sec": 0.5005652911249294,
+            "first_source_frame_index": 224,
+            "last_source_frame_index": 239
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 59,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 66,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 71,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 73,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 75,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 80,
+        "supported_duration_sec": 6.10689655172414,
+        "intervals": [
+          {
+            "start_sec": 6.574090823440739,
+            "end_sec": 8.376125871490485,
+            "duration_sec": 1.8020350480497465,
+            "first_source_frame_index": 197,
+            "last_source_frame_index": 251
+          },
+          {
+            "start_sec": 8.576351987940456,
+            "end_sec": 8.876691162615414,
+            "duration_sec": 0.3003391746749582,
+            "first_source_frame_index": 257,
+            "last_source_frame_index": 266
+          },
+          {
+            "start_sec": 9.076917279065386,
+            "end_sec": 13.081439608064821,
+            "duration_sec": 4.004522328999435,
+            "first_source_frame_index": 272,
+            "last_source_frame_index": 392
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 84,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 87,
+        "supported_duration_sec": 3.804296212549465,
+        "intervals": [
+          {
+            "start_sec": 8.075786696815527,
+            "end_sec": 8.276012813265499,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 242,
+            "last_source_frame_index": 248
+          },
+          {
+            "start_sec": 8.576351987940456,
+            "end_sec": 9.076917279065386,
+            "duration_sec": 0.5005652911249303,
+            "first_source_frame_index": 257,
+            "last_source_frame_index": 272
+          },
+          {
+            "start_sec": 9.6775956284153,
+            "end_sec": 9.6775956284153,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 290,
+            "last_source_frame_index": 290
+          },
+          {
+            "start_sec": 10.778839268890145,
+            "end_sec": 10.778839268890145,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 323,
+            "last_source_frame_index": 323
+          },
+          {
+            "start_sec": 11.079178443565104,
+            "end_sec": 13.682117957414736,
+            "duration_sec": 2.6029395138496323,
+            "first_source_frame_index": 332,
+            "last_source_frame_index": 410
+          },
+          {
+            "start_sec": 15.183813830789523,
+            "end_sec": 15.684379121914453,
+            "duration_sec": 0.5005652911249303,
+            "first_source_frame_index": 455,
+            "last_source_frame_index": 470
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 88,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 92,
+        "supported_duration_sec": 13.31503674392312,
+        "intervals": [
+          {
+            "start_sec": 27.197380817787828,
+            "end_sec": 37.00846052383644,
+            "duration_sec": 9.811079706048613,
+            "first_source_frame_index": 815,
+            "last_source_frame_index": 1109
+          },
+          {
+            "start_sec": 37.408912756736385,
+            "end_sec": 39.611400037686074,
+            "duration_sec": 2.20248728094969,
+            "first_source_frame_index": 1121,
+            "last_source_frame_index": 1187
+          },
+          {
+            "start_sec": 39.81162615413605,
+            "end_sec": 41.11309591106087,
+            "duration_sec": 1.301469756924817,
+            "first_source_frame_index": 1193,
+            "last_source_frame_index": 1232
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 96,
+        "supported_duration_sec": 1.301469756924817,
+        "intervals": [
+          {
+            "start_sec": 9.6775956284153,
+            "end_sec": 10.878952327115131,
+            "duration_sec": 1.201356698699831,
+            "first_source_frame_index": 290,
+            "last_source_frame_index": 326
+          },
+          {
+            "start_sec": 12.080309025814962,
+            "end_sec": 12.180422084039948,
+            "duration_sec": 0.10011305822498606,
+            "first_source_frame_index": 362,
+            "last_source_frame_index": 365
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 104,
+        "supported_duration_sec": 9.9111927642736,
+        "intervals": [
+          {
+            "start_sec": 31.402129263237235,
+            "end_sec": 41.313322027510836,
+            "duration_sec": 9.9111927642736,
+            "first_source_frame_index": 941,
+            "last_source_frame_index": 1238
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 113,
+        "supported_duration_sec": 9.010175240248726,
+        "intervals": [
+          {
+            "start_sec": 12.180422084039948,
+            "end_sec": 12.380648200489919,
+            "duration_sec": 0.20022611644997035,
+            "first_source_frame_index": 365,
+            "last_source_frame_index": 371
+          },
+          {
+            "start_sec": 13.882344073864708,
+            "end_sec": 14.28279630676465,
+            "duration_sec": 0.4004522328999425,
+            "first_source_frame_index": 416,
+            "last_source_frame_index": 428
+          },
+          {
+            "start_sec": 15.78449218013944,
+            "end_sec": 24.193989071038253,
+            "duration_sec": 8.409496890898813,
+            "first_source_frame_index": 473,
+            "last_source_frame_index": 725
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 115,
+        "supported_duration_sec": 9.210401356698696,
+        "intervals": [
+          {
+            "start_sec": 33.104051253061996,
+            "end_sec": 33.604616544186925,
+            "duration_sec": 0.5005652911249285,
+            "first_source_frame_index": 992,
+            "last_source_frame_index": 1007
+          },
+          {
+            "start_sec": 33.904955718861885,
+            "end_sec": 42.61479178443565,
+            "duration_sec": 8.709836065573768,
+            "first_source_frame_index": 1016,
+            "last_source_frame_index": 1277
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 117,
+        "supported_duration_sec": 2.1023742227247038,
+        "intervals": [
+          {
+            "start_sec": 12.580874316939891,
+            "end_sec": 12.881213491614849,
+            "duration_sec": 0.3003391746749582,
+            "first_source_frame_index": 377,
+            "last_source_frame_index": 386
+          },
+          {
+            "start_sec": 13.081439608064821,
+            "end_sec": 14.883474656114567,
+            "duration_sec": 1.8020350480497456,
+            "first_source_frame_index": 392,
+            "last_source_frame_index": 446
+          },
+          {
+            "start_sec": 15.484153005464481,
+            "end_sec": 15.484153005464481,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 464,
+            "last_source_frame_index": 464
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 151,
+        "supported_duration_sec": 0.30033917467495996,
+        "intervals": [
+          {
+            "start_sec": 15.78449218013944,
+            "end_sec": 15.78449218013944,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 473,
+            "last_source_frame_index": 473
+          },
+          {
+            "start_sec": 17.38630111173921,
+            "end_sec": 17.68664028641417,
+            "duration_sec": 0.30033917467495996,
+            "first_source_frame_index": 521,
+            "last_source_frame_index": 530
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 155,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 15.98471829658941,
+            "end_sec": 15.98471829658941,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 479,
+            "last_source_frame_index": 479
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 160,
+        "supported_duration_sec": 0.20022611644997212,
+        "intervals": [
+          {
+            "start_sec": 16.385170529489354,
+            "end_sec": 16.585396645939326,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 491,
+            "last_source_frame_index": 497
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 164,
+        "supported_duration_sec": 0.20022611644997212,
+        "intervals": [
+          {
+            "start_sec": 16.585396645939326,
+            "end_sec": 16.7856227623893,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 497,
+            "last_source_frame_index": 503
+          },
+          {
+            "start_sec": 17.085961937064255,
+            "end_sec": 17.085961937064255,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 512,
+            "last_source_frame_index": 512
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 171,
+        "supported_duration_sec": 0.3003391746749564,
+        "intervals": [
+          {
+            "start_sec": 16.7856227623893,
+            "end_sec": 16.7856227623893,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 503,
+            "last_source_frame_index": 503
+          },
+          {
+            "start_sec": 18.287318635764088,
+            "end_sec": 18.587657810439044,
+            "duration_sec": 0.3003391746749564,
+            "first_source_frame_index": 548,
+            "last_source_frame_index": 557
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 173,
+        "supported_duration_sec": 1.8020350480497456,
+        "intervals": [
+          {
+            "start_sec": 16.98584887883927,
+            "end_sec": 17.286188053514227,
+            "duration_sec": 0.3003391746749564,
+            "first_source_frame_index": 509,
+            "last_source_frame_index": 518
+          },
+          {
+            "start_sec": 17.986979461089128,
+            "end_sec": 19.488675334463917,
+            "duration_sec": 1.5016958733747892,
+            "first_source_frame_index": 539,
+            "last_source_frame_index": 584
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 181,
+        "supported_duration_sec": 5.706444318824193,
+        "intervals": [
+          {
+            "start_sec": 17.186074995289243,
+            "end_sec": 22.892519314113436,
+            "duration_sec": 5.706444318824193,
+            "first_source_frame_index": 515,
+            "last_source_frame_index": 686
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 183,
+        "supported_duration_sec": 9.710966647823632,
+        "intervals": [
+          {
+            "start_sec": 35.506764650461655,
+            "end_sec": 43.515809308460526,
+            "duration_sec": 8.00904465799887,
+            "first_source_frame_index": 1064,
+            "last_source_frame_index": 1304
+          },
+          {
+            "start_sec": 43.716035424910494,
+            "end_sec": 44.51693989071038,
+            "duration_sec": 0.8009044657998885,
+            "first_source_frame_index": 1310,
+            "last_source_frame_index": 1334
+          },
+          {
+            "start_sec": 44.91739212361033,
+            "end_sec": 45.21773129828529,
+            "duration_sec": 0.30033917467495996,
+            "first_source_frame_index": 1346,
+            "last_source_frame_index": 1355
+          },
+          {
+            "start_sec": 45.417957414735255,
+            "end_sec": 45.417957414735255,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1361,
+            "last_source_frame_index": 1361
+          },
+          {
+            "start_sec": 45.918522705860184,
+            "end_sec": 45.918522705860184,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1376,
+            "last_source_frame_index": 1376
+          },
+          {
+            "start_sec": 46.11874882231016,
+            "end_sec": 46.71942717166007,
+            "duration_sec": 0.6006783493499128,
+            "first_source_frame_index": 1382,
+            "last_source_frame_index": 1400
+          },
+          {
+            "start_sec": 47.42021857923498,
+            "end_sec": 47.42021857923498,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1421,
+            "last_source_frame_index": 1421
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 199,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 18.087092519314115,
+            "end_sec": 18.087092519314115,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 542,
+            "last_source_frame_index": 542
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 206,
+        "supported_duration_sec": 0.10011305822498429,
+        "intervals": [
+          {
+            "start_sec": 18.587657810439044,
+            "end_sec": 18.68777086866403,
+            "duration_sec": 0.10011305822498429,
+            "first_source_frame_index": 557,
+            "last_source_frame_index": 560
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 211,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 212,
+        "supported_duration_sec": 9.010175240248735,
+        "intervals": [
+          {
+            "start_sec": 44.51693989071038,
+            "end_sec": 45.61818353118523,
+            "duration_sec": 1.1012436404748485,
+            "first_source_frame_index": 1334,
+            "last_source_frame_index": 1367
+          },
+          {
+            "start_sec": 45.8184096476352,
+            "end_sec": 49.92304503485962,
+            "duration_sec": 4.10463538722442,
+            "first_source_frame_index": 1373,
+            "last_source_frame_index": 1496
+          },
+          {
+            "start_sec": 50.42361032598455,
+            "end_sec": 52.025419257584325,
+            "duration_sec": 1.601808931599777,
+            "first_source_frame_index": 1511,
+            "last_source_frame_index": 1559
+          },
+          {
+            "start_sec": 52.325758432259285,
+            "end_sec": 54.528245713208975,
+            "duration_sec": 2.20248728094969,
+            "first_source_frame_index": 1568,
+            "last_source_frame_index": 1634
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 215,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 221,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 244,
+        "supported_duration_sec": 5.0056529112492925,
+        "intervals": [
+          {
+            "start_sec": 20.690032033163746,
+            "end_sec": 24.193989071038253,
+            "duration_sec": 3.503957037874507,
+            "first_source_frame_index": 620,
+            "last_source_frame_index": 725
+          },
+          {
+            "start_sec": 24.594441303938197,
+            "end_sec": 24.994893536838138,
+            "duration_sec": 0.4004522328999407,
+            "first_source_frame_index": 737,
+            "last_source_frame_index": 749
+          },
+          {
+            "start_sec": 25.19511965328811,
+            "end_sec": 26.296363293762955,
+            "duration_sec": 1.101243640474845,
+            "first_source_frame_index": 755,
+            "last_source_frame_index": 788
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 248,
+        "supported_duration_sec": 5.5062182023742245,
+        "intervals": [
+          {
+            "start_sec": 20.890258149613718,
+            "end_sec": 20.890258149613718,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 626,
+            "last_source_frame_index": 626
+          },
+          {
+            "start_sec": 21.09048426606369,
+            "end_sec": 22.692293197663464,
+            "duration_sec": 1.6018089315997734,
+            "first_source_frame_index": 632,
+            "last_source_frame_index": 680
+          },
+          {
+            "start_sec": 22.99263237233842,
+            "end_sec": 26.89704164311287,
+            "duration_sec": 3.904409270774451,
+            "first_source_frame_index": 689,
+            "last_source_frame_index": 806
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 256,
+        "supported_duration_sec": 0.10011305822498429,
+        "intervals": [
+          {
+            "start_sec": 21.691162615413607,
+            "end_sec": 21.79127567363859,
+            "duration_sec": 0.10011305822498429,
+            "first_source_frame_index": 650,
+            "last_source_frame_index": 653
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 257,
+        "supported_duration_sec": 2.7030525720746184,
+        "intervals": [
+          {
+            "start_sec": 21.691162615413607,
+            "end_sec": 24.394215187488225,
+            "duration_sec": 2.7030525720746184,
+            "first_source_frame_index": 650,
+            "last_source_frame_index": 731
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 272,
+        "supported_duration_sec": 3.8042962125494597,
+        "intervals": [
+          {
+            "start_sec": 49.42247974373469,
+            "end_sec": 49.42247974373469,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1481,
+            "last_source_frame_index": 1481
+          },
+          {
+            "start_sec": 49.62270586018467,
+            "end_sec": 51.42474090823441,
+            "duration_sec": 1.8020350480497456,
+            "first_source_frame_index": 1487,
+            "last_source_frame_index": 1541
+          },
+          {
+            "start_sec": 51.62496702468438,
+            "end_sec": 52.62609760693424,
+            "duration_sec": 1.001130582249857,
+            "first_source_frame_index": 1547,
+            "last_source_frame_index": 1577
+          },
+          {
+            "start_sec": 52.82632372338421,
+            "end_sec": 52.9264367816092,
+            "duration_sec": 0.10011305822498429,
+            "first_source_frame_index": 1583,
+            "last_source_frame_index": 1586
+          },
+          {
+            "start_sec": 54.528245713208975,
+            "end_sec": 55.42926323723385,
+            "duration_sec": 0.9010175240248728,
+            "first_source_frame_index": 1634,
+            "last_source_frame_index": 1661
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 288,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 289,
+        "supported_duration_sec": 0.3003391746749564,
+        "intervals": [
+          {
+            "start_sec": 23.893649896363296,
+            "end_sec": 24.193989071038253,
+            "duration_sec": 0.3003391746749564,
+            "first_source_frame_index": 716,
+            "last_source_frame_index": 725
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 291,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 24.294102129263237,
+            "end_sec": 24.294102129263237,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 728,
+            "last_source_frame_index": 728
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 303,
+        "supported_duration_sec": 0.20022611644996857,
+        "intervals": [
+          {
+            "start_sec": 24.79466742038817,
+            "end_sec": 24.994893536838138,
+            "duration_sec": 0.20022611644996857,
+            "first_source_frame_index": 743,
+            "last_source_frame_index": 749
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 306,
+        "supported_duration_sec": 7.007914075749014,
+        "intervals": [
+          {
+            "start_sec": 24.79466742038817,
+            "end_sec": 24.894780478613153,
+            "duration_sec": 0.10011305822498429,
+            "first_source_frame_index": 743,
+            "last_source_frame_index": 746
+          },
+          {
+            "start_sec": 25.19511965328811,
+            "end_sec": 32.10292067081214,
+            "duration_sec": 6.907801017524029,
+            "first_source_frame_index": 755,
+            "last_source_frame_index": 962
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 314,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 25.095006595063126,
+            "end_sec": 25.095006595063126,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 752,
+            "last_source_frame_index": 752
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 317,
+        "supported_duration_sec": 7.208140192198975,
+        "intervals": [
+          {
+            "start_sec": 25.095006595063126,
+            "end_sec": 25.595571886188054,
+            "duration_sec": 0.5005652911249285,
+            "first_source_frame_index": 752,
+            "last_source_frame_index": 767
+          },
+          {
+            "start_sec": 25.795798002638026,
+            "end_sec": 25.89591106086301,
+            "duration_sec": 0.10011305822498429,
+            "first_source_frame_index": 773,
+            "last_source_frame_index": 776
+          },
+          {
+            "start_sec": 26.096137177312983,
+            "end_sec": 28.7991897493876,
+            "duration_sec": 2.7030525720746184,
+            "first_source_frame_index": 782,
+            "last_source_frame_index": 863
+          },
+          {
+            "start_sec": 29.09952892406256,
+            "end_sec": 29.700207273412474,
+            "duration_sec": 0.6006783493499128,
+            "first_source_frame_index": 872,
+            "last_source_frame_index": 890
+          },
+          {
+            "start_sec": 30.601224797437347,
+            "end_sec": 32.60348596193707,
+            "duration_sec": 2.0022611644997212,
+            "first_source_frame_index": 917,
+            "last_source_frame_index": 977
+          },
+          {
+            "start_sec": 33.00393819483701,
+            "end_sec": 33.80484266063689,
+            "duration_sec": 0.8009044657998814,
+            "first_source_frame_index": 989,
+            "last_source_frame_index": 1013
+          },
+          {
+            "start_sec": 34.00506877708687,
+            "end_sec": 34.5056340682118,
+            "duration_sec": 0.5005652911249285,
+            "first_source_frame_index": 1019,
+            "last_source_frame_index": 1034
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 328,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 25.89591106086301,
+            "end_sec": 25.89591106086301,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 776,
+            "last_source_frame_index": 776
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 331,
+        "supported_duration_sec": 3.3037309214245347,
+        "intervals": [
+          {
+            "start_sec": 26.19625023553797,
+            "end_sec": 26.596702468437915,
+            "duration_sec": 0.40045223289994425,
+            "first_source_frame_index": 785,
+            "last_source_frame_index": 797
+          },
+          {
+            "start_sec": 26.796928584887883,
+            "end_sec": 27.197380817787828,
+            "duration_sec": 0.40045223289994425,
+            "first_source_frame_index": 803,
+            "last_source_frame_index": 815
+          },
+          {
+            "start_sec": 27.3976069342378,
+            "end_sec": 29.900433389862446,
+            "duration_sec": 2.5028264556246462,
+            "first_source_frame_index": 821,
+            "last_source_frame_index": 896
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 332,
+        "supported_duration_sec": 2.3026003391746706,
+        "intervals": [
+          {
+            "start_sec": 26.19625023553797,
+            "end_sec": 26.19625023553797,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 785,
+            "last_source_frame_index": 785
+          },
+          {
+            "start_sec": 26.396476351987943,
+            "end_sec": 26.496589410212927,
+            "duration_sec": 0.10011305822498429,
+            "first_source_frame_index": 791,
+            "last_source_frame_index": 794
+          },
+          {
+            "start_sec": 26.6968155266629,
+            "end_sec": 27.89817222536273,
+            "duration_sec": 1.2013566986998292,
+            "first_source_frame_index": 800,
+            "last_source_frame_index": 836
+          },
+          {
+            "start_sec": 28.198511400037688,
+            "end_sec": 28.39873751648766,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 845,
+            "last_source_frame_index": 851
+          },
+          {
+            "start_sec": 29.09952892406256,
+            "end_sec": 29.09952892406256,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 872,
+            "last_source_frame_index": 872
+          },
+          {
+            "start_sec": 29.399868098737517,
+            "end_sec": 29.700207273412474,
+            "duration_sec": 0.3003391746749564,
+            "first_source_frame_index": 881,
+            "last_source_frame_index": 890
+          },
+          {
+            "start_sec": 30.000546448087434,
+            "end_sec": 30.501111739212362,
+            "duration_sec": 0.5005652911249285,
+            "first_source_frame_index": 899,
+            "last_source_frame_index": 914
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 334,
+        "supported_duration_sec": 0.20022611644997212,
+        "intervals": [
+          {
+            "start_sec": 26.296363293762955,
+            "end_sec": 26.496589410212927,
+            "duration_sec": 0.20022611644997212,
+            "first_source_frame_index": 788,
+            "last_source_frame_index": 794
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 341,
+        "supported_duration_sec": 2.6029395138496305,
+        "intervals": [
+          {
+            "start_sec": 27.097267759562843,
+            "end_sec": 29.700207273412474,
+            "duration_sec": 2.6029395138496305,
+            "first_source_frame_index": 812,
+            "last_source_frame_index": 890
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 343,
+        "supported_duration_sec": 1.5016958733747856,
+        "intervals": [
+          {
+            "start_sec": 27.097267759562843,
+            "end_sec": 28.59896363293763,
+            "duration_sec": 1.5016958733747856,
+            "first_source_frame_index": 812,
+            "last_source_frame_index": 857
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 345,
+        "supported_duration_sec": 2.4027133973996584,
+        "intervals": [
+          {
+            "start_sec": 48.121009986809874,
+            "end_sec": 50.323497267759564,
+            "duration_sec": 2.20248728094969,
+            "first_source_frame_index": 1442,
+            "last_source_frame_index": 1508
+          },
+          {
+            "start_sec": 50.62383644243452,
+            "end_sec": 50.82406255888449,
+            "duration_sec": 0.20022611644996857,
+            "first_source_frame_index": 1517,
+            "last_source_frame_index": 1523
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 347,
+        "supported_duration_sec": 4.505087620124364,
+        "intervals": [
+          {
+            "start_sec": 54.42813265498398,
+            "end_sec": 58.93322027510835,
+            "duration_sec": 4.505087620124364,
+            "first_source_frame_index": 1631,
+            "last_source_frame_index": 1766
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 351,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 355,
+        "supported_duration_sec": 10.21153193894856,
+        "intervals": [
+          {
+            "start_sec": 28.999415865837573,
+            "end_sec": 28.999415865837573,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 869,
+            "last_source_frame_index": 869
+          },
+          {
+            "start_sec": 29.399868098737517,
+            "end_sec": 29.700207273412474,
+            "duration_sec": 0.3003391746749564,
+            "first_source_frame_index": 881,
+            "last_source_frame_index": 890
+          },
+          {
+            "start_sec": 30.200772564537406,
+            "end_sec": 30.501111739212362,
+            "duration_sec": 0.3003391746749564,
+            "first_source_frame_index": 905,
+            "last_source_frame_index": 914
+          },
+          {
+            "start_sec": 30.80145091388732,
+            "end_sec": 30.80145091388732,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 923,
+            "last_source_frame_index": 923
+          },
+          {
+            "start_sec": 31.00167703033729,
+            "end_sec": 40.61253061993594,
+            "duration_sec": 9.610853589598648,
+            "first_source_frame_index": 929,
+            "last_source_frame_index": 1217
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 365,
+        "supported_duration_sec": 8.709836065573768,
+        "intervals": [
+          {
+            "start_sec": 50.22338420953458,
+            "end_sec": 58.93322027510835,
+            "duration_sec": 8.709836065573768,
+            "first_source_frame_index": 1505,
+            "last_source_frame_index": 1766
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 366,
+        "supported_duration_sec": 3.103504804974559,
+        "intervals": [
+          {
+            "start_sec": 30.30088562276239,
+            "end_sec": 33.20416431128698,
+            "duration_sec": 2.9032786885245905,
+            "first_source_frame_index": 908,
+            "last_source_frame_index": 995
+          },
+          {
+            "start_sec": 33.50450348596194,
+            "end_sec": 33.70472960241191,
+            "duration_sec": 0.20022611644996857,
+            "first_source_frame_index": 1004,
+            "last_source_frame_index": 1010
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 379,
+        "supported_duration_sec": 7.308253250423967,
+        "intervals": [
+          {
+            "start_sec": 51.62496702468438,
+            "end_sec": 58.93322027510835,
+            "duration_sec": 7.308253250423967,
+            "first_source_frame_index": 1547,
+            "last_source_frame_index": 1766
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 402,
+        "supported_duration_sec": 2.302600339174674,
+        "intervals": [
+          {
+            "start_sec": 35.506764650461655,
+            "end_sec": 37.80936498963633,
+            "duration_sec": 2.302600339174674,
+            "first_source_frame_index": 1064,
+            "last_source_frame_index": 1133
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 403,
+        "supported_duration_sec": 3.4038439796495155,
+        "intervals": [
+          {
+            "start_sec": 55.52937629545883,
+            "end_sec": 58.93322027510835,
+            "duration_sec": 3.4038439796495155,
+            "first_source_frame_index": 1664,
+            "last_source_frame_index": 1766
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 404,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 405,
+        "supported_duration_sec": 2.302600339174674,
+        "intervals": [
+          {
+            "start_sec": 35.70699076691163,
+            "end_sec": 37.60913887318636,
+            "duration_sec": 1.9021481062747299,
+            "first_source_frame_index": 1070,
+            "last_source_frame_index": 1127
+          },
+          {
+            "start_sec": 37.80936498963633,
+            "end_sec": 38.20981722253627,
+            "duration_sec": 0.40045223289994425,
+            "first_source_frame_index": 1133,
+            "last_source_frame_index": 1145
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 406,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 412,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 415,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 419,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 420,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 422,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 434,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 436,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 466,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 470,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 481,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 487,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 492,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 500,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 501,
+        "supported_duration_sec": 0.10011305822499139,
+        "intervals": [
+          {
+            "start_sec": 40.51241756171095,
+            "end_sec": 40.61253061993594,
+            "duration_sec": 0.10011305822499139,
+            "first_source_frame_index": 1214,
+            "last_source_frame_index": 1217
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 506,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 516,
+        "supported_duration_sec": 3.4038439796495155,
+        "intervals": [
+          {
+            "start_sec": 41.11309591106087,
+            "end_sec": 41.313322027510836,
+            "duration_sec": 0.20022611644996857,
+            "first_source_frame_index": 1232,
+            "last_source_frame_index": 1238
+          },
+          {
+            "start_sec": 41.613661202185796,
+            "end_sec": 42.01411343508574,
+            "duration_sec": 0.40045223289994425,
+            "first_source_frame_index": 1247,
+            "last_source_frame_index": 1259
+          },
+          {
+            "start_sec": 42.51467872621067,
+            "end_sec": 45.31784435651027,
+            "duration_sec": 2.8031656302996026,
+            "first_source_frame_index": 1274,
+            "last_source_frame_index": 1358
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 517,
+        "supported_duration_sec": 4.905539853024308,
+        "intervals": [
+          {
+            "start_sec": 41.21320896928585,
+            "end_sec": 46.11874882231016,
+            "duration_sec": 4.905539853024308,
+            "first_source_frame_index": 1235,
+            "last_source_frame_index": 1382
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 522,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 538,
+        "supported_duration_sec": 0.10011305822499139,
+        "intervals": [
+          {
+            "start_sec": 41.91400037686075,
+            "end_sec": 42.01411343508574,
+            "duration_sec": 0.10011305822499139,
+            "first_source_frame_index": 1256,
+            "last_source_frame_index": 1259
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 540,
+        "supported_duration_sec": 6.106896551724141,
+        "intervals": [
+          {
+            "start_sec": 42.01411343508574,
+            "end_sec": 42.01411343508574,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1259,
+            "last_source_frame_index": 1259
+          },
+          {
+            "start_sec": 42.31445260976069,
+            "end_sec": 47.320105521009985,
+            "duration_sec": 5.0056529112492925,
+            "first_source_frame_index": 1268,
+            "last_source_frame_index": 1418
+          },
+          {
+            "start_sec": 48.6215752779348,
+            "end_sec": 48.6215752779348,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1457,
+            "last_source_frame_index": 1457
+          },
+          {
+            "start_sec": 48.82180139438478,
+            "end_sec": 49.62270586018467,
+            "duration_sec": 0.8009044657998885,
+            "first_source_frame_index": 1463,
+            "last_source_frame_index": 1487
+          },
+          {
+            "start_sec": 49.822931976634635,
+            "end_sec": 50.123271151309595,
+            "duration_sec": 0.30033917467495996,
+            "first_source_frame_index": 1493,
+            "last_source_frame_index": 1502
+          },
+          {
+            "start_sec": 50.323497267759564,
+            "end_sec": 50.323497267759564,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1508,
+            "last_source_frame_index": 1508
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 553,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 568,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 571,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 579,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 598,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 599,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 44.016374599585454,
+            "end_sec": 44.016374599585454,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1319,
+            "last_source_frame_index": 1319
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 613,
+        "supported_duration_sec": 2.5028264556246427,
+        "intervals": [
+          {
+            "start_sec": 45.01750518183531,
+            "end_sec": 45.01750518183531,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1349,
+            "last_source_frame_index": 1349
+          },
+          {
+            "start_sec": 45.21773129828529,
+            "end_sec": 47.72055775390993,
+            "duration_sec": 2.5028264556246427,
+            "first_source_frame_index": 1355,
+            "last_source_frame_index": 1430
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 619,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 627,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 634,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 637,
+        "supported_duration_sec": 1.9021481062747299,
+        "intervals": [
+          {
+            "start_sec": 46.31897493876013,
+            "end_sec": 47.219992462785,
+            "duration_sec": 0.9010175240248728,
+            "first_source_frame_index": 1388,
+            "last_source_frame_index": 1415
+          },
+          {
+            "start_sec": 47.42021857923498,
+            "end_sec": 48.121009986809874,
+            "duration_sec": 0.7007914075748971,
+            "first_source_frame_index": 1421,
+            "last_source_frame_index": 1442
+          },
+          {
+            "start_sec": 48.421349161484834,
+            "end_sec": 48.721688336159794,
+            "duration_sec": 0.30033917467495996,
+            "first_source_frame_index": 1451,
+            "last_source_frame_index": 1460
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 742,
+        "supported_duration_sec": 1.5016958733747856,
+        "intervals": [
+          {
+            "start_sec": 51.02428867533447,
+            "end_sec": 52.22564537403429,
+            "duration_sec": 1.2013566986998256,
+            "first_source_frame_index": 1529,
+            "last_source_frame_index": 1565
+          },
+          {
+            "start_sec": 52.42587149048427,
+            "end_sec": 52.42587149048427,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1571,
+            "last_source_frame_index": 1571
+          },
+          {
+            "start_sec": 52.62609760693424,
+            "end_sec": 52.9264367816092,
+            "duration_sec": 0.30033917467495996,
+            "first_source_frame_index": 1577,
+            "last_source_frame_index": 1586
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 749,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 753,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 772,
+        "supported_duration_sec": 0.0,
+        "intervals": [
+          {
+            "start_sec": 52.12553231580931,
+            "end_sec": 52.12553231580931,
+            "duration_sec": 0.0,
+            "first_source_frame_index": 1562,
+            "last_source_frame_index": 1562
+          }
+        ],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 785,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 790,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 792,
+        "supported_duration_sec": 5.005652911249285,
+        "intervals": [
+          {
+            "start_sec": 52.72621066515923,
+            "end_sec": 53.126662898059166,
+            "duration_sec": 0.40045223289993714,
+            "first_source_frame_index": 1580,
+            "last_source_frame_index": 1592
+          },
+          {
+            "start_sec": 53.427002072734126,
+            "end_sec": 58.032202751083474,
+            "duration_sec": 4.605200678349348,
+            "first_source_frame_index": 1601,
+            "last_source_frame_index": 1739
+          }
+        ],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 801,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 802,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 814,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": true
+      },
+      {
+        "track_id": 835,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 841,
+        "supported_duration_sec": 0,
+        "intervals": [],
+        "included_in_legacy_count": false
+      },
+      {
+        "track_id": 848,
+        "supported_duration_sec": 0.5005652911249285,
+        "intervals": [
+          {
+            "start_sec": 57.1311852270586,
+            "end_sec": 57.63175051818353,
+            "duration_sec": 0.5005652911249285,
+            "first_source_frame_index": 1712,
+            "last_source_frame_index": 1727
+          }
+        ],
+        "included_in_legacy_count": false
+      }
+    ],
+    "matching_track_ids": [
+      1,
+      2,
+      4,
+      6,
+      9,
+      11,
+      12,
+      17,
+      80,
+      92,
+      104,
+      113,
+      115,
+      181,
+      183,
+      212,
+      244,
+      248,
+      306,
+      317,
+      355,
+      365,
+      379,
+      540,
+      792
+    ],
+    "matching_track_count": 25,
+    "note": "Track IDs are not guaranteed unique people; fragmentation can split one person."
+  },
+  "entry_counts": {
+    "counts": {
+      "ALREADY PRESENT": 16,
+      "LEFT": 16,
+      "RIGHT": 10,
+      "TUNNEL": 14,
+      "TRAIN PATH": 0,
+      "OTHER": 8
+    },
+    "definition": "Legacy filtered track origins; not independently verified entries"
+  },
+  "peak_visible": {
+    "count": 31,
+    "frames": [
+      {
+        "source_frame_index": 1388,
+        "timestamp_sec": 46.31897493876013
+      },
+      {
+        "source_frame_index": 1391,
+        "timestamp_sec": 46.41908799698511
+      },
+      {
+        "source_frame_index": 1397,
+        "timestamp_sec": 46.61931411343509
+      }
+    ],
+    "definition": "Maximum boxes returned by tracker on sampled frames; not peak over all source frames"
+  }
+}
