@@ -232,7 +232,7 @@ export function Dashboard({
               {workspaceTab === "matrices" ? (
                 <CellMatricesExplorer index={cellMatrices} />
               ) : (
-              <div className="grid items-stretch gap-5 lg:grid-cols-[1.65fr_.85fr]">
+              <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)]">
                 {workspaceTab === "density" ? (
                   <CrowdDensityMedia grid={grid} videoUrl={gridVideoUrl} />
                 ) : (
