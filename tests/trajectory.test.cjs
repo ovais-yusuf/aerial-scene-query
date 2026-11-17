@@ -17,6 +17,22 @@ test('scene selection exposes both isolated research workspaces',()=>{
  assert.match(source,/University Park/);assert.match(source,/Route 104/);
  assert.match(source,/navigate\("university"\)/);assert.match(source,/navigate\("route"\)/);
 });
+test('scene tabs persist in URLs and tables page at 25 rows',()=>{
+ const dashboard=fs.readFileSync('components/dashboard.tsx','utf8');
+ const route=fs.readFileSync('components/route104-workspace.tsx','utf8');
+ assert.match(dashboard,/view=university&tab=\$\{id\}/);
+ assert.match(route,/view=route&tab=\$\{id\}/);
+ assert.match(route,/window\.addEventListener\("popstate",read\)/);
+ assert.match(route,/rows\.slice\(\(Math\.min\(page,pageCount\)-1\)\*25/);
+ assert.match(route,/filtered\.slice\(\(Math\.min\(page,pages\)-1\)\*25/);
+});
+test('Route 104 presents unknown proposals and repeated proximity honestly',()=>{
+ const route=fs.readFileSync('components/route104-workspace.tsx','utf8');
+ assert.match(route,/No reliable proposal/);
+ assert.match(route,/s\.proposed_subtype==="unknown"\?"N\/A"/);
+ assert.match(route,/The same pair may appear in many processed frames/);
+ assert.match(route,/observed_span_sec>=1/);
+});
 test('Route 104 deterministic answers use only Route 104 exports',async()=>{
  const cars=await route104.answerRoute104('How many car track IDs were produced?');
  assert.match(cars.answer,/281 car track IDs/);assert.equal(cars.routeEvidence.sceneId,'route-104');

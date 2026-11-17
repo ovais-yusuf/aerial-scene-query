@@ -79,7 +79,9 @@ export function Dashboard({
   useEffect(() => {
     const readView = () => {
       const value = new URLSearchParams(window.location.search).get("view");
+      const tab = new URLSearchParams(window.location.search).get("tab");
       setActiveView(value === "selector" || value === "university" || value === "route" ? value : "landing");
+      setWorkspaceTab(tab === "density" || tab === "matrices" ? tab : "scene");
     };
     readView(); window.addEventListener("popstate", readView);
     return () => window.removeEventListener("popstate", readView);
@@ -111,7 +113,7 @@ export function Dashboard({
     : "Not available";
 
   function navigate(view: typeof activeView) {
-    window.history.pushState({view}, "", view === "landing" ? "/" : `?view=${view}`);
+    window.history.pushState({view}, "", view === "landing" ? "/" : `?view=${view}${view === "university" ? "&tab=scene" : ""}`);
     setActiveView(view);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -249,7 +251,8 @@ export function Dashboard({
                     <button
                       key={id}
                       type="button"
-                      onClick={() => setWorkspaceTab(id)}
+                      onClick={() => { window.history.pushState({view:"university",tab:id},"",`?view=university&tab=${id}`); setWorkspaceTab(id); }}
+                      aria-current={active ? "page" : undefined}
                       className={`flex-1 px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.13em] transition ${
                         active
                           ? "bg-crimson text-white"

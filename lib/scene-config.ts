@@ -43,10 +43,15 @@ export const SCENE_CONFIGS: Record<SceneId, SceneCopilotConfig> = {
     datasetBadge: "ROUTE 104 DATA",
     datasets: ["summary.json", "tracks.json", "frames.jsonl", "vehicle_subtypes.json"],
     suggestedQuestions: [
-      "What classes were detected in Route 104?",
+      "What base classes were detected?",
+      "How many raw track IDs were produced for each class?",
+      "How many frames contained person-person proximity?",
       "How many frames contained person-vehicle proximity?",
-      "What vehicle subtypes were proposed?",
+      "What thresholds were used?",
+      "Which vehicle subtypes were proposed?",
+      "How many subtype proposals were validated?",
       "Why are track-ID totals not unique road-user counts?",
+      "What are the Route 104 limitations?",
     ],
     tabSuggestions: {
       tracking: ["Which track lasted the longest?", "What was the peak number of tracked objects?", "Show track ID 3."],
