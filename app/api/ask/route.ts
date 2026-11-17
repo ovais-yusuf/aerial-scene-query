@@ -11,6 +11,7 @@ import { DURATION_CLARIFICATION, explainEvidence, unsupportedBeforeInterpretatio
 
 import { parsePendingDuration, restorePendingDuration, mayHavePreviousQuery, resolveQueryFollowup, restorePreviousQuery, signQueryContext } from "@/lib/query-context";
 import { answerRoute104 } from "@/lib/route104";
+import { isSceneId } from "@/lib/scene-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -103,8 +104,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     question = body.question;
-    sceneId = body.sceneId ?? "university-park";
-    if (sceneId !== "university-park" && sceneId !== "route-104") throw new QueryError("Unknown scene.");
+    sceneId = body.sceneId;
+    if (!isSceneId(sceneId)) throw new QueryError("A valid sceneId is required.");
     history = validateConversation(body.messages ?? []);
     if (history.length && history[history.length-1].role !== "assistant") throw new QueryError("History must end with an assistant reply.");
   } catch {

@@ -317,7 +317,7 @@ export function Dashboard({
                 </section>
                 )}
 
-                <SceneCopilot />
+                <SceneCopilot sceneId="university-park" />
               </div>
               )}
 

@@ -22,7 +22,25 @@ test('Route 104 deterministic answers use only Route 104 exports',async()=>{
  assert.match(cars.answer,/281 car track IDs/);assert.equal(cars.routeEvidence.sceneId,'route-104');
  assert.ok(cars.routeEvidence.files.every(file=>file.startsWith('Route104/')));
  const people=await route104.answerRoute104('How many person track IDs were produced?');assert.match(people.answer,/128 person track IDs/);
- const unsupported=await route104.answerRoute104('How many people stayed in TUNNEL for five seconds?');assert.match(unsupported.answer,/do not contain a supported answer/);
+ const unsupported=await route104.answerRoute104('How many people stayed in TUNNEL for five seconds?');assert.match(unsupported.answer,/does not contain University Park entrance-zone/);
+});
+test('scene Copilot configurations keep prompts and context scene-specific',()=>{
+ const source=fs.readFileSync('lib/scene-config.ts','utf8');
+ assert.match(source,/University Park Copilot/);assert.match(source,/Route 104 Copilot/);
+ const routeSection=source.slice(source.indexOf('"route-104":'));
+ assert.doesNotMatch(routeSection,/Which entrance produced/);assert.doesNotMatch(routeSection,/Why are foot points used/);
+ const component=fs.readFileSync('components/scene-copilot.tsx','utf8');assert.match(component,/setMessages\(\[\]\).*sceneId/s);
+});
+test('Route 104 tools validate arguments and calculate tracks, frames and subtypes',async()=>{
+ const count=await route104.executeRoute104Tool('track_count_by_class',{class:'car'});assert.equal(count.result,281);assert.deepEqual(count.files,['Route104/tracks.json']);
+ const frame=await route104.executeRoute104Tool('proximity_by_frame',{processed_frame_index:1198});assert.equal(frame.result,7);assert.match(frame.answer,/1 person-to-person and 6 person-to-vehicle/);
+ const frameZero=await route104.executeRoute104Tool('frame_observations',{processed_frame_index:0});assert.equal(frameZero.result,18);
+ const unknown=await route104.executeRoute104Tool('vehicle_subtype_distribution',{subtype:'unknown'});assert.equal(unknown.result,251);
+ for(const [tool,args] of [['track_count_by_class',{class:'train'}],['track_lookup',{track_id:999999}],['track_ranking',{metric:'physical_speed',limit:1}],['frame_observations',{processed_frame_index:-1}],['frame_observations',{processed_frame_index:2396}],['vehicle_subtype_confidence_filter',{threshold:2}],['proximity_ranking',{kind:'collision',limit:5}]]) await assert.rejects(route104.executeRoute104Tool(tool,args),route104.Route104QueryError);
+});
+test('Route 104 refuses University Park and collision claims',async()=>{
+ const entrance=await route104.answerRoute104('Which entrance was busiest?');assert.match(entrance.answer,/does not contain University Park entrance-zone/);
+ const collision=await route104.answerRoute104('Was there a collision?');assert.match(collision.answer,/Zero-pixel clearance|image-space clearance/);assert.doesNotMatch(collision.answer,/confirmed collision/i);
 });
 function fixture() {
  const metadata={completed:true,source_fps:1,video_stride:1,frames_processed:8,raw_track_count:2,zones:{A:[0,0,10,10],B:[10,0,20,10]},count_filter:{minimum_observations:15,minimum_center_path_px:60}};
