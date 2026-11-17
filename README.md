@@ -1,5 +1,9 @@
 # Aerial Scene Query
 
+## Route 104 media
+
+The Route 104 JSON exports live in `Route104/` and are loaded on the server. The original annotated video is about 2.2 GB and uses MPEG-4 Part 2, so it is intentionally ignored by Git. Local development streams the browser-compatible H.264 review copy at `Route104/annotated_multiclass_tracking_web.mp4` through `/api/route104/video`. For a deployed build, host that H.264 file externally and set `NEXT_PUBLIC_ROUTE104_VIDEO_URL` to its public HTTPS URL.
+
 A Vercel-ready Next.js 14 research dashboard for language-queryable UAV pedestrian analysis. The application combines an externally hosted annotated video, structured analysis results, entry-origin analytics, and a server-side OpenAI question-answering route.
 
 ## Stack

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { CellMatricesExplorer } from "@/components/cell-matrices";
 import {
@@ -8,9 +8,11 @@ import {
   CrowdDensityStats,
 } from "@/components/crowd-density";
 import { SceneCopilot } from "@/components/scene-copilot";
+import { Route104Workspace } from "@/components/route104-workspace";
 import type { MetricGraphIndex } from "@/lib/cell-matrices-types";
 import type { GridSummary } from "@/lib/grid";
 import type { AnalysisResults, ZoneName } from "@/lib/results";
+import type { Route104Summary, Route104Track, VehicleSubtype } from "@/lib/route104";
 
 type WorkspaceTab = "scene" | "density" | "matrices";
 
@@ -20,6 +22,8 @@ interface DashboardProps {
   grid: GridSummary;
   gridVideoUrl: string;
   cellMatrices: MetricGraphIndex;
+  route104: {summary:Route104Summary;tracks:Route104Track[];subtypes:VehicleSubtype[]};
+  route104VideoUrl: string;
 }
 
 const ZONE_ORDER: ZoneName[] = [
@@ -66,9 +70,20 @@ export function Dashboard({
   grid,
   gridVideoUrl,
   cellMatrices,
+  route104,
+  route104VideoUrl,
 }: DashboardProps) {
-  const [activeView, setActiveView] = useState<"landing" | "scene">("landing");
+  const [activeView, setActiveView] = useState<"landing" | "selector" | "university" | "route">("landing");
   const [workspaceTab, setWorkspaceTab] = useState<WorkspaceTab>("scene");
+
+  useEffect(() => {
+    const readView = () => {
+      const value = new URLSearchParams(window.location.search).get("view");
+      setActiveView(value === "selector" || value === "university" || value === "route" ? value : "landing");
+    };
+    readView(); window.addEventListener("popstate", readView);
+    return () => window.removeEventListener("popstate", readView);
+  }, []);
 
   const analytics = useMemo(() => {
     const rows = ZONE_ORDER.map((zone) => ({
@@ -95,9 +110,15 @@ export function Dashboard({
     ? `${Number(results.duration_sec).toFixed(1)} sec`
     : "Not available";
 
+  function navigate(view: typeof activeView) {
+    window.history.pushState({view}, "", view === "landing" ? "/" : `?view=${view}`);
+    setActiveView(view);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function openSceneWorkspace() {
     setWorkspaceTab("scene");
-    setActiveView("scene");
+    navigate("selector");
     window.requestAnimationFrame(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -167,8 +188,20 @@ export function Dashboard({
               ))}
             </div>
           </section>
+        ) : activeView === "selector" ? (
+          <section className="view-enter border-x border-b border-line bg-paper px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
+            <p className="font-mono text-[10px] uppercase tracking-[.15em] text-crimson">Select research scene</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-.05em] sm:text-5xl">Choose an evidence workspace</h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">Each workspace is isolated to its own exported analysis data. Select a scene to inspect its footage, measurements, and Scene Copilot.</p>
+            <div className="mt-8 grid gap-5 lg:grid-cols-2">
+              <SceneCard index="01" title="University Park" description="Pedestrian movement in an aerial campus scene" features={["Pedestrian flow","Crowd density and proximity","Cell matrices"]} onClick={()=>navigate("university")}/>
+              <SceneCard index="02" title="Route 104" description="Mixed pedestrian and vehicle activity near a road and railway crossing" features={["Multi-class detection and tracking","Person-to-person and person-to-vehicle proximity","Experimental vehicle subtype proposals"]} onClick={()=>navigate("route")}/>
+            </div>
+          </section>
         ) : (
           <div className="view-enter">
+            <button type="button" onClick={()=>navigate("selector")} className="mt-6 inline-flex min-h-11 items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.12em] text-muted hover:text-crimson focus-visible:outline focus-visible:outline-2 focus-visible:outline-crimson">← Back to scene selection</button>
+            {activeView === "route" ? <section className="mt-4"><Route104Workspace summary={route104.summary} tracks={route104.tracks} subtypes={route104.subtypes} videoUrl={route104VideoUrl}/></section> : (
             <section className="mt-8">
               <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
                 <div>
@@ -437,6 +470,7 @@ export function Dashboard({
                 </>
               )}
             </section>
+            )}
 
             <footer className="flex flex-wrap justify-between gap-2 py-6 font-mono text-[9px] uppercase tracking-[0.11em] text-muted">
               <span>Aerial Scene Query. Built by Ovais Yusuf.</span>
@@ -447,4 +481,8 @@ export function Dashboard({
       </div>
     </main>
   );
+}
+
+function SceneCard({index,title,description,features,onClick}:{index:string;title:string;description:string;features:string[];onClick:()=>void}) {
+  return <button type="button" onClick={onClick} className="group min-h-[300px] border border-line bg-white p-6 text-left transition hover:-translate-y-1 hover:border-crimson hover:shadow-[8px_8px_0_#97152d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-crimson sm:p-8"><span className="font-mono text-[10px] font-bold uppercase tracking-[.14em] text-crimson">Scene {index}</span><h3 className="mt-5 text-3xl font-black uppercase tracking-[-.04em]">{title}</h3><p className="mt-3 text-sm leading-6 text-muted">{description}</p><ul className="mt-6 space-y-2 text-xs">{features.map(x=><li key={x} className="flex gap-2 before:text-crimson before:content-['+']">{x}</li>)}</ul><span className="mt-7 inline-flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[.13em] text-crimson">Open workspace <span className="transition group-hover:translate-x-1">→</span></span></button>;
 }

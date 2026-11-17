@@ -6,6 +6,9 @@ import type { Evidence } from "@/lib/trajectory-engine";
 
 type Message = { role: "user" | "assistant"; content: string; evidence?: Evidence; queryContext?: string };
 
+type RouteEvidence = {sceneId:string;files:string[]};
+type CopilotMessage = Message & {routeEvidence?:RouteEvidence};
+
 const EXAMPLE_QUESTIONS = [
   "Which entrance was busiest?",
   "How many frames had proximity alerts?",
@@ -15,8 +18,8 @@ const EXAMPLE_QUESTIONS = [
   "What are the current limitations?",
 ];
 
-export function SceneCopilot() {
-  const [messages, setMessages] = useState<Message[]>([]);
+export function SceneCopilot({sceneId="university-park"}:{sceneId?:"university-park"|"route-104"}) {
+  const [messages, setMessages] = useState<CopilotMessage[]>([]);
   const [question, setQuestion] = useState("");
   const [isAsking, setIsAsking] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,9 +45,9 @@ export function SceneCopilot() {
       const response = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: cleaned, messages: messages.slice(-8).map(({role,content,queryContext})=>({role,content:content.slice(0, role === "user" ? 500 : 4000), ...(queryContext ? {queryContext} : {})})) }),
+        body: JSON.stringify({ sceneId, question: cleaned, messages: messages.slice(-8).map(({role,content,queryContext})=>({role,content:content.slice(0, role === "user" ? 500 : 4000), ...(queryContext ? {queryContext} : {})})) }),
       });
-      let payload: { answer?: string; error?: string; evidence?: Evidence; queryContext?: string } = {};
+      let payload: { answer?: string; error?: string; evidence?: Evidence; queryContext?: string; routeEvidence?:RouteEvidence } = {};
       try {
         payload = (await response.json()) as { answer?: string; error?: string; evidence?: Evidence; queryContext?: string };
       } catch {
@@ -74,6 +77,7 @@ export function SceneCopilot() {
             "The Scene Copilot could not respond.",
           evidence: payload.evidence,
           queryContext: payload.queryContext,
+          routeEvidence: payload.routeEvidence,
         },
       ]);
     } catch {
@@ -117,15 +121,15 @@ export function SceneCopilot() {
           <span className="border border-white/30 px-2 py-1 font-mono text-[10px] uppercase tracking-wider">Evidence only</span>
         </div>
         <p className="mt-3 text-xs leading-5 text-white/85">
-          Answers pedestrian flow, trajectory, density, proximity, and methodology questions from computed project data. Open-vocabulary object experiments are not yet connected to the assistant.
+          {sceneId === "route-104" ? "Answers tracking, proximity, vehicle proposal, and methodology questions from the Route 104 exports." : "Answers pedestrian flow, trajectory, density, proximity, and methodology questions from computed University Park data."}
         </p>
         <ul aria-label="Evidence sources" className="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] text-white/75">
-          {[
+          {(sceneId === "route-104" ? [["SUMMARY.JSON","Route 104 run summary"],["TRACKS.JSON","Stable track register"],["VEHICLE_SUBTYPES.JSON","Experimental subtype proposals"],["FRAMES.JSONL","Processed frame observations"]] : [
             ["RESULTS.JSON", "Pedestrian-flow summary"],
             ["GRID.JSON", "Density and proximity summary"],
             ["HOW_IT_WORKS.MD", "Methodology notes"],
             ["Trajectory data", "Frame-by-frame exported track observations"],
-          ].map(([label, description]) => <li key={label}><span title={description}>{label}<span className="sr-only">: {description}</span></span></li>)}
+          ]).map(([label, description]) => <li key={label}><span title={description}>{label}<span className="sr-only">: {description}</span></span></li>)}
         </ul>
       </header>
 
@@ -145,6 +149,7 @@ export function SceneCopilot() {
             </p>
             <AnswerContent message={message} />
             {message.evidence && <QueryEvidence evidence={message.evidence} />}
+            {message.routeEvidence && <details className="mt-3 text-xs"><summary className="cursor-pointer font-semibold">Query evidence</summary><p className="mt-2 text-muted">Scene: Route 104</p>{message.routeEvidence.files.map(file=><p key={file} className="text-muted">{file}</p>)}</details>}
           </article>
         ))}
         {isAsking && <p role="status" className="font-mono text-xs text-muted">Reading scene evidence…</p>}

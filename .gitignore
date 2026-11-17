@@ -9,6 +9,8 @@ coverage/
 *.tsbuildinfo
 /annotated.mp4
 Grid Outputs/
+/Route104/annotated_multiclass_tracking.mp4
+/Route104/annotated_multiclass_tracking_web.mp4
 
 # Python analysis caches
 __pycache__/

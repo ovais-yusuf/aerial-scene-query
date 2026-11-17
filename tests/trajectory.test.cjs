@@ -5,11 +5,25 @@ const path=require('node:path');
 const os=require('node:os');
 const cp=require('node:child_process');
 const output=fs.mkdtempSync(path.join(os.tmpdir(),'aerial-tests-'));
-cp.execFileSync(path.join(process.cwd(),'node_modules/.bin/tsc'),['--module','commonjs','--moduleResolution','node','--target','ES2022','--esModuleInterop','--skipLibCheck','--outDir',output,'lib/trajectory-engine.ts','lib/trajectory-copilot.ts','lib/query-context.ts']);
+cp.execFileSync(path.join(process.cwd(),'node_modules/.bin/tsc'),['--module','commonjs','--moduleResolution','node','--target','ES2022','--esModuleInterop','--skipLibCheck','--outDir',output,'lib/trajectory-engine.ts','lib/trajectory-copilot.ts','lib/query-context.ts','lib/route104.ts']);
 const engine=require(path.join(output,'trajectory-engine.js'));
 const flow=require(path.join(output,'trajectory-copilot.js'));
 const context=require(path.join(output,'query-context.js'));
+const route104=require(path.join(output,'route104.js'));
 process.on('exit',()=>fs.rmSync(output,{recursive:true,force:true}));
+
+test('scene selection exposes both isolated research workspaces',()=>{
+ const source=fs.readFileSync('components/dashboard.tsx','utf8');
+ assert.match(source,/University Park/);assert.match(source,/Route 104/);
+ assert.match(source,/navigate\("university"\)/);assert.match(source,/navigate\("route"\)/);
+});
+test('Route 104 deterministic answers use only Route 104 exports',async()=>{
+ const cars=await route104.answerRoute104('How many car track IDs were produced?');
+ assert.match(cars.answer,/281 car track IDs/);assert.equal(cars.routeEvidence.sceneId,'route-104');
+ assert.ok(cars.routeEvidence.files.every(file=>file.startsWith('Route104/')));
+ const people=await route104.answerRoute104('How many person track IDs were produced?');assert.match(people.answer,/128 person track IDs/);
+ const unsupported=await route104.answerRoute104('How many people stayed in TUNNEL for five seconds?');assert.match(unsupported.answer,/do not contain a supported answer/);
+});
 function fixture() {
  const metadata={completed:true,source_fps:1,video_stride:1,frames_processed:8,raw_track_count:2,zones:{A:[0,0,10,10],B:[10,0,20,10]},count_filter:{minimum_observations:15,minimum_center_path_px:60}};
  const frames=Array.from({length:8},(_,i)=>{

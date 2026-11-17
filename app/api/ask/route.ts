@@ -10,6 +10,7 @@ import { DataError, QueryError, executeQuery, loadTrajectoryDataset } from "@/li
 import { DURATION_CLARIFICATION, explainEvidence, unsupportedBeforeInterpretation, clarificationBeforeInterpretation, interpretationTool, interpretToolCall, TRAJECTORY_INSTRUCTIONS, validateConversation, type ConversationMessage } from "@/lib/trajectory-copilot";
 
 import { parsePendingDuration, restorePendingDuration, mayHavePreviousQuery, resolveQueryFollowup, restorePreviousQuery, signQueryContext } from "@/lib/query-context";
+import { answerRoute104 } from "@/lib/route104";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -97,10 +98,13 @@ export async function POST(request: NextRequest) {
   }
 
   let question: unknown;
+  let sceneId: unknown;
   let history: ConversationMessage[];
   try {
     const body = await request.json();
     question = body.question;
+    sceneId = body.sceneId ?? "university-park";
+    if (sceneId !== "university-park" && sceneId !== "route-104") throw new QueryError("Unknown scene.");
     history = validateConversation(body.messages ?? []);
     if (history.length && history[history.length-1].role !== "assistant") throw new QueryError("History must end with an assistant reply.");
   } catch {
@@ -117,6 +121,11 @@ export async function POST(request: NextRequest) {
       { error: "Please keep the question under 500 characters." },
       { status: 400 },
     );
+  }
+
+  if (sceneId === "route-104") {
+    try { return NextResponse.json(await answerRoute104(cleanedQuestion)); }
+    catch { return NextResponse.json({error:"Route 104 evidence is unavailable."},{status:503}); }
   }
 
   const unsupported = unsupportedBeforeInterpretation(cleanedQuestion, history!);
