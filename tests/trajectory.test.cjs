@@ -242,3 +242,17 @@ test('pending text-only clarification accepts total then sequence and preserves 
  for(const text of ['How many people stayed in the hallway for more than five seconds?','How many people stayed in the tunnel for more than -5 seconds?','How many people stayed in the tunnel for five seconds?'])assert.equal(context.parsePendingDuration(text,zones),undefined);
  assert.ok(context.resolveQueryFollowup('total',undefined,zones).answer);
 });
+
+test('collision study stays isolated and avoids unsupported measurements',()=>{
+ const dashboard=fs.readFileSync('components/dashboard.tsx','utf8');
+ const study=fs.readFileSync('components/collision-study.tsx','utf8');
+ assert.match(dashboard,/navigate\("collision"\)/);
+ assert.match(dashboard,/activeView === "collision"/);
+ assert.match(study,/Requires manual review/);
+ assert.match(study,/Method version/);
+ assert.match(study,/Wikimedia Commons file page/);
+ assert.match(study,/Forecasting output/);
+ assert.match(study,/Original footage/);
+ assert.ok(fs.statSync('public/videos/collision/1.mp4').size>100000);
+ assert.ok(fs.statSync('public/videos/collision/2.mp4').size>100000);
+});

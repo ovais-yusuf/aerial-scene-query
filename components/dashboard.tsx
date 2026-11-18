@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { CollisionStudy } from "@/components/collision-study";
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -75,14 +76,14 @@ export function Dashboard({
   route104,
   route104VideoUrl,
 }: DashboardProps) {
-  const [activeView, setActiveView] = useState<"landing" | "introduction" | "selector" | "university" | "route">("landing");
+  const [activeView, setActiveView] = useState<"landing" | "introduction" | "selector" | "university" | "route" | "collision">("landing");
   const [workspaceTab, setWorkspaceTab] = useState<WorkspaceTab>("scene");
 
   useEffect(() => {
     const readView = () => {
       const value = new URLSearchParams(window.location.search).get("view");
       const tab = new URLSearchParams(window.location.search).get("tab");
-      setActiveView(value === "introduction" || value === "selector" || value === "university" || value === "route" ? value : "landing");
+      setActiveView(value === "introduction" || value === "selector" || value === "university" || value === "route" || value === "collision" ? value : "landing");
       setWorkspaceTab(tab === "density" || tab === "matrices" ? tab : "scene");
     };
     readView(); window.addEventListener("popstate", readView);
@@ -197,12 +198,13 @@ export function Dashboard({
             <div className="mt-8 grid gap-5 lg:grid-cols-2">
               <SceneCard index="01" title="University Park" description="Pedestrian movement in an aerial campus scene" preview="/previews/university.jpg" features={["Pedestrian flow","Crowd density and proximity","Cell matrices"]} onClick={()=>navigate("university")}/>
               <SceneCard index="02" title="Route 104" description="Mixed pedestrian and vehicle activity near a road and railway crossing" preview="/previews/route104.jpg" features={["Multi-class detection and tracking","Person-to-person and person-to-vehicle proximity","Experimental vehicle subtype proposals"]} onClick={()=>navigate("route")}/>
+              <SceneCard index="03" title="Collision Forecasting Study" description="Exploring warning timing and camera-view limitations" preview="/previews/collision.jpg" features={["Exploratory experiment","Two annotated road videos","Viewpoint limitations"]} onClick={()=>navigate("collision")}/>
             </div>
           </section>
         ) : (
           <div className="view-enter">
             <button type="button" onClick={()=>navigate("selector")} className="mt-6 inline-flex min-h-11 items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.12em] text-muted hover:text-crimson focus-visible:outline focus-visible:outline-2 focus-visible:outline-crimson">← Back to scene selection</button>
-            {activeView === "route" ? <section className="mt-4"><Route104Workspace summary={route104.summary} tracks={route104.tracks} subtypes={route104.subtypes} videoUrl={route104VideoUrl}/></section> : (
+            {activeView === "collision" ? <section className="mt-4"><CollisionStudy/></section> : activeView === "route" ? <section className="mt-4"><Route104Workspace summary={route104.summary} tracks={route104.tracks} subtypes={route104.subtypes} videoUrl={route104VideoUrl}/></section> : (
             <section className="mt-8">
               <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
                 <div>
