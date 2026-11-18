@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -160,16 +161,10 @@ export function Dashboard({
               Aerial intelligence / natural language access
             </p>
             <h1 className="text-[clamp(2.8rem,5.2vw,5.7rem)] font-black leading-[0.98] tracking-[-0.065em]">
-              Language queryable aerial scene understanding for UAV traffic
-              analysis
+              Explore aerial traffic through data and natural language.
             </h1>
             <p className="mt-7 text-base leading-7 text-muted">
-              Computer vision, multi object tracking, and language models
-              combined to analyze movement and query aerial traffic scenes in
-              plain language.
-            </p>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.13em] text-muted">
-              Built by Ovais Yusuf
+              Language-Queryable Aerial Scene Understanding for UAV Traffic Analysis.
             </p>
             <button
               type="button"
@@ -200,8 +195,8 @@ export function Dashboard({
             <h2 className="mt-3 text-4xl font-black tracking-[-.05em] sm:text-5xl">Choose an evidence workspace</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">Each workspace is isolated to its own exported analysis data. Select a scene to inspect its footage, measurements, and Scene Copilot.</p>
             <div className="mt-8 grid gap-5 lg:grid-cols-2">
-              <SceneCard index="01" title="University Park" description="Pedestrian movement in an aerial campus scene" features={["Pedestrian flow","Crowd density and proximity","Cell matrices"]} onClick={()=>navigate("university")}/>
-              <SceneCard index="02" title="Route 104" description="Mixed pedestrian and vehicle activity near a road and railway crossing" features={["Multi-class detection and tracking","Person-to-person and person-to-vehicle proximity","Experimental vehicle subtype proposals"]} onClick={()=>navigate("route")}/>
+              <SceneCard index="01" title="University Park" description="Pedestrian movement in an aerial campus scene" preview="/previews/university.jpg" features={["Pedestrian flow","Crowd density and proximity","Cell matrices"]} onClick={()=>navigate("university")}/>
+              <SceneCard index="02" title="Route 104" description="Mixed pedestrian and vehicle activity near a road and railway crossing" preview="/previews/route104.jpg" features={["Multi-class detection and tracking","Person-to-person and person-to-vehicle proximity","Experimental vehicle subtype proposals"]} onClick={()=>navigate("route")}/>
             </div>
           </section>
         ) : (
@@ -338,7 +333,7 @@ export function Dashboard({
             >
               {[
                 [
-                  "Unique People",
+                  "Tracked IDs",
                   String(results.total_people),
                   `Manual reference: ${manualTotal(results.ground_truth_manual)}`,
                 ],
@@ -350,7 +345,7 @@ export function Dashboard({
                 [
                   "Dominant Entrance",
                   analytics.dominant.zone,
-                  `${analytics.dominant.count} tracked people`,
+                  `${analytics.dominant.count} track IDs`,
                 ],
                 ["Footage Window", duration, resolution],
               ].map(([label, value, note], index) => (
@@ -382,7 +377,7 @@ export function Dashboard({
                     Entry origin distribution
                   </h3>
                   <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
-                    Unique tracked persons / zone
+                    Track IDs by observed entry origin
                   </p>
                 </div>
                 <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
@@ -490,6 +485,6 @@ export function Dashboard({
   );
 }
 
-function SceneCard({index,title,description,features,onClick}:{index:string;title:string;description:string;features:string[];onClick:()=>void}) {
-  return <button type="button" onClick={onClick} className="group min-h-[300px] border border-line bg-white p-6 text-left transition hover:-translate-y-1 hover:border-crimson hover:shadow-[8px_8px_0_#97152d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-crimson sm:p-8"><span className="font-mono text-[10px] font-bold uppercase tracking-[.14em] text-crimson">Scene {index}</span><h3 className="mt-5 text-3xl font-black uppercase tracking-[-.04em]">{title}</h3><p className="mt-3 text-sm leading-6 text-muted">{description}</p><ul className="mt-6 space-y-2 text-xs">{features.map(x=><li key={x} className="flex gap-2 before:text-crimson before:content-['+']">{x}</li>)}</ul><span className="mt-7 inline-flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[.13em] text-crimson">Open workspace <span className="transition group-hover:translate-x-1">→</span></span></button>;
+function SceneCard({index,title,description,features,preview,onClick}:{index:string;title:string;description:string;features:string[];preview:string;onClick:()=>void}) {
+  return <button type="button" onClick={onClick} className="group min-h-[300px] border border-line bg-white p-6 text-left transition hover:-translate-y-1 hover:border-crimson hover:shadow-[8px_8px_0_#97152d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-crimson sm:p-8"><Image src={preview} alt={title + " aerial video still"} width={800} height={450} className="mb-5 aspect-video w-full object-cover" /><span className="font-mono text-[10px] font-bold uppercase tracking-[.14em] text-crimson">Scene {index}</span><h3 className="mt-5 text-3xl font-black uppercase tracking-[-.04em]">{title}</h3><p className="mt-3 text-sm leading-6 text-muted">{description}</p><ul className="mt-6 space-y-2 text-xs">{features.map(x=><li key={x} className="flex gap-2 before:text-crimson before:content-['+']">{x}</li>)}</ul><span className="mt-7 inline-flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[.13em] text-crimson">Open workspace <span className="transition group-hover:translate-x-1">→</span></span></button>;
 }
