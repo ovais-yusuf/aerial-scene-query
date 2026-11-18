@@ -17,6 +17,16 @@ test('scene selection exposes both isolated research workspaces',()=>{
  assert.match(source,/University Park/);assert.match(source,/Route 104/);
  assert.match(source,/navigate\("university"\)/);assert.match(source,/navigate\("route"\)/);
 });
+test('introduction sits between landing and scene selection while direct scene URLs remain valid',()=>{
+ const dashboard=fs.readFileSync('components/dashboard.tsx','utf8');
+ const introduction=fs.readFileSync('components/project-introduction.tsx','utf8');
+ assert.match(dashboard,/navigate\("introduction"\)/);
+ assert.match(dashboard,/onExplore=\{\(\)=>navigate\("selector"\)\}/);
+ assert.match(dashboard,/value === "university" \|\| value === "route"/);
+ assert.match(introduction,/Back to home/);
+ assert.match(introduction,/Explore scenes/);
+ assert.match(introduction,/does not watch or directly inspect the video/);
+});
 test('scene tabs persist in URLs and tables page at 25 rows',()=>{
  const dashboard=fs.readFileSync('components/dashboard.tsx','utf8');
  const route=fs.readFileSync('components/route104-workspace.tsx','utf8');

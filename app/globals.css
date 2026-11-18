@@ -28,6 +28,19 @@ input {
   font: inherit;
 }
 
+.introduction-copy h2 { font-size: clamp(1.4rem, 2vw, 1.75rem); font-weight: 800; line-height: 1.3; letter-spacing: -0.025em; }
+.introduction-copy p { margin-top: 0.75rem; font-size: 1.0625rem; line-height: 1.75; color: #45494c; }
+.research-ui .text-muted { color: #505459; }
+.research-ui .text-\[8px\], .research-ui .text-\[9px\], .research-ui .text-\[10px\], .research-ui .text-\[11px\] { font-size: 0.875rem; letter-spacing: 0.025em; line-height: 1.45; }
+.research-ui .text-xs { font-size: 0.9375rem; line-height: 1.55; }
+.research-ui .text-sm { font-size: 1rem; line-height: 1.6; }
+.research-ui .text-base { font-size: 1.0625rem; line-height: 1.7; }
+.research-ui table { font-size: 0.9375rem; line-height: 1.5; }
+.research-ui table th { white-space: normal; }
+.research-ui button, .research-ui input, .research-ui select { min-height: 2.75rem; }
+.research-ui p, .research-ui li, .research-ui dd { overflow-wrap: anywhere; }
+@media (max-width: 640px) { .introduction-copy p { font-size: 1rem; } .research-ui .text-\[8px\], .research-ui .text-\[9px\], .research-ui .text-\[10px\], .research-ui .text-\[11px\] { font-size: 0.8125rem; } }
+
 button:focus-visible,
 input:focus-visible,
 summary:focus-visible,

@@ -8,6 +8,7 @@ import {
   CrowdDensityStats,
 } from "@/components/crowd-density";
 import { SceneCopilot } from "@/components/scene-copilot";
+import { ProjectIntroduction } from "@/components/project-introduction";
 import { Route104Workspace } from "@/components/route104-workspace";
 import type { MetricGraphIndex } from "@/lib/cell-matrices-types";
 import type { GridSummary } from "@/lib/grid";
@@ -73,14 +74,14 @@ export function Dashboard({
   route104,
   route104VideoUrl,
 }: DashboardProps) {
-  const [activeView, setActiveView] = useState<"landing" | "selector" | "university" | "route">("landing");
+  const [activeView, setActiveView] = useState<"landing" | "introduction" | "selector" | "university" | "route">("landing");
   const [workspaceTab, setWorkspaceTab] = useState<WorkspaceTab>("scene");
 
   useEffect(() => {
     const readView = () => {
       const value = new URLSearchParams(window.location.search).get("view");
       const tab = new URLSearchParams(window.location.search).get("tab");
-      setActiveView(value === "selector" || value === "university" || value === "route" ? value : "landing");
+      setActiveView(value === "introduction" || value === "selector" || value === "university" || value === "route" ? value : "landing");
       setWorkspaceTab(tab === "density" || tab === "matrices" ? tab : "scene");
     };
     readView(); window.addEventListener("popstate", readView);
@@ -120,14 +121,14 @@ export function Dashboard({
 
   function openSceneWorkspace() {
     setWorkspaceTab("scene");
-    navigate("selector");
+    navigate("introduction");
     window.requestAnimationFrame(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
   return (
-    <main className="min-h-screen bg-canvas px-4 py-5 text-ink sm:px-6 lg:px-8">
+    <main className="research-ui min-h-screen bg-canvas px-4 py-5 text-ink sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[1500px]">
         <header className="instrument-border flex items-center justify-between bg-paper px-4 py-3 sm:px-5">
           <div className="flex items-center gap-3">
@@ -190,8 +191,11 @@ export function Dashboard({
               ))}
             </div>
           </section>
+        ) : activeView === "introduction" ? (
+          <ProjectIntroduction onBack={()=>navigate("landing")} onExplore={()=>navigate("selector")}/>
         ) : activeView === "selector" ? (
           <section className="view-enter border-x border-b border-line bg-paper px-5 py-10 sm:px-8 lg:px-14 lg:py-14">
+            <button type="button" onClick={()=>navigate("introduction")} className="mb-6 min-h-11 font-semibold text-crimson hover:underline">← Back to introduction</button>
             <p className="font-mono text-[10px] uppercase tracking-[.15em] text-crimson">Select research scene</p>
             <h2 className="mt-3 text-4xl font-black tracking-[-.05em] sm:text-5xl">Choose an evidence workspace</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">Each workspace is isolated to its own exported analysis data. Select a scene to inspect its footage, measurements, and Scene Copilot.</p>
