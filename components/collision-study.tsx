@@ -1,32 +1,48 @@
 "use client";
 
-import { useRef } from "react";
+const steps = [
+  ["Detect and track", "Vehicle detections provide boxes, and track IDs let us follow vehicles across frames."],
+  ["Estimate the road", "Apple Depth Pro 2 estimated depth from the first CCTV frame. Exposed asphalt samples became 3D points using the estimated focal length, then a flat road plane was fitted. The fixed camera let us reuse that plane. Raw depth readings from the cars were not compared to decide collisions."],
+  ["Place vehicles on the road", "A point near each box’s bottom center approximated ground contact. A camera ray through that point met the road plane at an estimated road position. Each vehicle received a rectangular footprint aligned with the curb; its size and orientation were assumptions, not measurements."],
+  ["Forecast overlap", "Recent road positions estimated velocity. Under constant velocity, the test checked whether two footprints would overlap at the same future instant within two seconds. Passing beside another vehicle did not trigger this test."],
+] as const;
 
-function Experiment({title,description,src,original,source,attribution,view}:{title:string;description:string;src:string;original:string;source:string;attribution:string;view:string}) {
-  const video=useRef<HTMLVideoElement>(null);
-  return <section className="instrument-border bg-paper p-5">
-    <p className="font-mono text-sm font-bold uppercase text-crimson">{view}</p>
-    <h3 className="mt-2 text-2xl font-black">{title}</h3>
-    <p className="mt-3 text-base leading-7 text-muted">{description}</p>
-    <div className="mt-5 grid gap-4 lg:grid-cols-2">
-      <div><p className="mb-2 font-bold">Forecasting output</p><video ref={video} controls playsInline preload="metadata" className="aspect-video w-full bg-ink" src={src}>Video playback is unavailable in this browser.</video><div className="mt-2 flex flex-wrap gap-2">{[0.5,1].map(rate=><button key={rate} type="button" onClick={()=>{if(video.current)video.current.playbackRate=rate}} className="min-h-11 border border-line px-3 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-crimson">{rate}× speed</button>)}</div></div>
-      <div><p className="mb-2 font-bold">Original footage</p><video controls playsInline preload="metadata" className="aspect-video w-full bg-ink" src={original}>Video playback is unavailable in this browser.</video><p className="mt-2 text-sm leading-6 text-muted">Source: <a href={source} target="_blank" rel="noopener noreferrer" className="font-semibold text-crimson underline">Wikimedia Commons file page</a>. {attribution}</p></div>
-    </div>
-    <p className="mt-4 text-base leading-7 text-muted">Boxes and labels identify tracked detections. Warning marks are screening outputs, not measured collision probabilities or proof that contact was inevitable.</p>
-  </section>
-}
+export function CollisionStudy() {
+  return <article className="space-y-6 text-[17px] leading-[1.7]">
+    <header className="instrument-border bg-paper p-6 sm:p-8">
+      <p className="font-mono text-sm font-bold uppercase text-crimson">Scene 03 · CCTV case study</p>
+      <h2 className="mt-2 text-3xl font-black">Collision Forecasting Study</h2>
+      <p className="mt-3 max-w-4xl text-lg">Using estimated road geometry to reduce false warnings from an angled CCTV camera</p>
+      <p className="mt-5 max-w-4xl">An angled CCTV camera can make vehicles look like they overlap even when there is room to pass. In this case study, we compared a forecast based on image overlap with one that estimated where vehicles were on the road. The road-based forecast stopped warning about the three cars the van passed and kept the warning for the sedan it hit.</p>
+    </header>
 
-export function CollisionStudy(){
-  return <div className="space-y-6 text-base leading-7">
-    <header className="instrument-border bg-paper p-6"><p className="font-mono text-sm font-bold uppercase text-crimson">Scene 03 · Exploratory experiment</p><h2 className="mt-2 text-3xl font-black">Collision Forecasting Study</h2><p className="mt-3 max-w-3xl text-lg leading-8">Exploring warning timing and camera-view limitations through two annotated public-road clips. This is a qualitative case study, not a validated collision-prediction benchmark.</p></header>
-    <section className="instrument-border bg-paper p-6"><h3 className="text-2xl font-black">Study overview</h3><p className="mt-3 max-w-4xl">The project folder contains annotated outputs only. The corresponding original clips are linked from Wikimedia Commons. One shows a fixed street-camera view with several road users; the other shows a moving dashcam following traffic. We can inspect how warning overlays behave, but cannot calculate reliable warning lead time or error rates without verified event labels and per-frame logs.</p></section>
-    <div className="space-y-6">
-      <Experiment title="Fixed street-camera experiment" view="Experiment 01" description="The annotated view shows road traffic, including a van and parked vehicles. A reported collision and warning timing require review against the original footage and frame logs." src="/videos/collision/1.mp4" original="https://upload.wikimedia.org/wikipedia/commons/3/36/Jilin_Tonghua_car_rear-end_collision_accident%2C_2025-03-11.webm" source="https://commons.wikimedia.org/wiki/File:Jilin_Tonghua_car_rear-end_collision_accident,_2025-03-11.webm" attribution="Commons describes this as a March 2025 Tonghua CCTV clip and labels it public domain; see its file page for the rights statement."/>
-      <Experiment title="Moving dashcam experiment" view="Experiment 02" description="The annotated dashcam view shows traffic ahead and to the right. Camera motion and partial visibility complicate image-space forecasts; event timing remains unmeasured." src="/videos/collision/2.mp4" original="https://upload.wikimedia.org/wikipedia/commons/9/9d/Chicago_hit_and_run.webm" source="https://commons.wikimedia.org/wiki/File:Chicago_hit_and_run.webm" attribution="John Dough; original footage CC BY 3.0 on Commons. Forecasting annotations were added for this study."/>
-    </div>
-    <section className="instrument-border bg-paper p-6"><h3 className="text-2xl font-black">How forecasting works</h3><p className="mt-3">Inspired by a trajectory-based formulation that considers objects’ positions over time and their motion derivatives. The visible overlays indicate detection and warning screening, but the supplied files do not establish the precise script version, thresholds, or whether later ego-motion features were used for either output.</p><p className="mt-3">In a trajectory forecast, recent positions estimate motion and project a short future path. Relative position and velocity can estimate time and separation at closest approach. That time is not necessarily time to physical contact. Optical time to contact, if used, extrapolates apparent box expansion; it is not a verified bumper-contact time. Warning scores are heuristics, not calibrated probabilities. Image-space measurements are not meters or meters per second.</p></section>
-    <section className="instrument-border bg-paper p-6"><h3 className="text-2xl font-black">Findings and limitations</h3><div className="mt-4 overflow-x-auto"><table className="min-w-[650px] w-full text-left"><thead><tr className="border-y border-line"><th className="p-3">Experiment</th><th className="p-3">Viewpoint</th><th className="p-3">Method version</th><th className="p-3">Relevant warning / contact / lead time</th></tr></thead><tbody><tr className="border-b border-line"><td className="p-3">01</td><td className="p-3">Fixed street camera</td><td className="p-3">Unverified</td><td className="p-3">Requires manual review</td></tr><tr><td className="p-3">02</td><td className="p-3">Moving dashcam</td><td className="p-3">Unverified</td><td className="p-3">Requires manual review</td></tr></tbody></table></div><p className="mt-4">The researcher observed warnings shortly before an apparent collision, when the conflict was already visually apparent, and warnings in situations without observed contact. These are qualitative observations. Braking or steering can change an outcome; no-contact footage alone does not establish a false alarm. Tracking gaps, occlusion, camera movement, parallax, perspective, and rotation can all affect forecasts. Affine background compensation, where implemented, is only approximate.</p></section>
-    <section className="instrument-border bg-paper p-6"><h3 className="text-2xl font-black">Why investigate overhead views?</h3><p className="mt-3">These exploratory examples highlight limitations of image-space collision forecasting from restricted or moving viewpoints. They motivate evaluating fixed elevated and overhead footage, where interacting road users and their approach paths may be visible together for longer. Whether this produces earlier or more reliable warnings remains a question to test.</p><p className="mt-3">A fixed overhead CCTV camera may offer broader visibility, longer approach paths, less occlusion in some scenes, and opportunities for ground-plane calibration. A moving drone is different: camera motion must still be handled. High altitude makes objects small; tracking errors, occlusion, and calibration problems remain. Viewpoint alone cannot guarantee accurate prediction.</p></section>
-    <section className="instrument-border bg-paper p-6"><h3 className="text-2xl font-black">Next experiment</h3><p className="mt-3">Obtain fixed elevated footage with reviewed contact and non-contact interactions. Calibrate the scene where feasible, track road users, and generate forecasts using only observations available at each prediction time. Under a stated review protocol, measure relevant warning lead times, missed events, and false alarms, then compare viewpoints or methods under comparable conditions. This evaluation has not been completed.</p></section>
-  </div>
+    <figure className="instrument-border bg-paper p-4 sm:p-6">
+      <video controls playsInline preload="metadata" className="aspect-video w-full bg-ink" src="/videos/collision/1.mp4">Your browser does not support video playback.</video>
+      <figcaption className="mt-3 text-base text-muted">At 3.71 seconds, the forecast flags the van and sedan. The red boxes and alarm mark the warning, not the moment of impact.</figcaption>
+    </figure>
+
+    <section className="instrument-border bg-paper p-6 sm:p-8">
+      <h3 className="text-2xl font-black">Why the earlier version raised false warnings</h3>
+      <p className="mt-3">The earlier version forecast overlap between vehicle regions in the camera image. It warned about parked cars with track IDs 6, 5, and 4, although the van passed all three without contact.</p>
+      <p className="mt-3">V4 improved the van’s motion estimate by tracking visual features across frames, but still checked overlap in the image. Better motion tracking alone did not resolve the sideways gap between vehicles on the road.</p>
+    </section>
+
+    <section className="instrument-border bg-paper p-6 sm:p-8">
+      <h3 className="text-2xl font-black">How the depth-based forecast works</h3>
+      <ol className="mt-5 grid gap-4 md:grid-cols-2">{steps.map(([title,body],i)=><li key={title} className="border-l-4 border-crimson bg-canvas p-4"><p className="font-mono text-sm font-bold text-crimson">0{i+1}</p><h4 className="mt-1 text-lg font-bold">{title}</h4><p className="mt-2">{body}</p></li>)}</ol>
+    </section>
+
+    <section className="instrument-border bg-paper p-6 sm:p-8">
+      <h3 className="text-2xl font-black">What changed in this clip</h3>
+      <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[620px] text-left"><thead><tr className="border-y border-line bg-canvas"><th className="p-3">Vehicle pair</th><th className="p-3">V4 image-overlap forecast</th><th className="p-3">Depth-based forecast</th></tr></thead><tbody><tr className="border-b border-line"><td className="p-3">Passed cars: IDs 6, 5, 4</td><td className="p-3">Warned about all three</td><td className="p-3">Zero warnings for these pairs on evaluated frames, across nine settings</td></tr><tr><td className="p-3">Sedan hit: ID 2</td><td className="p-3">First warning at 3.67 s</td><td className="p-3">Warned in all nine settings; first warning 3.58–3.83 s. Default: 3.71 s</td></tr></tbody></table></div>
+      <p className="mt-4">Visible impact was estimated at 4.4–4.5 s. The default warning therefore led it by roughly 0.7–0.8 s, about one frame later than V4. The improvement was fewer pass-by warnings, not an earlier warning.</p>
+      <p className="mt-3">The nine settings are sensitivity checks on this same clip: assumed vehicle width at −20%, default, and +20%, crossed with horizontal image-anchor shifts of −8%, 0%, and +8% of box width. They are not nine independent videos or a general accuracy benchmark.</p>
+    </section>
+
+    <section className="instrument-border bg-paper p-6 sm:p-8">
+      <h3 className="text-2xl font-black">What the demo shows and does not prove</h3>
+      <p className="mt-3">The predictor evaluated available vehicle pairs. The final replay focuses on van ID 7 and sedan ID 2, drawing red boxes and playing an alarm when their saved forecast triggers. The display pair was selected for this replay; the warning time came from forecast results, not a hand-set cue.</p>
+      <p className="mt-3">Dr. Oussa’s suggestion connects camera perspective to proximity judgments and asks us to compare where objects will be at the same time. A tilted-camera simulation tested geometry with known inputs; this CCTV case used estimated depth and approximate footprints. This is one clip, not a calibrated measurement, mathematical certificate, or validation of a live warning system.</p>
+    </section>
+  </article>;
 }

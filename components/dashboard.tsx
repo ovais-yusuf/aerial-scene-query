@@ -198,7 +198,7 @@ export function Dashboard({
             <div className="mt-8 grid gap-5 lg:grid-cols-2">
               <SceneCard index="01" title="University Park" description="Pedestrian movement in an aerial campus scene" preview="/previews/university.jpg" features={["Pedestrian flow","Crowd density and proximity","Cell matrices"]} onClick={()=>navigate("university")}/>
               <SceneCard index="02" title="Route 104" description="Mixed pedestrian and vehicle activity near a road and railway crossing" preview="/previews/route104.jpg" features={["Multi-class detection and tracking","Person-to-person and person-to-vehicle proximity","Experimental vehicle subtype proposals"]} onClick={()=>navigate("route")}/>
-              <SceneCard index="03" title="Collision Forecasting Study" description="Exploring warning timing and camera-view limitations" preview="/previews/collision.jpg" features={["Exploratory experiment","Two annotated road videos","Viewpoint limitations"]} onClick={()=>navigate("collision")}/>
+              <SceneCard index="03" title="Collision Forecasting Study" description="Using estimated road geometry to reduce false warnings from an angled CCTV camera" preview="/previews/collision.jpg" features={["Depth-based forecast","Angled CCTV view","Single-clip case study"]} onClick={()=>navigate("collision")}/>
             </div>
           </section>
         ) : (

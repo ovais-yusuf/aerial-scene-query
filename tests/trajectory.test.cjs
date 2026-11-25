@@ -243,16 +243,16 @@ test('pending text-only clarification accepts total then sequence and preserves 
  assert.ok(context.resolveQueryFollowup('total',undefined,zones).answer);
 });
 
-test('collision study stays isolated and avoids unsupported measurements',()=>{
+test('collision scene uses the final single-video CCTV study',()=>{
  const dashboard=fs.readFileSync('components/dashboard.tsx','utf8');
  const study=fs.readFileSync('components/collision-study.tsx','utf8');
  assert.match(dashboard,/navigate\("collision"\)/);
  assert.match(dashboard,/activeView === "collision"/);
- assert.match(study,/Requires manual review/);
- assert.match(study,/Method version/);
- assert.match(study,/Wikimedia Commons file page/);
- assert.match(study,/Forecasting output/);
- assert.match(study,/Original footage/);
- assert.ok(fs.statSync('public/videos/collision/1.mp4').size>100000);
- assert.ok(fs.statSync('public/videos/collision/2.mp4').size>100000);
+ assert.equal((study.match(/<video\b/g)||[]).length,1);
+ assert.match(study,/src="\/videos\/collision\/1.mp4"/);
+ assert.match(study,/At 3\.71 seconds/);
+ assert.match(study,/IDs 6, 5, 4/);
+ assert.match(study,/3\.58–3\.83 s/);
+ assert.match(study,/not an earlier warning/);
+ assert.ok(fs.readFileSync('Collision/1.mp4').equals(fs.readFileSync('public/videos/collision/1.mp4')));
 });
